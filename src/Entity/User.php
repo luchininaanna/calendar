@@ -18,6 +18,11 @@ class User
     private $id;
 
     /**
+     * @ORM\Column(type="binary")
+     */
+    private $uuid;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $login;
@@ -88,5 +93,21 @@ class User
         $this->patronymic = $patronymic;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUuid()
+    {
+        return $this->uuid;
+    }
+
+    /**
+     * @param mixed $uuid
+     */
+    public function setUuid($uuid): void
+    {
+        $this->uuid = $uuid;
     }
 }

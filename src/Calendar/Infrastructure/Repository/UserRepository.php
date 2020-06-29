@@ -27,6 +27,7 @@ class UserRepository implements UserRepositoryInterface
         $dbUser->setName($user->getName());
         $dbUser->setPatronymic($user->getPatronymic());
         $dbUser->setSurname($user->getSurname());
+        $dbUser->setUuid($this->uuidProvider->stringToBytes($user->getUuid()));
 
         $this->entityManager->persist($dbUser);
         $this->entityManager->flush();

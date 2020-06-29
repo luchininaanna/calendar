@@ -20,7 +20,7 @@ class WriteController extends AbstractController
 
     public function addUser(Request $request): Response
     {
-        $this->api->createUser(new CreateUserInput("anna", "luchinina", "anna", "sergeevna"));
+        $this->api->createUser(new CreateUserInput("ivan", "uskov", "ivan", "yurievich"));
         return new Response('Пользователь создан');
     }
 }
