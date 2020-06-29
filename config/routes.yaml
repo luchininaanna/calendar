@@ -1,3 +1,8 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+
+create_user:
+    path: /user/create
+    controller: App\Controller\WriteController::addUser
