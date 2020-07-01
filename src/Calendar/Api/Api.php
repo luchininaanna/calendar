@@ -7,6 +7,7 @@ namespace App\Calendar\Api;
 use App\Calendar\Api\Input\CreateUserInput;
 use App\Calendar\App\Command\CreateUserCommand;
 use App\Calendar\App\Command\Handler\CreateUserCommandHandler;
+use App\Calendar\Domain\Exception\UserAlreadyExistException;
 
 class Api implements ApiCommandInterface, ApiQueryInterface
 {
@@ -27,6 +28,13 @@ class Api implements ApiCommandInterface, ApiQueryInterface
             $input->getPatronymic()
         );
 
-        $this->createUserCommandHandler->handle($command);
+        try
+        {
+            $this->createUserCommandHandler->handle($command);
+        }
+        catch (UserAlreadyExistException $e)
+        {
+            throw new Exception\UserAlreadyExistException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }

@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 use App\Calendar\Api\ApiCommandInterface;
+use App\Calendar\Api\Exception\UserAlreadyExistException;
 use App\Calendar\Api\Input\CreateUserInput;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +21,14 @@ class WriteController extends AbstractController
 
     public function addUser(Request $request): Response
     {
-        $this->api->createUser(new CreateUserInput("ivan", "uskov", "ivan", "yurievich"));
-        return new Response('Пользователь создан');
+        try
+        {
+            $this->api->createUser(new CreateUserInput("ivan", "uskov", "ivan", "yurievich"));
+            return new Response('Пользователь создан');
+        }
+        catch (UserAlreadyExistException $e)
+        {
+           return new Response("User already exist", 400);
+        }
     }
 }

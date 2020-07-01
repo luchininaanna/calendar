@@ -6,6 +6,7 @@ namespace App\Calendar\Domain\Model;
 
 interface UserRepositoryInterface
 {
-    //проверка существования пользователя с новым логином
     public function createUser(User $user): void;
+
+    public function isUserExistByLogin(string $login): bool;
 }

@@ -6,6 +6,7 @@ namespace App\Calendar\App\Command\Handler;
 
 use App\Calendar\App\Command\CreateUserCommand;
 use App\Calendar\App\Uuid\UuidProviderInterface;
+use App\Calendar\Domain\Exception\UserAlreadyExistException;
 use App\Calendar\Domain\Model\User;
 use App\Calendar\Domain\Service\UserService;
 
@@ -21,6 +22,10 @@ class CreateUserCommandHandler
         $this->userService = $userService;
     }
 
+    /**
+     * @param CreateUserCommand $command
+     * @throws UserAlreadyExistException
+     */
     public function handle(CreateUserCommand $command): void
     {
         $user = new User(

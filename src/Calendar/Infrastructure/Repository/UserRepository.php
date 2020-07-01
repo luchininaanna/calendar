@@ -32,4 +32,10 @@ class UserRepository implements UserRepositoryInterface
         $this->entityManager->persist($dbUser);
         $this->entityManager->flush();
     }
+
+    public function isUserExistByLogin(string $login): bool
+    {
+        $repository = $this->entityManager->getRepository('App\Entity\User');
+        return $repository->findOneBy(array('login' => $login)) !== null;
+    }
 }
