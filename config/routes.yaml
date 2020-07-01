@@ -6,3 +6,4 @@
 create_user:
     path: /user/create
     controller: App\Controller\WriteController::addUser
+    methods: POST
