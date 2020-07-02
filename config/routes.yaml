@@ -5,5 +5,10 @@
 
 create_user:
     path: /user/create
-    controller: App\Controller\WriteController::addUser
+    controller: App\Controller\WriteController::createUser
+    methods: POST
+
+create_meeting:
+    path: /meeting/create
+    controller: App\Controller\WriteController::createMeeting
     methods: POST

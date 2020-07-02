@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\MeetingRepository;
+use Cassandra\Date;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -95,12 +96,12 @@ class Meeting
         return $this;
     }
 
-    public function getStartBegin(): ?string
+    public function getStartTime(): ?\DateTime
     {
         return $this->start_time;
     }
 
-    public function setStartBegin(string $start_begin): self
+    public function setStartTime(\DateTime $start_begin): self
     {
         $this->start_time = $start_begin;
 

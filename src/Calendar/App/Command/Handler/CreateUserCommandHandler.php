@@ -24,9 +24,10 @@ class CreateUserCommandHandler
 
     /**
      * @param CreateUserCommand $command
+     * @return string
      * @throws UserAlreadyExistException
      */
-    public function handle(CreateUserCommand $command): void
+    public function handle(CreateUserCommand $command): string
     {
         $user = new User(
             $this->uuidProvider->generate(),
@@ -37,5 +38,7 @@ class CreateUserCommandHandler
         );
 
         $this->userService->createUser($user);
+
+        return $user->getUuid();
     }
 }
