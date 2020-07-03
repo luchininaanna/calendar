@@ -11,6 +11,7 @@ class CreateMeetingRequestMapper
     public static function buildInput(string $request): CreateMeetingInput
     {
         $json = json_decode($request, true);
+        //проверка, что строки не пустые
         return new CreateMeetingInput($json['organizerId'], $json['name'], $json['location'], new \DateTime($json['startTime']));
     }
 }

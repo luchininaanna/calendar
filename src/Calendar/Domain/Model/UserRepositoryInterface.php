@@ -9,4 +9,6 @@ interface UserRepositoryInterface
     public function createUser(User $user): void;
 
     public function isUserExistByLogin(string $login): bool;
+
+    public function isUserExistById(string $uuid): bool;
 }

@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Calendar\Api\ApiCommandInterface;
 use App\Calendar\Api\Exception\UserAlreadyExistException;
 use App\Calendar\Api\Input\CreateUserInput;
+use App\Calendar\Domain\Exception\MeetingOrganizerIsNotExistException;
 use App\Controller\Mapper\CreateMeetingRequestMapper;
 use App\Controller\Mapper\CreateUserRequestMapper;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,8 +38,14 @@ class WriteController extends AbstractController
 
     public function createMeeting(Request $request): Response
     {
-        $meetingInput = CreateMeetingRequestMapper::buildInput($request->getContent());
-        $id = $this->api->createMeeting($meetingInput);
-        return $this->json(['result' => 'Meeting created', 'id' => $id]);
+        try {
+            $meetingInput = CreateMeetingRequestMapper::buildInput($request->getContent());
+            $id = $this->api->createMeeting($meetingInput);
+            return $this->json(['result' => 'Meeting created', 'id' => $id]);
+        }
+        catch (MeetingOrganizerIsNotExistException $e)
+        {
+            return $this->json(['result' => 'Meeting organizer is not exist'], 400);
+        }
     }
 }
