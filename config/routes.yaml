@@ -12,3 +12,8 @@ create_meeting:
     path: /meeting/create
     controller: App\Controller\WriteController::createMeeting
     methods: POST
+
+invite_user_to_meeting:
+    path: /meeting/invite
+    controller: App\Controller\WriteController::inviteUserToMeeting
+    methods: POST

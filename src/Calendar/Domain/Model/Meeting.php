@@ -21,41 +21,26 @@ class Meeting
         $this->startTime = $startTime;
     }
 
-    /**
-     * @return string
-     */
     public function getUuid(): string
     {
         return $this->uuid;
     }
 
-    /**
-     * @return string
-     */
     public function getOrganizerId(): string
     {
         return $this->organizerId;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getLocation(): string
     {
         return $this->location;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getStartTime(): \DateTime
     {
         return $this->startTime;

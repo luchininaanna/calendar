@@ -4,10 +4,13 @@
 namespace App\Calendar\Api;
 
 
+use App\Calendar\Api\Input\CreateInvitationInput;
 use App\Calendar\Api\Input\CreateMeetingInput;
 use App\Calendar\Api\Input\CreateUserInput;
+use App\Calendar\App\Command\CreateInvitationCommand;
 use App\Calendar\App\Command\CreateMeetingCommand;
 use App\Calendar\App\Command\CreateUserCommand;
+use App\Calendar\App\Command\Handler\CreateInvitationCommandHandler;
 use App\Calendar\App\Command\Handler\CreateMeetingCommandHandler;
 use App\Calendar\App\Command\Handler\CreateUserCommandHandler;
 use App\Calendar\Domain\Exception\UserAlreadyExistException;
@@ -16,13 +19,16 @@ class Api implements ApiCommandInterface, ApiQueryInterface
 {
     private CreateUserCommandHandler $createUserCommandHandler;
     private CreateMeetingCommandHandler $createMeetingCommandHandler;
+    private CreateInvitationCommandHandler $createInvitationCommandHandler;
 
     public function __construct(
         CreateUserCommandHandler $createUserCommandHandler,
-        CreateMeetingCommandHandler $createMeetingCommandHandler
+        CreateMeetingCommandHandler $createMeetingCommandHandler,
+        CreateInvitationCommandHandler $createInvitationCommandHandler
     ) {
         $this->createUserCommandHandler = $createUserCommandHandler;
         $this->createMeetingCommandHandler = $createMeetingCommandHandler;
+        $this->createInvitationCommandHandler = $createInvitationCommandHandler;
     }
 
     public function createUser(CreateUserInput $input): string
@@ -54,5 +60,16 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         );
 
         return $this->createMeetingCommandHandler->handle($command);
+    }
+
+    public function createInvitation(CreateInvitationInput $input): string
+    {
+        $command = new CreateInvitationCommand(
+            $input->getOrganizerId(),
+            $input->getMeetingId(),
+            $input->getParticipantId()
+        );
+
+        return $this->createInvitationCommandHandler->handle($command);
     }
 }

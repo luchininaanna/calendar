@@ -42,6 +42,6 @@ class UserRepository implements UserRepositoryInterface
     public function isUserExistById(string $uuid): bool
     {
         $repository = $this->entityManager->getRepository('App\Entity\User');
-        return $repository->findOneBy(array('uuid' => $uuid)) !== null;
+        return $repository->findOneBy(array('uuid' => $this->uuidProvider->stringToBytes($uuid))) !== null;
     }
 }

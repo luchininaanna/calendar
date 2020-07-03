@@ -11,13 +11,6 @@ class CreateMeetingInput
     private string $location;
     private \DateTime $startTime;
 
-    /**
-     * CreateMeetingInput constructor.
-     * @param string $organizerId
-     * @param string $name
-     * @param string $location
-     * @param \DateTime $startTime
-     */
     public function __construct(string $organizerId, string $name, string $location, \DateTime $startTime)
     {
         $this->organizerId = $organizerId;
@@ -26,33 +19,21 @@ class CreateMeetingInput
         $this->startTime = $startTime;
     }
 
-    /**
-     * @return string
-     */
     public function getOrganizerId(): string
     {
         return $this->organizerId;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getLocation(): string
     {
         return $this->location;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getStartTime(): \DateTime
     {
         return $this->startTime;

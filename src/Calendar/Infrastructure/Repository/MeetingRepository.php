@@ -3,7 +3,6 @@
 
 namespace App\Calendar\Infrastructure\Repository;
 
-
 use App\Calendar\App\Uuid\UuidProviderInterface;
 use App\Calendar\Domain\Model\Meeting;
 use App\Calendar\Domain\Model\MeetingRepositoryInterface;
@@ -31,5 +30,12 @@ class MeetingRepository implements MeetingRepositoryInterface
 
         $this->entityManager->persist($dbMeeting);
         $this->entityManager->flush();
+    }
+
+    public function isUserIsMeetingOrganizer(string $organizerUuid, string $meetingUuid): bool
+    {
+        $repository = $this->entityManager->getRepository('App\Entity\Meeting');
+        return $repository->findOneBy(array('uuid' => $this->uuidProvider->stringToBytes($meetingUuid),
+                'organizer_uuid' => $this->uuidProvider->stringToBytes($organizerUuid))) !== null;
     }
 }
