@@ -18,6 +18,7 @@ use App\Calendar\App\Command\Handler\CreateMeetingCommandHandler;
 use App\Calendar\App\Command\Handler\CreateUserCommandHandler;
 use App\Calendar\App\Command\Handler\DeleteMeetingCommandHandler;
 use App\Calendar\App\Command\Handler\DeleteUserFromMeetingCommandHandler;
+use App\Calendar\Domain\Exception\MeetingIsNotExistException;
 use App\Calendar\Domain\Exception\MeetingOrganizerIsNotExistException;
 use App\Calendar\Domain\Exception\UserAlreadyExistException;
 use App\Calendar\Domain\Exception\MeetingParticipantAmountExceedsLimitException;
@@ -147,6 +148,10 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         catch (UserIsNotMeetingOrganizerException $e)
         {
             throw new Exception\UserIsNotMeetingOrganizerException($e->getMessage(), $e->getCode(), $e);
+        }
+        catch (MeetingIsNotExistException $e)
+        {
+            throw new Exception\MeetingIsNotExistException($e->getMessage(), $e->getCode(), $e);
         }
     }
 }

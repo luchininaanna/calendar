@@ -4,12 +4,13 @@
 namespace App\Controller;
 
 use App\Calendar\Api\ApiCommandInterface;
+use App\Calendar\Api\Exception\MeetingIsNotExistException;
 use App\Calendar\Api\Exception\UserAlreadyExistException;
-use App\Calendar\Domain\Exception\MeetingOrganizerIsNotExistException;
-use App\Calendar\Domain\Exception\MeetingParticipantAmountExceedsLimitException;
-use App\Calendar\Domain\Exception\UserIsAlreadyMeetingParticipantException;
-use App\Calendar\Domain\Exception\UserIsNotMeetingOrganizerException;
-use App\Calendar\Domain\Exception\UserIsNotMeetingParticipantException;
+use App\Calendar\Api\Exception\MeetingOrganizerIsNotExistException;
+use App\Calendar\Api\Exception\MeetingParticipantAmountExceedsLimitException;
+use App\Calendar\Api\Exception\UserIsAlreadyMeetingParticipantException;
+use App\Calendar\Api\Exception\UserIsNotMeetingOrganizerException;
+use App\Calendar\Api\Exception\UserIsNotMeetingParticipantException;
 use App\Controller\Mapper\CreateInviteRequestMapper;
 use App\Controller\Mapper\CreateMeetingRequestMapper;
 use App\Controller\Mapper\CreateUserRequestMapper;
@@ -103,6 +104,10 @@ class WriteController extends AbstractController
             $deleteMeetingInput = DeleteMeetingRequestMapper::buildInput($request->getContent());
             $id = $this->api->deleteMeeting($deleteMeetingInput);
             return $this->json(['result' => 'Meeting deleted', 'id' => $id]);
+        }
+        catch (MeetingIsNotExistException $e)
+        {
+            return $this->json(['result' => 'Meeting is not exist'], 400);
         }
         catch (UserIsNotMeetingOrganizerException $e)
         {

@@ -15,6 +15,7 @@ use App\Calendar\Api\Exception\MeetingParticipantAmountExceedsLimitException;
 use App\Calendar\Api\Exception\UserIsAlreadyMeetingParticipantException;
 use App\Calendar\Api\Exception\UserIsNotMeetingParticipantException;
 use App\Calendar\Api\Exception\UserIsNotMeetingOrganizerException;
+use App\Calendar\Domain\Exception\MeetingIsNotExistException;
 
 interface ApiCommandInterface
 {
@@ -53,6 +54,7 @@ interface ApiCommandInterface
     /**
      * @param DeleteMeetingInput $input
      * @return string
+     * @throws MeetingIsNotExistException
      * @throws UserIsNotMeetingOrganizerException
      */
     public function deleteMeeting(DeleteMeetingInput $input): string;

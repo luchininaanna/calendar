@@ -6,6 +6,7 @@ namespace App\Calendar\App\Command\Handler;
 
 use App\Calendar\App\Command\DeleteMeetingCommand;
 use App\Calendar\App\Uuid\UuidProviderInterface;
+use App\Calendar\Domain\Exception\MeetingIsNotExistException;
 use App\Calendar\Domain\Exception\UserIsNotMeetingOrganizerException;
 use App\Calendar\Domain\Model\Meeting;
 use App\Calendar\Domain\Service\MeetingService;
@@ -25,6 +26,7 @@ class DeleteMeetingCommandHandler
     /**
      * @param DeleteMeetingCommand $command
      * @return string
+     * @throws MeetingIsNotExistException
      * @throws UserIsNotMeetingOrganizerException
      */
     public function handle(DeleteMeetingCommand $command): string

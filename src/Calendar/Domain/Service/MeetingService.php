@@ -4,6 +4,7 @@
 namespace App\Calendar\Domain\Service;
 
 
+use App\Calendar\Domain\Exception\MeetingIsNotExistException;
 use App\Calendar\Domain\Exception\MeetingOrganizerIsNotExistException;
 use App\Calendar\Domain\Exception\MeetingParticipantAmountExceedsLimitException;
 use App\Calendar\Domain\Exception\UserIsAlreadyMeetingParticipantException;
@@ -14,7 +15,6 @@ use App\Calendar\Domain\Model\MeetingParticipant;
 use App\Calendar\Domain\Model\MeetingParticipantRepositoryInterface;
 use App\Calendar\Domain\Model\MeetingRepositoryInterface;
 use App\Calendar\Domain\Model\UserRepositoryInterface;
-use Symfony\Component\HttpKernel\Log\Logger;
 
 class MeetingService
 {
@@ -93,15 +93,26 @@ class MeetingService
         }
 
         $this->meetingParticipantRepository->deleteUserFromParticipant($meetingParticipant->getUserUuid(), $meetingParticipant->getMeetingUuid());
-        //удаление митинга, если нет организатора
+
+        if ($this->meetingRepository->isUserIsMeetingOrganizer($meetingParticipant->getUserUuid(),
+            $meetingParticipant->getMeetingUuid()))
+        {
+            $this->meetingRepository->deleteMeeting($meetingParticipant->getMeetingUuid());
+        }
     }
 
     /**
      * @param Meeting $meeting
      * @throws UserIsNotMeetingOrganizerException
+     * @throws MeetingIsNotExistException
      */
     public function deleteMeeting(Meeting $meeting): void
     {
+        if (!$this->meetingRepository->isMeetingExist($meeting->getUuid()))
+        {
+            throw new MeetingIsNotExistException();
+        }
+
         if ($this->meetingRepository->isUserIsMeetingOrganizer($meeting->getOrganizerId(),
             $meeting->getUuid()))
         {
