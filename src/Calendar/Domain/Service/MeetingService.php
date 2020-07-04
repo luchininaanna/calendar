@@ -7,6 +7,7 @@ namespace App\Calendar\Domain\Service;
 use App\Calendar\Domain\Exception\MeetingOrganizerIsNotExistException;
 use App\Calendar\Domain\Exception\MeetingParticipantAmountExceedsLimitException;
 use App\Calendar\Domain\Exception\UserIsAlreadyMeetingParticipantException;
+use App\Calendar\Domain\Exception\UserIsNotMeetingParticipantException;
 use App\Calendar\Domain\Exception\UserIsNotMeetingOrganizerException;
 use App\Calendar\Domain\Model\Meeting;
 use App\Calendar\Domain\Model\MeetingParticipant;
@@ -63,11 +64,35 @@ class MeetingService
             throw new MeetingParticipantAmountExceedsLimitException();
         }
 
-        if($this->meetingParticipantRepository->isUserIsMeetingParticipant($meetingParticipant->getUserUuid(), $meetingParticipant->getMeetingUuid()))
+        if($this->meetingParticipantRepository->isUserIsMeetingParticipant($meetingParticipant->getUserUuid(),
+            $meetingParticipant->getMeetingUuid()))
         {
             throw new UserIsAlreadyMeetingParticipantException();
         }
 
         $this->meetingParticipantRepository->createMeetingParticipant($meetingParticipant);
+    }
+
+    /**
+     * @param MeetingParticipant $meetingParticipant
+     * @throws UserIsNotMeetingOrganizerException
+     * @throws UserIsNotMeetingParticipantException
+     */
+    public function deleteUserFromMeeting(MeetingParticipant $meetingParticipant):void
+    {
+        if ($this->meetingRepository->isUserIsMeetingOrganizer($meetingParticipant->getOrganizerUuid(),
+            $meetingParticipant->getMeetingUuid()))
+        {
+            throw new UserIsNotMeetingOrganizerException();
+        }
+
+        if(!$this->meetingParticipantRepository->isUserIsMeetingParticipant($meetingParticipant->getUserUuid(),
+            $meetingParticipant->getMeetingUuid()))
+        {
+            throw new UserIsNotMeetingParticipantException();
+        }
+
+        $this->meetingParticipantRepository->deleteUserFromParticipant($meetingParticipant->getUserUuid(), $meetingParticipant->getMeetingUuid());
+        //удаление митинга, если нет организатора
     }
 }

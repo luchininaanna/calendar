@@ -3,12 +3,10 @@
 
 namespace App\Calendar\Infrastructure\Repository;
 
-
 use App\Calendar\App\Uuid\UuidProviderInterface;
 use App\Calendar\Domain\Model\MeetingParticipantRepositoryInterface;
 use App\Calendar\Domain\Model\MeetingParticipant;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpKernel\Log\Logger;
 
 class MeetingParticipantRepository implements MeetingParticipantRepositoryInterface
 {
@@ -46,5 +44,15 @@ class MeetingParticipantRepository implements MeetingParticipantRepositoryInterf
         $repository = $this->entityManager->getRepository('App\Entity\MeetingParticipant');
         return $repository->findOneBy(array('user_uuid' => $this->uuidProvider->stringToBytes($userUuid),
                 'meeting_uuid' => $this->uuidProvider->stringToBytes($meetingUuid))) !== null;
+    }
+
+    public function deleteUserFromParticipant(string $userUuid, string $meetingUuid): void
+    {
+        $repository = $this->entityManager->getRepository('\App\Entity\MeetingParticipant');
+        $record = $repository->findOneBy(array('user_uuid' => $this->uuidProvider->stringToBytes($userUuid),
+            'meeting_uuid' => $this->uuidProvider->stringToBytes($meetingUuid)));
+
+        $this->entityManager->remove($record);
+        $this->entityManager->flush();
     }
 }
