@@ -95,4 +95,19 @@ class MeetingService
         $this->meetingParticipantRepository->deleteUserFromParticipant($meetingParticipant->getUserUuid(), $meetingParticipant->getMeetingUuid());
         //удаление митинга, если нет организатора
     }
+
+    /**
+     * @param Meeting $meeting
+     * @throws UserIsNotMeetingOrganizerException
+     */
+    public function deleteMeeting(Meeting $meeting): void
+    {
+        if ($this->meetingRepository->isUserIsMeetingOrganizer($meeting->getOrganizerId(),
+            $meeting->getUuid()))
+        {
+            throw new UserIsNotMeetingOrganizerException();
+        }
+
+        $this->meetingRepository->deleteMeeting($meeting->getUuid());
+    }
 }

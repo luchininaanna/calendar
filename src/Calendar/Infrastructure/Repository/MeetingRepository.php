@@ -38,4 +38,13 @@ class MeetingRepository implements MeetingRepositoryInterface
         return $repository->findOneBy(array('uuid' => $this->uuidProvider->stringToBytes($meetingUuid),
                 'organizer_uuid' => $this->uuidProvider->stringToBytes($organizerUuid))) !== null;
     }
+
+    public function deleteMeeting(string $meetingUuid): void
+    {
+        $repository = $this->entityManager->getRepository('\App\Entity\Meeting');
+        $record = $repository->findOneBy(array('uuid' => $this->uuidProvider->stringToBytes($meetingUuid)));
+
+        $this->entityManager->remove($record);
+        $this->entityManager->flush();
+    }
 }

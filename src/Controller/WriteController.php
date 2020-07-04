@@ -13,6 +13,7 @@ use App\Calendar\Domain\Exception\UserIsNotMeetingParticipantException;
 use App\Controller\Mapper\CreateInviteRequestMapper;
 use App\Controller\Mapper\CreateMeetingRequestMapper;
 use App\Controller\Mapper\CreateUserRequestMapper;
+use App\Controller\Mapper\DeleteMeetingRequestMapper;
 use App\Controller\Mapper\DeleteUserFromMeetingRequestMapper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -92,6 +93,20 @@ class WriteController extends AbstractController
          catch (UserIsNotMeetingParticipantException $e)
         {
             return $this->json(['result' => 'User ia not meeting participant'], 400);
+        }
+    }
+
+    public function deleteMeeting(Request $request): Response
+    {
+        try
+        {
+            $deleteMeetingInput = DeleteMeetingRequestMapper::buildInput($request->getContent());
+            $id = $this->api->deleteMeeting($deleteMeetingInput);
+            return $this->json(['result' => 'Meeting deleted', 'id' => $id]);
+        }
+        catch (UserIsNotMeetingOrganizerException $e)
+        {
+            return $this->json(['result' => 'User is not meeting organizer'], 400);
         }
     }
 }
