@@ -10,11 +10,11 @@ use App\Calendar\Api\Input\CreateMeetingInput;
 use App\Calendar\Api\Input\CreateUserInput;
 use App\Calendar\Api\Input\DeleteMeetingInput;
 use App\Calendar\Api\Input\DeleteUserFromMeetingInput;
-use App\Calendar\Domain\Exception\MeetingOrganizerIsNotExistException;
-use App\Calendar\Domain\Exception\MeetingParticipantAmountExceedsLimitException;
-use App\Calendar\Domain\Exception\UserIsAlreadyMeetingParticipantException;
-use App\Calendar\Domain\Exception\UserIsNotMeetingParticipantException;
-use App\Calendar\Domain\Exception\UserIsNotMeetingOrganizerException;
+use App\Calendar\Api\Exception\MeetingOrganizerIsNotExistException;
+use App\Calendar\Api\Exception\MeetingParticipantAmountExceedsLimitException;
+use App\Calendar\Api\Exception\UserIsAlreadyMeetingParticipantException;
+use App\Calendar\Api\Exception\UserIsNotMeetingParticipantException;
+use App\Calendar\Api\Exception\UserIsNotMeetingOrganizerException;
 
 interface ApiCommandInterface
 {
@@ -44,9 +44,9 @@ interface ApiCommandInterface
 
     /**
      * @param DeleteUserFromMeetingInput $input
-     * @return string
      * @throws UserIsNotMeetingOrganizerException
      * @throws UserIsNotMeetingParticipantException
+     * @return string
      */
     public function deleteUserFromMeeting(DeleteUserFromMeetingInput $input): string;
 

@@ -3,7 +3,6 @@
 
 namespace App\Calendar\Api;
 
-
 use App\Calendar\Api\Input\CreateInvitationInput;
 use App\Calendar\Api\Input\CreateMeetingInput;
 use App\Calendar\Api\Input\CreateUserInput;
@@ -19,7 +18,12 @@ use App\Calendar\App\Command\Handler\CreateMeetingCommandHandler;
 use App\Calendar\App\Command\Handler\CreateUserCommandHandler;
 use App\Calendar\App\Command\Handler\DeleteMeetingCommandHandler;
 use App\Calendar\App\Command\Handler\DeleteUserFromMeetingCommandHandler;
+use App\Calendar\Domain\Exception\MeetingOrganizerIsNotExistException;
 use App\Calendar\Domain\Exception\UserAlreadyExistException;
+use App\Calendar\Domain\Exception\MeetingParticipantAmountExceedsLimitException;
+use App\Calendar\Domain\Exception\UserIsAlreadyMeetingParticipantException;
+use App\Calendar\Domain\Exception\UserIsNotMeetingOrganizerException;
+use App\Calendar\Domain\Exception\UserIsNotMeetingParticipantException;
 
 class Api implements ApiCommandInterface, ApiQueryInterface
 {
@@ -71,7 +75,14 @@ class Api implements ApiCommandInterface, ApiQueryInterface
             $input->getStartTime()
         );
 
-        return $this->createMeetingCommandHandler->handle($command);
+        try
+        {
+            return $this->createMeetingCommandHandler->handle($command);
+        }
+        catch (MeetingOrganizerIsNotExistException $e)
+        {
+            throw new Exception\MeetingOrganizerIsNotExistException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     public function createInvitation(CreateInvitationInput $input): string
@@ -82,7 +93,22 @@ class Api implements ApiCommandInterface, ApiQueryInterface
             $input->getParticipantId()
         );
 
-        return $this->createInvitationCommandHandler->handle($command);
+        try
+        {
+            return $this->createInvitationCommandHandler->handle($command);
+        }
+        catch (MeetingParticipantAmountExceedsLimitException $e)
+        {
+            throw new Exception\MeetingParticipantAmountExceedsLimitException($e->getMessage(), $e->getCode(), $e);
+        }
+        catch (UserIsNotMeetingOrganizerException $e)
+        {
+            throw new Exception\UserIsNotMeetingOrganizerException($e->getMessage(), $e->getCode(), $e);
+        }
+        catch (UserIsAlreadyMeetingParticipantException $e)
+        {
+            throw new Exception\UserIsAlreadyMeetingParticipantException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     public function deleteUserFromMeeting(DeleteUserFromMeetingInput $input): string
@@ -93,7 +119,18 @@ class Api implements ApiCommandInterface, ApiQueryInterface
             $input->getParticipantId()
         );
 
-        return $this->deleteUserFromMeetingCommandHandler->handle($command);
+        try
+        {
+            return $this->deleteUserFromMeetingCommandHandler->handle($command);
+        }
+        catch (UserIsNotMeetingOrganizerException $e)
+        {
+            throw new Exception\UserIsNotMeetingOrganizerException($e->getMessage(), $e->getCode(), $e);
+        }
+        catch (UserIsNotMeetingParticipantException $e)
+        {
+            throw new Exception\UserIsNotMeetingParticipantException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     public function deleteMeeting(DeleteMeetingInput $input): string
@@ -103,6 +140,13 @@ class Api implements ApiCommandInterface, ApiQueryInterface
             $input->getMeetingId()
         );
 
-        return $this->deleteMeetingCommandHandler->handle($command);
+        try
+        {
+            return $this->deleteMeetingCommandHandler->handle($command);
+        }
+        catch (UserIsNotMeetingOrganizerException $e)
+        {
+            throw new Exception\UserIsNotMeetingOrganizerException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }
