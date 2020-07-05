@@ -92,12 +92,12 @@ class MeetingService
             throw new UserIsNotMeetingParticipantException();
         }
 
-        $this->meetingParticipantRepository->deleteUserFromParticipant($meetingParticipant->getUserUuid(), $meetingParticipant->getMeetingUuid());
+        $this->meetingParticipantRepository->deleteUserFromMeeting($meetingParticipant->getUserUuid(), $meetingParticipant->getMeetingUuid());
 
         if ($this->meetingRepository->isUserIsMeetingOrganizer($meetingParticipant->getUserUuid(),
             $meetingParticipant->getMeetingUuid()))
         {
-            $this->meetingRepository->deleteMeeting($meetingParticipant->getMeetingUuid());
+            $this->meetingRepository->deleteMeetingById($meetingParticipant->getMeetingUuid());
         }
     }
 
@@ -119,6 +119,15 @@ class MeetingService
             throw new UserIsNotMeetingOrganizerException();
         }
 
-        $this->meetingRepository->deleteMeeting($meeting->getUuid());
+        $this->meetingRepository->deleteMeetingById($meeting->getUuid());
+    }
+
+    public function deleteUserFromMeetings(string $userUuid): void
+    {
+        //удаление пользователя как участника
+        $this->meetingParticipantRepository->deleteUserFromMeetings($userUuid);
+
+        //удаление пользователя как организатора
+        $this->meetingRepository->deleteMeetingsByUserAsOrganizer($userUuid);
     }
 }

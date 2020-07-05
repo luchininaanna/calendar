@@ -8,21 +8,25 @@ use App\Calendar\Api\Input\CreateMeetingInput;
 use App\Calendar\Api\Input\CreateUserInput;
 use App\Calendar\Api\Input\DeleteMeetingInput;
 use App\Calendar\Api\Input\DeleteUserFromMeetingInput;
+use App\Calendar\Api\Input\DeleteUserInput;
 use App\Calendar\App\Command\CreateInvitationCommand;
 use App\Calendar\App\Command\CreateMeetingCommand;
 use App\Calendar\App\Command\CreateUserCommand;
 use App\Calendar\App\Command\DeleteMeetingCommand;
+use App\Calendar\App\Command\DeleteUserCommand;
 use App\Calendar\App\Command\DeleteUserFromMeetingCommand;
 use App\Calendar\App\Command\Handler\CreateInvitationCommandHandler;
 use App\Calendar\App\Command\Handler\CreateMeetingCommandHandler;
 use App\Calendar\App\Command\Handler\CreateUserCommandHandler;
 use App\Calendar\App\Command\Handler\DeleteMeetingCommandHandler;
+use App\Calendar\App\Command\Handler\DeleteUserCommandHandler;
 use App\Calendar\App\Command\Handler\DeleteUserFromMeetingCommandHandler;
 use App\Calendar\Domain\Exception\MeetingIsNotExistException;
 use App\Calendar\Domain\Exception\MeetingOrganizerIsNotExistException;
 use App\Calendar\Domain\Exception\UserAlreadyExistException;
 use App\Calendar\Domain\Exception\MeetingParticipantAmountExceedsLimitException;
 use App\Calendar\Domain\Exception\UserIsAlreadyMeetingParticipantException;
+use App\Calendar\Domain\Exception\UserIsNotExistException;
 use App\Calendar\Domain\Exception\UserIsNotMeetingOrganizerException;
 use App\Calendar\Domain\Exception\UserIsNotMeetingParticipantException;
 
@@ -33,19 +37,22 @@ class Api implements ApiCommandInterface, ApiQueryInterface
     private CreateInvitationCommandHandler $createInvitationCommandHandler;
     private DeleteUserFromMeetingCommandHandler $deleteUserFromMeetingCommandHandler;
     private DeleteMeetingCommandHandler $deleteMeetingCommandHandler;
+    private DeleteUserCommandHandler $deleteUserCommandHandler;
 
     public function __construct(
         CreateUserCommandHandler $createUserCommandHandler,
         CreateMeetingCommandHandler $createMeetingCommandHandler,
         CreateInvitationCommandHandler $createInvitationCommandHandler,
         DeleteUserFromMeetingCommandHandler $deleteUserFromMeetingCommandHandler,
-        DeleteMeetingCommandHandler $deleteMeetingCommandHandler
+        DeleteMeetingCommandHandler $deleteMeetingCommandHandler,
+        DeleteUserCommandHandler $deleteUserCommandHandler
     ) {
         $this->createUserCommandHandler = $createUserCommandHandler;
         $this->createMeetingCommandHandler = $createMeetingCommandHandler;
         $this->createInvitationCommandHandler = $createInvitationCommandHandler;
         $this->deleteUserFromMeetingCommandHandler = $deleteUserFromMeetingCommandHandler;
         $this->deleteMeetingCommandHandler = $deleteMeetingCommandHandler;
+        $this->deleteUserCommandHandler = $deleteUserCommandHandler;
     }
 
     public function createUser(CreateUserInput $input): string
@@ -149,9 +156,25 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         {
             throw new Exception\UserIsNotMeetingOrganizerException($e->getMessage(), $e->getCode(), $e);
         }
-        catch (MeetingIsNotExistException $e)
+        catch ( MeetingIsNotExistException$e)
         {
             throw new Exception\MeetingIsNotExistException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    public function deleteUser(DeleteUserInput $input): string
+    {
+        $command = new DeleteUserCommand(
+            $input->getUserId()
+        );
+
+        try
+        {
+            return $this->deleteUserCommandHandler->handle($command);
+        }
+        catch (UserIsNotExistException $e)
+        {
+            throw new Exception\UserIsNotExistException($e->getMessage(), $e->getCode(), $e);
         }
     }
 }

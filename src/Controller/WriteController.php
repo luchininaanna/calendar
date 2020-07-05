@@ -9,6 +9,7 @@ use App\Calendar\Api\Exception\UserAlreadyExistException;
 use App\Calendar\Api\Exception\MeetingOrganizerIsNotExistException;
 use App\Calendar\Api\Exception\MeetingParticipantAmountExceedsLimitException;
 use App\Calendar\Api\Exception\UserIsAlreadyMeetingParticipantException;
+use App\Calendar\Api\Exception\UserIsNotExistException;
 use App\Calendar\Api\Exception\UserIsNotMeetingOrganizerException;
 use App\Calendar\Api\Exception\UserIsNotMeetingParticipantException;
 use App\Controller\Mapper\CreateInviteRequestMapper;
@@ -16,6 +17,7 @@ use App\Controller\Mapper\CreateMeetingRequestMapper;
 use App\Controller\Mapper\CreateUserRequestMapper;
 use App\Controller\Mapper\DeleteMeetingRequestMapper;
 use App\Controller\Mapper\DeleteUserFromMeetingRequestMapper;
+use App\Controller\Mapper\DeleteUserRequestMapper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -112,6 +114,20 @@ class WriteController extends AbstractController
         catch (UserIsNotMeetingOrganizerException $e)
         {
             return $this->json(['result' => 'User is not meeting organizer'], 400);
+        }
+    }
+
+    public function deleteUser(Request $request): Response
+    {
+        try
+        {
+            $deleteUserInput = DeleteUserRequestMapper::buildInput($request->getContent());
+            $id = $this->api->deleteUser($deleteUserInput);
+            return $this->json(['result' => 'User deleted', 'id' => $id]);
+        }
+        catch (UserIsNotExistException $e)
+        {
+            return $this->json(['result' => 'User is not exist'], 400);
         }
     }
 }

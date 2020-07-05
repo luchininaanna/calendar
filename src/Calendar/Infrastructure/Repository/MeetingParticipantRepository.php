@@ -46,13 +46,25 @@ class MeetingParticipantRepository implements MeetingParticipantRepositoryInterf
                 'meeting_uuid' => $this->uuidProvider->stringToBytes($meetingUuid))) !== null;
     }
 
-    public function deleteUserFromParticipant(string $userUuid, string $meetingUuid): void
+    public function deleteUserFromMeeting(string $userUuid, string $meetingUuid): void
     {
         $repository = $this->entityManager->getRepository('\App\Entity\MeetingParticipant');
         $record = $repository->findOneBy(array('user_uuid' => $this->uuidProvider->stringToBytes($userUuid),
             'meeting_uuid' => $this->uuidProvider->stringToBytes($meetingUuid)));
 
         $this->entityManager->remove($record);
+        $this->entityManager->flush();
+    }
+
+    public function deleteUserFromMeetings(string $userUuid): void
+    {
+        $repository = $this->entityManager->getRepository('\App\Entity\MeetingParticipant');
+        $records = $repository->findBy(array('user_uuid' => $this->uuidProvider->stringToBytes($userUuid)));
+
+        foreach ($records as $record) {
+            $this->entityManager->remove($record);
+        }
+
         $this->entityManager->flush();
     }
 }

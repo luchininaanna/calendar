@@ -28,3 +28,8 @@ delete_meeting:
     controller: App\Controller\WriteController::deleteMeeting
     methods: POST
 
+delete_user:
+    path: /user/delete
+    controller: App\Controller\WriteController::deleteUser
+    methods: POST
+

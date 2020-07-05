@@ -44,4 +44,13 @@ class UserRepository implements UserRepositoryInterface
         $repository = $this->entityManager->getRepository('App\Entity\User');
         return $repository->findOneBy(array('uuid' => $this->uuidProvider->stringToBytes($uuid))) !== null;
     }
+
+    public function deleteUserById(string $uuid): void
+    {
+        $repository = $this->entityManager->getRepository('\App\Entity\User');
+        $record = $repository->findOneBy(array('uuid' => $this->uuidProvider->stringToBytes($uuid)));
+
+        $this->entityManager->remove($record);
+        $this->entityManager->flush();
+    }
 }

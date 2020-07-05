@@ -5,6 +5,7 @@ namespace App\Calendar\Domain\Service;
 
 
 use App\Calendar\Domain\Exception\UserAlreadyExistException;
+use App\Calendar\Domain\Exception\UserIsNotExistException;
 use App\Calendar\Domain\Model\User;
 use App\Calendar\Domain\Model\UserRepositoryInterface;
 
@@ -29,5 +30,19 @@ class UserService
         }
 
         $this->userRepository->createUser($user);
+    }
+
+    /**
+     * @param String $userUuid
+     * @throws UserIsNotExistException
+     */
+    public function deleteUser(String $userUuid): void
+    {
+        if (!$this->userRepository->isUserExistById($userUuid))
+        {
+            throw new UserIsNotExistException();
+        }
+
+        $this->userRepository->deleteUserById($userUuid);
     }
 }
