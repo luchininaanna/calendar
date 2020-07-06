@@ -79,8 +79,8 @@ class WriteController extends AbstractController
                 return $this->json(['result' => 'Empty request parameters'], 400);
             }
 
-            $id = $this->api->createInvitation($inviteInput);
-            return $this->json(['result' => 'Invitation created', 'id' => $id]);
+            $this->api->createInvitation($inviteInput);
+            return $this->json(['result' => 'Invitation created']);
         }
         catch (UserIsNotMeetingOrganizerException $e)
         {

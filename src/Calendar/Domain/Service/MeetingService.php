@@ -46,12 +46,13 @@ class MeetingService
     }
 
     /**
+     * @param string $loggedUserUuid
      * @param MeetingParticipant $meetingParticipant
      * @throws MeetingParticipantAmountExceedsLimitException
-     * @throws UserIsNotMeetingOrganizerException
      * @throws UserIsAlreadyMeetingParticipantException
+     * @throws UserIsNotMeetingOrganizerException
      */
-    public function createMeetingParticipant(string $loggedUserUuid, MeetingParticipant $meetingParticipant):void
+    public function createMeetingParticipant(string $loggedUserUuid, MeetingParticipant $meetingParticipant): void
     {
         if ($this->meetingRepository->isUserIsMeetingOrganizer($loggedUserUuid,
             $meetingParticipant->getMeetingUuid()))
@@ -74,13 +75,15 @@ class MeetingService
     }
 
     /**
+     * @param string $loggedUserUuid
      * @param MeetingParticipant $meetingParticipant
      * @throws UserIsNotMeetingOrganizerException
      * @throws UserIsNotMeetingParticipantException
      */
-    public function deleteUserFromMeeting(MeetingParticipant $meetingParticipant):void
+    public function deleteUserFromMeeting(string $loggedUserUuid,
+                                          MeetingParticipant $meetingParticipant):void
     {
-        if ($this->meetingRepository->isUserIsMeetingOrganizer($meetingParticipant->getOrganizerUuid(),
+        if ($this->meetingRepository->isUserIsMeetingOrganizer($loggedUserUuid,
             $meetingParticipant->getMeetingUuid()))
         {
             throw new UserIsNotMeetingOrganizerException();
@@ -92,7 +95,8 @@ class MeetingService
             throw new UserIsNotMeetingParticipantException();
         }
 
-        $this->meetingParticipantRepository->deleteUserFromMeeting($meetingParticipant->getUserUuid(), $meetingParticipant->getMeetingUuid());
+        $this->meetingParticipantRepository->deleteUserFromMeeting($meetingParticipant->getUserUuid(),
+            $meetingParticipant->getMeetingUuid());
 
         if ($this->meetingRepository->isUserIsMeetingOrganizer($meetingParticipant->getUserUuid(),
             $meetingParticipant->getMeetingUuid()))
@@ -103,18 +107,18 @@ class MeetingService
 
     /**
      * @param string $meetingUuid
-     * @param string $organizerUuid
+     * @param string $loggedUserUuid
      * @throws MeetingIsNotExistException
      * @throws UserIsNotMeetingOrganizerException
      */
-    public function deleteMeeting(string $meetingUuid, string $organizerUuid): void
+    public function deleteMeeting(string $meetingUuid, string $loggedUserUuid): void
     {
         if (!$this->meetingRepository->isMeetingExist($meetingUuid))
         {
             throw new MeetingIsNotExistException();
         }
 
-        if ($this->meetingRepository->isUserIsMeetingOrganizer($organizerUuid,
+        if ($this->meetingRepository->isUserIsMeetingOrganizer($loggedUserUuid,
             $meetingUuid))
         {
             throw new UserIsNotMeetingOrganizerException();

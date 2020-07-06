@@ -29,15 +29,13 @@ class DeleteUserCommandHandler
 
     /**
      * @param DeleteUserCommand $command
-     * @return string
+     * @return void
      * @throws UserIsNotExistException
      */
-    public function handle(DeleteUserCommand $command): string
+    public function handle(DeleteUserCommand $command): void
     {
         //транзакция
         $this->meetingService->deleteUserFromMeetings($command->getUserId());
         $this->userService->deleteUser($command->getUserId());
-
-        return $command->getUserId();
     }
 }

@@ -40,31 +40,26 @@ interface ApiCommandInterface
      * @throws MeetingParticipantAmountExceedsLimitException
      * @throws UserIsNotMeetingOrganizerException
      * @throws UserIsAlreadyMeetingParticipantException
-     * @return string
+     * @return void
      */
-    public function createInvitation(CreateInvitationInput $input): string;
+    public function createInvitation(CreateInvitationInput $input): void;
 
 
     /**
      * @param DeleteUserFromMeetingInput $input
-     * @throws UserIsNotMeetingOrganizerException
-     * @throws UserIsNotMeetingParticipantException
-     * @return string
+     * @return void
      */
     public function deleteUserFromMeeting(DeleteUserFromMeetingInput $input): void;
 
     /**
      * @param DeleteMeetingInput $input
-     * @return string
-     * @throws MeetingIsNotExistException
-     * @throws UserIsNotMeetingOrganizerException
+     * @return void
      */
     public function deleteMeeting(DeleteMeetingInput $input): void;
 
     /**
      * @param DeleteUserInput $input
-     * @throws UserIsNotExistException
-     * @return string
+     * @return void
      */
     public function deleteUser(DeleteUserInput $input): void;
 }

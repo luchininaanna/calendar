@@ -24,21 +24,17 @@ class DeleteUserFromMeetingCommandHandler
 
     /**
      * @param DeleteUserFromMeetingCommand $command
-     * @return string
-     * @throws UserIsNotMeetingParticipantException
+     * @return void
      * @throws UserIsNotMeetingOrganizerException
+     * @throws UserIsNotMeetingParticipantException
      */
-    public function handle(DeleteUserFromMeetingCommand $command): string
+    public function handle(DeleteUserFromMeetingCommand $command): void
     {
         $meetingParticipant = new MeetingParticipant(
-            $this->uuidProvider->generate(),
-            $command->getOrganizerId(),
             $command->getMeetingId(),
             $command->getParticipantId()
         );
 
-        $this->meetingService->deleteUserFromMeeting($meetingParticipant);
-
-        return $meetingParticipant->getUuid();
+        $this->meetingService->deleteUserFromMeeting($command->getLoggedUserId(), $meetingParticipant);
     }
 }

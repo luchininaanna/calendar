@@ -29,10 +29,8 @@ class DeleteMeetingCommandHandler
      * @throws MeetingIsNotExistException
      * @throws UserIsNotMeetingOrganizerException
      */
-    public function handle(DeleteMeetingCommand $command): string
+    public function handle(DeleteMeetingCommand $command): void
     {
-        $this->meetingService->deleteMeeting($command->getMeetingId(), $command->getOrganizerId(),);
-
-        return $command->getMeetingId();
+        $this->meetingService->deleteMeeting($command->getMeetingId(), $command->getLoggedUserId());
     }
 }

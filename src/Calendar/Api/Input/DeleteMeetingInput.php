@@ -6,18 +6,18 @@ namespace App\Calendar\Api\Input;
 
 class DeleteMeetingInput
 {
-    private string $organizerId;
+    private string $loggedUserId;
     private string $meetingId;
 
-    public function __construct(string $organizerId, string $meetingId)
+    public function __construct(string $loggedUserId, string $meetingId)
     {
-        $this->organizerId = $organizerId;
+        $this->loggedUserId = $loggedUserId;
         $this->meetingId = $meetingId;
     }
 
-    public function getOrganizerId(): string
+    public function getLoggedUserId(): string
     {
-        return $this->organizerId;
+        return $this->loggedUserId;
     }
 
     public function getMeetingId(): string

@@ -30,17 +30,13 @@ class CreateInvitationCommandHandler
      * @throws UserIsNotMeetingOrganizerException
      * @throws UserIsAlreadyMeetingParticipantException
      */
-    public function handle(CreateInvitationCommand $command): string
+    public function handle(CreateInvitationCommand $command): void
     {
         $meetingParticipant = new MeetingParticipant(
-            $this->uuidProvider->generate(),
-            $command->getOrganizerId(),
             $command->getMeetingId(),
             $command->getParticipantId()
         );
 
-        $this->meetingService->createMeetingParticipant($meetingParticipant);
-
-        return $meetingParticipant->getUuid();
+        $this->meetingService->createMeetingParticipant($command->getLoggedUserId(), $meetingParticipant);
     }
 }

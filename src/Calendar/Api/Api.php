@@ -93,17 +93,17 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         }
     }
 
-    public function createInvitation(CreateInvitationInput $input): string
+    public function createInvitation(CreateInvitationInput $input): void
     {
         $command = new CreateInvitationCommand(
-            $input->getOrganizerId(),
+            $input->getLoggedUserId(),
             $input->getMeetingId(),
             $input->getParticipantId()
         );
 
         try
         {
-            return $this->createInvitationCommandHandler->handle($command);
+            $this->createInvitationCommandHandler->handle($command);
         }
         catch (MeetingParticipantAmountExceedsLimitException $e)
         {
@@ -122,7 +122,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
     public function deleteUserFromMeeting(DeleteUserFromMeetingInput $input): void
     {
         $command = new DeleteUserFromMeetingCommand(
-            $input->getOrganizerId(),
+            $input->getLoggedUserId(),
             $input->getMeetingId(),
             $input->getParticipantId()
         );
@@ -144,7 +144,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
     public function deleteMeeting(DeleteMeetingInput $input): void
     {
         $command = new DeleteMeetingCommand(
-            $input->getOrganizerId(),
+            $input->getLoggedUserId(),
             $input->getMeetingId()
         );
 
