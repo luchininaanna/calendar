@@ -54,7 +54,7 @@ class MeetingService
      */
     public function createMeetingParticipant(string $loggedUserUuid, MeetingParticipant $meetingParticipant): void
     {
-        if ($this->meetingRepository->isUserIsMeetingOrganizer($loggedUserUuid,
+        if (!$this->meetingRepository->isUserIsMeetingOrganizer($loggedUserUuid,
             $meetingParticipant->getMeetingUuid()))
         {
             throw new UserIsNotMeetingOrganizerException();
@@ -83,7 +83,7 @@ class MeetingService
     public function deleteUserFromMeeting(string $loggedUserUuid,
                                           MeetingParticipant $meetingParticipant):void
     {
-        if ($this->meetingRepository->isUserIsMeetingOrganizer($loggedUserUuid,
+        if (!$this->meetingRepository->isUserIsMeetingOrganizer($loggedUserUuid,
             $meetingParticipant->getMeetingUuid()))
         {
             throw new UserIsNotMeetingOrganizerException();
@@ -118,21 +118,25 @@ class MeetingService
             throw new MeetingIsNotExistException();
         }
 
-        if ($this->meetingRepository->isUserIsMeetingOrganizer($loggedUserUuid,
+        if (!$this->meetingRepository->isUserIsMeetingOrganizer($loggedUserUuid,
             $meetingUuid))
         {
             throw new UserIsNotMeetingOrganizerException();
         }
 
+        //удаление приглашений на митинг
+        $this->meetingParticipantRepository->deleteInvitationByMeetingId($meetingUuid);
+
+        //удаление митинга
         $this->meetingRepository->deleteMeetingById($meetingUuid);
     }
 
     public function deleteUserFromMeetings(string $userUuid): void
     {
-        //удаление пользователя как участника
+        //удаление приглашений пользователя на митинги
         $this->meetingParticipantRepository->deleteUserFromMeetings($userUuid);
 
-        //удаление пользователя как организатора
+        //удаление митингов с пользователем в роли организатора
         $this->meetingRepository->deleteMeetingsByUserAsOrganizer($userUuid);
     }
 }

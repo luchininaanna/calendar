@@ -67,4 +67,17 @@ class MeetingParticipantRepository implements MeetingParticipantRepositoryInterf
 
         $this->entityManager->flush();
     }
+
+    public function deleteInvitationByMeetingId(string $meetingUuid): void
+    {
+        $repository = $this->entityManager->getRepository('\App\Entity\MeetingParticipant');
+
+        $records = $repository->findBy(array('meeting_uuid' => $this->uuidProvider->stringToBytes($meetingUuid)));
+
+        foreach ($records as $record) {
+            $this->entityManager->remove($record);
+        }
+
+        $this->entityManager->flush();
+    }
 }

@@ -25,7 +25,7 @@ class DeleteMeetingCommandHandler
 
     /**
      * @param DeleteMeetingCommand $command
-     * @return string
+     * @return void
      * @throws MeetingIsNotExistException
      * @throws UserIsNotMeetingOrganizerException
      */
