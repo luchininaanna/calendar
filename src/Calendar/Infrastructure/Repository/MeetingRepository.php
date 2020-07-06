@@ -22,7 +22,7 @@ class MeetingRepository implements MeetingRepositoryInterface
     public function createMeeting(Meeting $meeting): void
     {
         $dbMeeting = new \App\Entity\Meeting();
-        $dbMeeting->setOrganizerUuid($this->uuidProvider->stringToBytes($meeting->getOrganizerId()));
+        $dbMeeting->setOrganizerUuid($this->uuidProvider->stringToBytes($meeting->getLoggedUserId()));
         $dbMeeting->setName($meeting->getName());
         $dbMeeting->setLocation($meeting->getLocation());
         $dbMeeting->setStartTime($meeting->getStartTime());

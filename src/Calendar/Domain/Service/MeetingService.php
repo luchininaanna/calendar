@@ -37,7 +37,7 @@ class MeetingService
      */
     public function createMeeting(Meeting $meeting): void
     {
-        if (!$this->userRepository->isUserExistById($meeting->getOrganizerId()))
+        if (!$this->userRepository->isUserExistById($meeting->getLoggedUserId()))
         {
             throw new MeetingOrganizerIsNotExistException();
         }
@@ -51,9 +51,9 @@ class MeetingService
      * @throws UserIsNotMeetingOrganizerException
      * @throws UserIsAlreadyMeetingParticipantException
      */
-    public function createMeetingParticipant(MeetingParticipant $meetingParticipant):void
+    public function createMeetingParticipant(string $loggedUserUuid, MeetingParticipant $meetingParticipant):void
     {
-        if ($this->meetingRepository->isUserIsMeetingOrganizer($meetingParticipant->getOrganizerUuid(),
+        if ($this->meetingRepository->isUserIsMeetingOrganizer($loggedUserUuid,
             $meetingParticipant->getMeetingUuid()))
         {
             throw new UserIsNotMeetingOrganizerException();
@@ -102,24 +102,25 @@ class MeetingService
     }
 
     /**
-     * @param Meeting $meeting
-     * @throws UserIsNotMeetingOrganizerException
+     * @param string $meetingUuid
+     * @param string $organizerUuid
      * @throws MeetingIsNotExistException
+     * @throws UserIsNotMeetingOrganizerException
      */
-    public function deleteMeeting(Meeting $meeting): void
+    public function deleteMeeting(string $meetingUuid, string $organizerUuid): void
     {
-        if (!$this->meetingRepository->isMeetingExist($meeting->getUuid()))
+        if (!$this->meetingRepository->isMeetingExist($meetingUuid))
         {
             throw new MeetingIsNotExistException();
         }
 
-        if ($this->meetingRepository->isUserIsMeetingOrganizer($meeting->getOrganizerId(),
-            $meeting->getUuid()))
+        if ($this->meetingRepository->isUserIsMeetingOrganizer($organizerUuid,
+            $meetingUuid))
         {
             throw new UserIsNotMeetingOrganizerException();
         }
 
-        $this->meetingRepository->deleteMeetingById($meeting->getUuid());
+        $this->meetingRepository->deleteMeetingById($meetingUuid);
     }
 
     public function deleteUserFromMeetings(string $userUuid): void

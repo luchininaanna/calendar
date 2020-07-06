@@ -76,8 +76,8 @@ class Api implements ApiCommandInterface, ApiQueryInterface
 
     public function createMeeting(CreateMeetingInput $input): string
     {
-        $command = new CreateMeetingCommand (
-            $input->getOrganizerId(),
+        $command = new CreateMeetingCommand(
+            $input->getLoggedUserId(),
             $input->getName(),
             $input->getLocation(),
             $input->getStartTime()
@@ -119,7 +119,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         }
     }
 
-    public function deleteUserFromMeeting(DeleteUserFromMeetingInput $input): string
+    public function deleteUserFromMeeting(DeleteUserFromMeetingInput $input): void
     {
         $command = new DeleteUserFromMeetingCommand(
             $input->getOrganizerId(),
@@ -129,7 +129,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
 
         try
         {
-            return $this->deleteUserFromMeetingCommandHandler->handle($command);
+            $this->deleteUserFromMeetingCommandHandler->handle($command);
         }
         catch (UserIsNotMeetingOrganizerException $e)
         {
@@ -141,7 +141,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         }
     }
 
-    public function deleteMeeting(DeleteMeetingInput $input): string
+    public function deleteMeeting(DeleteMeetingInput $input): void
     {
         $command = new DeleteMeetingCommand(
             $input->getOrganizerId(),
@@ -150,7 +150,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
 
         try
         {
-            return $this->deleteMeetingCommandHandler->handle($command);
+            $this->deleteMeetingCommandHandler->handle($command);
         }
         catch (UserIsNotMeetingOrganizerException $e)
         {
@@ -162,7 +162,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         }
     }
 
-    public function deleteUser(DeleteUserInput $input): string
+    public function deleteUser(DeleteUserInput $input): void
     {
         $command = new DeleteUserCommand(
             $input->getUserId()
@@ -170,7 +170,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
 
         try
         {
-            return $this->deleteUserCommandHandler->handle($command);
+            $this->deleteUserCommandHandler->handle($command);
         }
         catch (UserIsNotExistException $e)
         {

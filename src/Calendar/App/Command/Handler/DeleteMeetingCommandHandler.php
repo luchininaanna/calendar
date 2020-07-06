@@ -31,16 +31,8 @@ class DeleteMeetingCommandHandler
      */
     public function handle(DeleteMeetingCommand $command): string
     {
-        $meeting = new Meeting(
-            $command->getMeetingId(),
-            $command->getOrganizerId(),
-            "",
-            "",
-            new DateTime()
-        );
+        $this->meetingService->deleteMeeting($command->getMeetingId(), $command->getOrganizerId(),);
 
-        $this->meetingService->deleteMeeting($meeting);
-
-        return $meeting->getUuid();
+        return $command->getMeetingId();
     }
 }

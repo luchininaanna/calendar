@@ -30,7 +30,7 @@ class CreateMeetingCommandHandler
     {
         $meeting = new Meeting(
             $this->uuidProvider->generate(),
-            $command->getOrganizerId(),
+            $command->getLoggedUserId(),
             $command->getName(),
             $command->getLocation(),
             $command->getStartTime()

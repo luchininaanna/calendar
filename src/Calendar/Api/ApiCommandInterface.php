@@ -51,7 +51,7 @@ interface ApiCommandInterface
      * @throws UserIsNotMeetingParticipantException
      * @return string
      */
-    public function deleteUserFromMeeting(DeleteUserFromMeetingInput $input): string;
+    public function deleteUserFromMeeting(DeleteUserFromMeetingInput $input): void;
 
     /**
      * @param DeleteMeetingInput $input
@@ -59,12 +59,12 @@ interface ApiCommandInterface
      * @throws MeetingIsNotExistException
      * @throws UserIsNotMeetingOrganizerException
      */
-    public function deleteMeeting(DeleteMeetingInput $input): string;
+    public function deleteMeeting(DeleteMeetingInput $input): void;
 
     /**
      * @param DeleteUserInput $input
      * @throws UserIsNotExistException
      * @return string
      */
-    public function deleteUser(DeleteUserInput $input): string;
+    public function deleteUser(DeleteUserInput $input): void;
 }

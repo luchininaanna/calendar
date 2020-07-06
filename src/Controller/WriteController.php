@@ -36,6 +36,11 @@ class WriteController extends AbstractController
         try
         {
             $userInput = CreateUserRequestMapper::buildInput($request->getContent());
+            if ($userInput === null)
+            {
+                return $this->json(['result' => 'Empty request parameters'], 400);
+            }
+
             $id = $this->api->createUser($userInput);
             return $this->json(['result' => 'User created', 'id' => $id]);
         }
@@ -50,6 +55,11 @@ class WriteController extends AbstractController
         try
         {
             $meetingInput = CreateMeetingRequestMapper::buildInput($request->getContent());
+            if ($meetingInput === null)
+            {
+                return $this->json(['result' => 'Empty request parameters'], 400);
+            }
+
             $id = $this->api->createMeeting($meetingInput);
             return $this->json(['result' => 'Meeting created', 'id' => $id]);
         }
@@ -64,6 +74,11 @@ class WriteController extends AbstractController
         try
         {
             $inviteInput = CreateInviteRequestMapper::buildInput($request->getContent());
+            if ($inviteInput === null)
+            {
+                return $this->json(['result' => 'Empty request parameters'], 400);
+            }
+
             $id = $this->api->createInvitation($inviteInput);
             return $this->json(['result' => 'Invitation created', 'id' => $id]);
         }
@@ -86,8 +101,13 @@ class WriteController extends AbstractController
         try
         {
             $deleteFromMeetingInput = DeleteUserFromMeetingRequestMapper::buildInput($request->getContent());
-            $id = $this->api->deleteUserFromMeeting($deleteFromMeetingInput);
-            return $this->json(['result' => 'User deleted from meeting', 'id' => $id]);
+            if ($deleteFromMeetingInput === null)
+            {
+                return $this->json(['result' => 'Empty request parameters'], 400);
+            }
+
+            $this->api->deleteUserFromMeeting($deleteFromMeetingInput);
+            return $this->json(['result' => 'User deleted from meeting']);
         }
         catch (UserIsNotMeetingOrganizerException $e)
         {
@@ -104,8 +124,13 @@ class WriteController extends AbstractController
         try
         {
             $deleteMeetingInput = DeleteMeetingRequestMapper::buildInput($request->getContent());
-            $id = $this->api->deleteMeeting($deleteMeetingInput);
-            return $this->json(['result' => 'Meeting deleted', 'id' => $id]);
+            if ($deleteMeetingInput === null)
+            {
+                return $this->json(['result' => 'Empty request parameters'], 400);
+            }
+
+            $this->api->deleteMeeting($deleteMeetingInput);
+            return $this->json(['result' => 'Meeting deleted']);
         }
         catch (MeetingIsNotExistException $e)
         {
@@ -122,8 +147,13 @@ class WriteController extends AbstractController
         try
         {
             $deleteUserInput = DeleteUserRequestMapper::buildInput($request->getContent());
-            $id = $this->api->deleteUser($deleteUserInput);
-            return $this->json(['result' => 'User deleted', 'id' => $id]);
+            if ($deleteUserInput === null)
+            {
+                return $this->json(['result' => 'Empty request parameters'], 400);
+            }
+
+            $this->api->deleteUser($deleteUserInput);
+            return $this->json(['result' => 'User deleted']);
         }
         catch (UserIsNotExistException $e)
         {

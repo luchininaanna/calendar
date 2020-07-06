@@ -6,22 +6,22 @@ namespace App\Calendar\App\Command;
 
 class CreateMeetingCommand
 {
-    private string $organizerId;
+    private string $loggedUserId;
     private string $name;
     private string $location;
     private \DateTime $startTime;
 
-    public function __construct(string $organizerId, string $name, string $location, \DateTime $startTime)
+    public function __construct(string $loggedUserId, string $name, string $location, \DateTime $startTime)
     {
-        $this->organizerId = $organizerId;
+        $this->loggedUserId = $loggedUserId;
         $this->name = $name;
         $this->location = $location;
         $this->startTime = $startTime;
     }
 
-    public function getOrganizerId(): string
+    public function getLoggedUserId(): string
     {
-        return $this->organizerId;
+        return $this->loggedUserId;
     }
 
     public function getName(): string

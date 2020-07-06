@@ -8,10 +8,14 @@ use App\Calendar\Api\Input\DeleteUserInput;
 
 class DeleteUserRequestMapper
 {
-    public static function buildInput(string $request): DeleteUserInput
+    public static function buildInput(string $request): ?DeleteUserInput
     {
         $json = json_decode($request, true);
-        //проверка, что строки не пустые
+        if (empty($json['userId']))
+        {
+            return null;
+        }
+
         return new DeleteUserInput($json['userId']);
     }
 }

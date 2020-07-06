@@ -17,9 +17,11 @@ class DeleteUserCommandHandler
     private UserService $userService;
     private MeetingService $meetingService;
 
-    public function __construct(UuidProviderInterface $uuidProvider, MeetingService $meetingService,
-                                UserService $userService)
-    {
+    public function __construct(
+        UuidProviderInterface $uuidProvider,
+        MeetingService $meetingService,
+        UserService $userService
+    ) {
         $this->uuidProvider = $uuidProvider;
         $this->meetingService = $meetingService;
         $this->userService = $userService;
@@ -32,9 +34,6 @@ class DeleteUserCommandHandler
      */
     public function handle(DeleteUserCommand $command): string
     {
-        $logger = new Logger();
-        $logger->info('I just got the logger--------------------');
-
         //транзакция
         $this->meetingService->deleteUserFromMeetings($command->getUserId());
         $this->userService->deleteUser($command->getUserId());

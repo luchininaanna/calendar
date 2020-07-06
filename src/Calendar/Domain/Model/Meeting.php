@@ -7,15 +7,15 @@ namespace App\Calendar\Domain\Model;
 class Meeting
 {
     private string $uuid;
-    private string $organizerId;
+    private string $loggedUserId;
     private string $name;
     private string $location;
     private \DateTime $startTime;
 
-    public function __construct(string $uuid, string $organizerId, string $name, string $location, \DateTime $startTime)
+    public function __construct(string $uuid, string $loggedUserId, string $name, string $location, \DateTime $startTime)
     {
         $this->uuid = $uuid;
-        $this->organizerId = $organizerId;
+        $this->loggedUserId = $loggedUserId;
         $this->name = $name;
         $this->location = $location;
         $this->startTime = $startTime;
@@ -26,9 +26,9 @@ class Meeting
         return $this->uuid;
     }
 
-    public function getOrganizerId(): string
+    public function getLoggedUserId(): string
     {
-        return $this->organizerId;
+        return $this->loggedUserId;
     }
 
     public function getName(): string
