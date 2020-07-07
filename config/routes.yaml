@@ -33,3 +33,14 @@ get_all_users:
     controller: App\Controller\ReadController::getAllUsers
     methods: GET
 
+get_meeting_with_participant:
+    path: /get/meetingsWithParticipant
+    controller: App\Controller\ReadController::getMeetingsWithParticipant
+    methods: GET
+
+get_meeting_with_organizer:
+    path: /get/meetingsWithOrganizer
+    controller: App\Controller\ReadController::getMeetingsWithOrganizer
+    methods: GET
+
+

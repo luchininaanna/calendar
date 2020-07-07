@@ -9,6 +9,7 @@ use App\Calendar\Api\Input\CreateUserInput;
 use App\Calendar\Api\Input\DeleteMeetingInput;
 use App\Calendar\Api\Input\DeleteUserFromMeetingInput;
 use App\Calendar\Api\Input\DeleteUserInput;
+use App\Calendar\Api\Output\MeetingOutput;
 use App\Calendar\Api\Output\UserOutput;
 use App\Calendar\App\Command\CreateInvitationCommand;
 use App\Calendar\App\Command\CreateMeetingCommand;
@@ -189,6 +190,28 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         foreach ($this->userQueryService->getAllUsers() as $userData)
         {
             $result[] = new UserOutput($userData);
+        }
+
+        return $result;
+    }
+
+    public function getMeetingsWithParticipant(string $loggedUserId): array
+    {
+        $result = [];
+        foreach ($this->userQueryService->getMeetingsWithParticipant($loggedUserId) as $meetingData)
+        {
+            $result[] = new MeetingOutput($meetingData);
+        }
+
+        return $result;
+    }
+
+    public function getMeetingsWithOrganizer(string $loggedUserId): array
+    {
+        $result = [];
+        foreach ($this->userQueryService->getMeetingsWithOrganizer($loggedUserId) as $meetingData)
+        {
+            $result[] = new MeetingOutput($meetingData);
         }
 
         return $result;
