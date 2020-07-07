@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Calendar\Api\ApiQueryInterface;
+use App\Controller\Mapper\GetParticipantsRequestMapper;
 use App\Controller\Mapper\GetMeetingsRequestMapper;
 use App\Controller\Mapper\GetMeetingsWithParticipantRequestMapper;
 use Symfony\Component\HttpFoundation\RequecreateUserst;
@@ -59,6 +60,22 @@ class ReadController extends AbstractController
         foreach ($this->api->getMeetingsWithOrganizer($loggedUserId) as $meeting)
         {
             $json[] = $meeting->asAssoc();
+        }
+        return $this->json($json);
+    }
+
+    public function getParticipantsWithOrganizer(Request $request): Response
+    {
+        $getParticipantInput = GetParticipantsRequestMapper::buildInput($request->getContent());
+        if ($getParticipantInput === null)
+        {
+            return $this->json(['result' => 'Empty request parameters'], 400);
+        }
+
+        $json = [];
+        foreach ($this->api->getParticipantsWithOrganizer($getParticipantInput) as $participant)
+        {
+            $json[] = $participant->asAssoc();
         }
         return $this->json($json);
     }

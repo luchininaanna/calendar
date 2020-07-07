@@ -4,6 +4,8 @@
 namespace App\Calendar\Api;
 
 
+use App\Calendar\Api\Input\GetParticipantInput;
+use App\Calendar\Api\Output\ParticipantOutput;
 use App\Calendar\Api\Output\MeetingOutput;
 use App\Calendar\Api\Output\UserOutput;
 use App\Calendar\App\Query\Data\ParticipantMeetingData;
@@ -27,4 +29,10 @@ interface ApiQueryInterface
      * @return MeetingOutput[]
      */
     public function getMeetingsWithOrganizer(string $loggedUserId): array;
+
+    /**
+     * @param GetParticipantInput $getParticipantInput
+     * @return ParticipantOutput[]
+     */
+    public function getParticipantsWithOrganizer(GetParticipantInput $getParticipantInput): array;
 }

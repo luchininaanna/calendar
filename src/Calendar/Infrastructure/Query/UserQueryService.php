@@ -4,6 +4,7 @@
 namespace App\Calendar\Infrastructure\Query;
 
 
+use App\Calendar\App\Query\Data\ParticipantData;
 use App\Calendar\App\Query\Data\ParticipantMeetingData;
 use App\Calendar\App\Query\Data\UserData;
 use App\Calendar\App\Uuid\UuidProviderInterface;
@@ -94,6 +95,39 @@ class UserQueryService implements \App\Calendar\App\Query\UserQueryServiceInterf
                 $meeting['name'],
                 $meeting['location'],
                 $meeting['start_time']
+            );
+        }
+
+        return $result;
+    }
+
+    public function getParticipantsWithOrganizer(string $loggedUserId, string $meetingId): array
+    {
+        $participants = $this->connection->fetchAll("
+            SELECT
+                m.*, u.*
+            FROM
+                meeting m
+                INNER JOIN meeting_participant mp ON (m.uuid = mp.meeting_uuid)
+                INNER JOIN user u ON (mp.user_uuid = u.uuid)
+            WHERE
+                m.organizer_uuid = :user_id 
+                AND
+                m.uuid = :meeting_id
+            ORDER BY m.start_time ASC
+        ", ['user_id' => $this->uuidProvider->stringToBytes($loggedUserId),
+            'meeting_id' => $this->uuidProvider->stringToBytes($meetingId)]);
+
+        $result = [];
+        foreach ($participants as $participant)
+        {
+            $result[] = new ParticipantData(
+                $this->uuidProvider->bytesToString($participant['uuid']),
+                $participant['login'],
+                $participant['name'],
+                $participant['surname'],
+                $participant['patronymic'],
+                $participant['start_time']
             );
         }
 
