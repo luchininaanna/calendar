@@ -9,4 +9,6 @@ interface UuidProviderInterface
     public function generate(): string;
 
     public function stringToBytes(string $string): string;
+
+    public function bytesToString(string $bytes): string;
 }

@@ -28,3 +28,8 @@ delete_user:
     controller: App\Controller\WriteController::deleteUser
     methods: POST
 
+get_all_users:
+    path: /get/allUsers
+    controller: App\Controller\ReadController::getAllUsers
+    methods: GET
+

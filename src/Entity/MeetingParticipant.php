@@ -18,12 +18,12 @@ class MeetingParticipant
     private $id;
 
     /**
-     * @ORM\Column(type="binary")
+     * @ORM\Column(type="binary", length=16)
      */
     private $user_uuid;
 
     /**
-     * @ORM\Column(type="binary")
+     * @ORM\Column(type="binary", length=16)
      */
     private $meeting_uuid;
 

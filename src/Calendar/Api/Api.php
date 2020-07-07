@@ -9,6 +9,7 @@ use App\Calendar\Api\Input\CreateUserInput;
 use App\Calendar\Api\Input\DeleteMeetingInput;
 use App\Calendar\Api\Input\DeleteUserFromMeetingInput;
 use App\Calendar\Api\Input\DeleteUserInput;
+use App\Calendar\Api\Output\UserOutput;
 use App\Calendar\App\Command\CreateInvitationCommand;
 use App\Calendar\App\Command\CreateMeetingCommand;
 use App\Calendar\App\Command\CreateUserCommand;
@@ -21,6 +22,7 @@ use App\Calendar\App\Command\Handler\CreateUserCommandHandler;
 use App\Calendar\App\Command\Handler\DeleteMeetingCommandHandler;
 use App\Calendar\App\Command\Handler\DeleteUserCommandHandler;
 use App\Calendar\App\Command\Handler\DeleteUserFromMeetingCommandHandler;
+use App\Calendar\App\Query\UserQueryServiceInterface;
 use App\Calendar\Domain\Exception\MeetingIsNotExistException;
 use App\Calendar\Domain\Exception\MeetingOrganizerIsNotExistException;
 use App\Calendar\Domain\Exception\UserAlreadyExistException;
@@ -38,6 +40,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
     private DeleteUserFromMeetingCommandHandler $deleteUserFromMeetingCommandHandler;
     private DeleteMeetingCommandHandler $deleteMeetingCommandHandler;
     private DeleteUserCommandHandler $deleteUserCommandHandler;
+    private UserQueryServiceInterface $userQueryService;
 
     public function __construct(
         CreateUserCommandHandler $createUserCommandHandler,
@@ -45,7 +48,8 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         CreateInvitationCommandHandler $createInvitationCommandHandler,
         DeleteUserFromMeetingCommandHandler $deleteUserFromMeetingCommandHandler,
         DeleteMeetingCommandHandler $deleteMeetingCommandHandler,
-        DeleteUserCommandHandler $deleteUserCommandHandler
+        DeleteUserCommandHandler $deleteUserCommandHandler,
+        UserQueryServiceInterface $userQueryService
     ) {
         $this->createUserCommandHandler = $createUserCommandHandler;
         $this->createMeetingCommandHandler = $createMeetingCommandHandler;
@@ -53,6 +57,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         $this->deleteUserFromMeetingCommandHandler = $deleteUserFromMeetingCommandHandler;
         $this->deleteMeetingCommandHandler = $deleteMeetingCommandHandler;
         $this->deleteUserCommandHandler = $deleteUserCommandHandler;
+        $this->userQueryService = $userQueryService;
     }
 
     public function createUser(CreateUserInput $input): string
@@ -176,5 +181,16 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         {
             throw new Exception\UserIsNotExistException($e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    public function getAllUsers(): array
+    {
+        $result = [];
+        foreach ($this->userQueryService->getAllUsers() as $userData)
+        {
+            $result[] = new UserOutput($userData);
+        }
+
+        return $result;
     }
 }

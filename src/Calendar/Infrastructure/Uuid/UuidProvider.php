@@ -18,4 +18,9 @@ class UuidProvider implements UuidProviderInterface
     {
         return Uuid::fromString($string)->getBytes();
     }
+
+    public function bytesToString(string $bytes): string
+    {
+        return Uuid::fromBytes($bytes)->toString();
+    }
 }

@@ -60,7 +60,8 @@ class MeetingRepository implements MeetingRepositoryInterface
 
         $records = $repository->findBy(array('organizer_uuid' => $this->uuidProvider->stringToBytes($organizerUuid)));
 
-        foreach ($records as $record) {
+        foreach ($records as $record)
+        {
             $this->entityManager->remove($record);
         }
 

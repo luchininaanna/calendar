@@ -18,7 +18,7 @@ class User
     private $id;
 
     /**
-     * @ORM\Column(type="binary")
+     * @ORM\Column(type="binary", length=16)
      */
     private $uuid;
 

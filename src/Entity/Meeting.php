@@ -19,12 +19,12 @@ class Meeting
     private $id;
 
     /**
-     * @ORM\Column(type="binary")
+     * @ORM\Column(type="binary", length=16)
      */
     private $uuid;
 
     /**
-     * @ORM\Column(type="binary")
+     * @ORM\Column(type="binary", length=16)
      */
     private $organizer_uuid;
 
