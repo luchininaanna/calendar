@@ -6,7 +6,7 @@ namespace App\Tests\Controller\Generators;
 
 class MeetingGenerator
 {
-    public function createMeeting(string $userId): array
+    public function createMeetingModel(string $userId): array
     {
         return [
             "loggedUserId" => $userId,

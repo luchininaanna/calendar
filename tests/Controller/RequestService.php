@@ -6,7 +6,7 @@ namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
-class RequestSender
+class RequestService
 {
     public function sendCreateUserRequest(KernelBrowser $client, array $user): void
     {
@@ -70,6 +70,21 @@ class RequestSender
         );
     }
 
+    public function sendDeleteMeeting(KernelBrowser $client, string $loggedUserId, string $meetingId): void
+    {
+        $client->request(
+            'POST',
+            '/meeting/delete',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode([
+                'loggedUserId' => $loggedUserId,
+                'meetingId' => $meetingId
+            ])
+        );
+    }
+
     public function getAllMeetingByOrganizer(KernelBrowser $client, string $organizerId): string
     {
         $client->request(
@@ -98,6 +113,20 @@ class RequestSender
                 "loggedUserId" => $organizerId,
 	            "meetingId" => $meetingId
             ])
+        );
+
+        return $client->getResponse()->getContent();
+    }
+
+    public function getAllUser(KernelBrowser $client): string
+    {
+        $client->request(
+            'GET',
+            '/get/allUsers',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            ""
         );
 
         return $client->getResponse()->getContent();

@@ -15,7 +15,7 @@ class DeleteUserFromMeetingWriteControllerTest extends WebTestCase
 {
     private MeetingGenerator $meetingGenerator;
     private UserGenerator $userGenerator;
-    private RequestSender $requestSender;
+    private RequestService $requestService;
     private MeetingParticipantGenerator $meetingParticipantGenerator;
 
     public function __construct($name = null, array $data = [], $dataName = '')
@@ -23,7 +23,7 @@ class DeleteUserFromMeetingWriteControllerTest extends WebTestCase
         parent::__construct($name, $data, $dataName);
         $this->userGenerator = new UserGenerator();
         $this->meetingGenerator = new MeetingGenerator();
-        $this->requestSender = new RequestSender();
+        $this->requestService = new RequestService();
         $this->meetingParticipantGenerator = new MeetingParticipantGenerator();
     }
 
@@ -33,12 +33,12 @@ class DeleteUserFromMeetingWriteControllerTest extends WebTestCase
         $organizerId = $this->getUserId($client);
         $userId = $this->getUserId($client);
         $meetingId = $this->getMeetingId($client, $organizerId);
-        $meetingParticipant = $this->meetingParticipantGenerator->createMeetingParticipant($organizerId, $meetingId, $userId);
-        $this->requestSender->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
+        $meetingParticipant = $this->meetingParticipantGenerator->createMeetingParticipantModel($organizerId, $meetingId, $userId);
+        $this->requestService->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
         //проверка приглашения пользователя
         $this->assertEquals(true, $this->isMeetingParticipantExist($client, $meetingId, $organizerId, $userId));
 
-        $this->requestSender->sendDeleteMeetingParticipantRequest($client, $meetingParticipant);
+        $this->requestService->sendDeleteMeetingParticipantRequest($client, $meetingParticipant);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('User deleted from meeting', $response['result']);
@@ -51,10 +51,10 @@ class DeleteUserFromMeetingWriteControllerTest extends WebTestCase
         $client = static::createClient();
         $organizerId = $this->getUserId($client);
         $meetingId = $this->getMeetingId($client, $organizerId);
-        $meetingParticipant = $this->meetingParticipantGenerator->createMeetingParticipant($organizerId, $meetingId, $organizerId);
-        $this->requestSender->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
+        $meetingParticipant = $this->meetingParticipantGenerator->createMeetingParticipantModel($organizerId, $meetingId, $organizerId);
+        $this->requestService->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
 
-        $this->requestSender->sendDeleteMeetingParticipantRequest($client, $meetingParticipant);
+        $this->requestService->sendDeleteMeetingParticipantRequest($client, $meetingParticipant);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $response = json_decode($client->getResponse()->getContent(), true);
@@ -62,13 +62,13 @@ class DeleteUserFromMeetingWriteControllerTest extends WebTestCase
 
         //проверка удаления митинга
         $this->assertEquals(false, $this->isMeetingExist($client, $meetingId, $organizerId));
-        //проверка удаления пользователей из митинга
+        //проверка удаления пользователя с митинга
         $this->assertEquals(false, $this->isMeetingHasParticipants($client, $meetingId, $organizerId));
     }
 
     private function isMeetingExist(KernelBrowser $client, string $meetingId, string $organizerId): bool
     {
-        $meetingsJson = $this->requestSender->getAllMeetingByOrganizer($client, $organizerId);
+        $meetingsJson = $this->requestService->getAllMeetingByOrganizer($client, $organizerId);
         $meetingsArray = json_decode($meetingsJson, true);
 
         $isExist = false;
@@ -86,7 +86,7 @@ class DeleteUserFromMeetingWriteControllerTest extends WebTestCase
     private function isMeetingParticipantExist(KernelBrowser $client, string $meetingId,
                                                string $organizerId, string $userId): bool
     {
-        $meetingParticipantJson = $this->requestSender->getAllMeetingParticipantByOrganizer($client, $organizerId, $meetingId);
+        $meetingParticipantJson = $this->requestService->getAllMeetingParticipantByOrganizer($client, $organizerId, $meetingId);
         $meetingParticipantArray = json_decode($meetingParticipantJson, true);
 
         $isExist = false;
@@ -103,7 +103,7 @@ class DeleteUserFromMeetingWriteControllerTest extends WebTestCase
 
     private function isMeetingHasParticipants(KernelBrowser $client, string $meetingId, string $organizerId): bool
     {
-        $meetingParticipantJson = $this->requestSender->getAllMeetingParticipantByOrganizer($client, $organizerId, $meetingId);
+        $meetingParticipantJson = $this->requestService->getAllMeetingParticipantByOrganizer($client, $organizerId, $meetingId);
         $meetingParticipantArray = json_decode($meetingParticipantJson, true);
         $participantAmount = count($meetingParticipantArray);
         return $participantAmount > 0;
@@ -111,15 +111,15 @@ class DeleteUserFromMeetingWriteControllerTest extends WebTestCase
 
     private function getUserId(KernelBrowser $client): string
     {
-        $this->requestSender->sendCreateUserRequest($client, $this->userGenerator->createUser());
+        $this->requestService->sendCreateUserRequest($client, $this->userGenerator->createUserModel());
         $response = json_decode($client->getResponse()->getContent(), true);
         return $response['id'];
     }
 
     private function getMeetingId(KernelBrowser $client, string $organizerId): string
     {
-        $meeting = $this->meetingGenerator->createMeeting($organizerId);
-        $this->requestSender->sendCreateMeetingRequest($client, $meeting);
+        $meeting = $this->meetingGenerator->createMeetingModel($organizerId);
+        $this->requestService->sendCreateMeetingRequest($client, $meeting);
         $response = json_decode($client->getResponse()->getContent(), true);
         return $response['id'];
     }

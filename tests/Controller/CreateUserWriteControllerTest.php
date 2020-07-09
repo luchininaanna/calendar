@@ -5,25 +5,24 @@ namespace App\Tests\Controller;
 
 
 use App\Tests\Controller\Generators\UserGenerator;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CreateUserWriteControllerTest extends WebTestCase
 {
     private UserGenerator $userGenerator;
-    private RequestSender $requestSender;
+    private RequestService $requestService;
 
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
         $this->userGenerator = new UserGenerator();
-        $this->requestSender = new RequestSender();
+        $this->requestService = new RequestService();
     }
 
     public function testCreateUniqueUser(): void
     {
         $client = static::createClient();
-        $this->requestSender->sendCreateUserRequest($client, $this->userGenerator->createUser());
+        $this->requestService->sendCreateUserRequest($client, $this->userGenerator->createUserModel());
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $response = json_decode($client->getResponse()->getContent(), true);
@@ -34,11 +33,11 @@ class CreateUserWriteControllerTest extends WebTestCase
     public function testCreateNotUniqueUser(): void
     {
         $client = static::createClient();
-        $user = $this->userGenerator->createUser();
-        $this->requestSender->sendCreateUserRequest($client, $user);
+        $user = $this->userGenerator->createUserModel();
+        $this->requestService->sendCreateUserRequest($client, $user);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $this->requestSender->sendCreateUserRequest($client, $user);
+        $this->requestService->sendCreateUserRequest($client, $user);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
 
         $response = json_decode($client->getResponse()->getContent(), true);
@@ -48,7 +47,7 @@ class CreateUserWriteControllerTest extends WebTestCase
     public function testCreateUserWithEmptyFields(): void
     {
         $client = static::createClient();
-        $this->requestSender->sendCreateUserRequest($client, $this->userGenerator->createUserWithEmptyFields());
+        $this->requestService->sendCreateUserRequest($client, $this->userGenerator->createUserWithEmptyFieldsModel());
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
 
         $response = json_decode($client->getResponse()->getContent(), true);

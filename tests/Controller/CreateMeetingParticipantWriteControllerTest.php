@@ -14,7 +14,7 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
 {
     private MeetingGenerator $meetingGenerator;
     private UserGenerator $userGenerator;
-    private RequestSender $requestSender;
+    private RequestService $requestService;
     private MeetingParticipantGenerator $meetingParticipantGenerator;
 
     public function __construct($name = null, array $data = [], $dataName = '')
@@ -22,7 +22,7 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
         parent::__construct($name, $data, $dataName);
         $this->userGenerator = new UserGenerator();
         $this->meetingGenerator = new MeetingGenerator();
-        $this->requestSender = new RequestSender();
+        $this->requestService = new RequestService();
         $this->meetingParticipantGenerator = new MeetingParticipantGenerator();
     }
 
@@ -32,8 +32,8 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
         $organizerId = $this->getUserId($client);
         $meetingId = $this->getMeetingId($client, $organizerId);
 
-        $meetingParticipant = $this->meetingParticipantGenerator->createMeetingParticipant($organizerId, $meetingId, $organizerId);
-        $this->requestSender->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
+        $meetingParticipant = $this->meetingParticipantGenerator->createMeetingParticipantModel($organizerId, $meetingId, $organizerId);
+        $this->requestService->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('Invitation created', $response['result']);
@@ -46,8 +46,8 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
         $userId = $this->getUserId($client);
         $meetingId = $this->getMeetingId($client, $organizerId);
 
-        $meetingParticipant = $this->meetingParticipantGenerator->createMeetingParticipant($organizerId, $meetingId, $userId);
-        $this->requestSender->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
+        $meetingParticipant = $this->meetingParticipantGenerator->createMeetingParticipantModel($organizerId, $meetingId, $userId);
+        $this->requestService->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('Invitation created', $response['result']);
@@ -61,8 +61,8 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
 
         for ($i = 0; $i < 11; $i++) {
             $userId = $this->getUserId($client);
-            $meetingParticipant = $this->meetingParticipantGenerator->createMeetingParticipant($organizerId, $meetingId, $userId);
-            $this->requestSender->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
+            $meetingParticipant = $this->meetingParticipantGenerator->createMeetingParticipantModel($organizerId, $meetingId, $userId);
+            $this->requestService->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
         }
 
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
@@ -77,10 +77,10 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
         $userId = $this->getUserId($client);
         $meetingId = $this->getMeetingId($client, $organizerId);
 
-        $meetingParticipant = $this->meetingParticipantGenerator->createMeetingParticipant($organizerId, $meetingId, $userId);
+        $meetingParticipant = $this->meetingParticipantGenerator->createMeetingParticipantModel($organizerId, $meetingId, $userId);
 
-        $this->requestSender->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
-        $this->requestSender->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
+        $this->requestService->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
+        $this->requestService->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
 
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
@@ -94,8 +94,8 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
         $userId = $this->getUserId($client);
         $meetingId = $this->getMeetingId($client, $organizerId);
 
-        $meetingParticipant = $this->meetingParticipantGenerator->createMeetingParticipant($userId, $meetingId, $userId);
-        $this->requestSender->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
+        $meetingParticipant = $this->meetingParticipantGenerator->createMeetingParticipantModel($userId, $meetingId, $userId);
+        $this->requestService->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
 
         $response = json_decode($client->getResponse()->getContent(), true);
@@ -104,7 +104,7 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
 
     private function getUserId(KernelBrowser $client): string
     {
-        $this->requestSender->sendCreateUserRequest($client, $this->userGenerator->createUser());
+        $this->requestService->sendCreateUserRequest($client, $this->userGenerator->createUser());
         $response = json_decode($client->getResponse()->getContent(), true);
         return $response['id'];
     }
@@ -112,7 +112,7 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
     private function getMeetingId(KernelBrowser $client, string $organizerId): string
     {
         $meeting = $this->meetingGenerator->createMeeting($organizerId);
-        $this->requestSender->sendCreateMeetingRequest($client, $meeting);
+        $this->requestService->sendCreateMeetingRequest($client, $meeting);
         $response = json_decode($client->getResponse()->getContent(), true);
         return $response['id'];
     }

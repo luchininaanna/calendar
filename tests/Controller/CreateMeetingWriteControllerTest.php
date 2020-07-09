@@ -14,14 +14,14 @@ class CreateMeetingWriteControllerTest extends WebTestCase
 {
     private MeetingGenerator $meetingGenerator;
     private UserGenerator $userGenerator;
-    private RequestSender $requestSender;
+    private RequestService $requestService;
 
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
         $this->userGenerator = new UserGenerator();
         $this->meetingGenerator = new MeetingGenerator();
-        $this->requestSender = new RequestSender();
+        $this->requestService = new RequestService();
     }
 
     public function testCreateMeeting(): void
@@ -29,8 +29,8 @@ class CreateMeetingWriteControllerTest extends WebTestCase
         $client = static::createClient();
         $userId = $this->getUserId($client);
 
-        $meeting = $this->meetingGenerator->createMeeting($userId);
-        $this->requestSender->sendCreateMeetingRequest($client, $meeting);
+        $meeting = $this->meetingGenerator->createMeetingModel($userId);
+        $this->requestService->sendCreateMeetingRequest($client, $meeting);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $response = json_decode($client->getResponse()->getContent(), true);
@@ -42,8 +42,8 @@ class CreateMeetingWriteControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $meeting = $this->meetingGenerator->createMeeting("0da175e1-11fd-4bed-b3f1-40deaffb43c1");
-        $this->requestSender->sendCreateMeetingRequest($client, $meeting);
+        $meeting = $this->meetingGenerator->createMeetingModel("0da175e1-11fd-4bed-b3f1-40deaffb43c1");
+        $this->requestService->sendCreateMeetingRequest($client, $meeting);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
 
         $response = json_decode($client->getResponse()->getContent(), true);
@@ -52,7 +52,7 @@ class CreateMeetingWriteControllerTest extends WebTestCase
 
     private function getUserId(KernelBrowser $client): string
     {
-        $this->requestSender->sendCreateUserRequest($client, $this->userGenerator->createUser());
+        $this->requestService->sendCreateUserRequest($client, $this->userGenerator->createUserModel());
         $response = json_decode($client->getResponse()->getContent(), true);
         return $response['id'];
     }
