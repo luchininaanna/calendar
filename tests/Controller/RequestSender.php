@@ -69,4 +69,37 @@ class RequestSender
             json_encode($meetingParticipant)
         );
     }
+
+    public function getAllMeetingByOrganizer(KernelBrowser $client, string $organizerId): string
+    {
+        $client->request(
+            'GET',
+            '/get/meetingsWithOrganizer',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode([
+                "loggedUserId" => $organizerId,
+            ])
+        );
+
+        return $client->getResponse()->getContent();
+    }
+
+    public function getAllMeetingParticipantByOrganizer(KernelBrowser $client, string $organizerId, string $meetingId): string
+    {
+        $client->request(
+            'GET',
+            '/get/participantsWithOrganizer',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode([
+                "loggedUserId" => $organizerId,
+	            "meetingId" => $meetingId
+            ])
+        );
+
+        return $client->getResponse()->getContent();
+    }
 }
