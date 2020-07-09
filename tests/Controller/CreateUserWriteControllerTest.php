@@ -21,13 +21,11 @@ class CreateUserWriteControllerTest extends WebTestCase
     public function testCreateUniqueUser(): void
     {
         $client = static::createClient();
-        $this->sendRequest($client, $this->userGenerator->createRandomJsonUser());
-        $responseContent = $client->getResponse()->getContent();
+        $this->sendCreateUserRequest($client, $this->userGenerator->createRandomJsonUser());
 
-        $statusCode = $client->getResponse()->getStatusCode();
-        $this->assertEquals(200, $statusCode);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $response = json_decode($responseContent, true);
+        $response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('User created', $response['result']);
         $this->assertArrayHasKey('id', $response);
     }
@@ -37,16 +35,13 @@ class CreateUserWriteControllerTest extends WebTestCase
         $client = static::createClient();
         $user = $this->userGenerator->createRandomJsonUser();
 
-        $this->sendRequest($client, $user);
-        $statusCode = $client->getResponse()->getStatusCode();
-        $this->assertEquals(200, $statusCode);
+        $this->sendCreateUserRequest($client, $user);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $this->sendRequest($client, $user);
-        $statusCode = $client->getResponse()->getStatusCode();
-        $this->assertEquals(400, $statusCode);
+        $this->sendCreateUserRequest($client, $user);
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
 
-        $responseContent = $client->getResponse()->getContent();
-        $response = json_decode($responseContent, true);
+        $response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('User already exist', $response['result']);
     }
 
@@ -54,16 +49,14 @@ class CreateUserWriteControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $this->sendRequest($client, $this->userGenerator->createJsonUserWithEmptyFields());
-        $statusCode = $client->getResponse()->getStatusCode();
-        $this->assertEquals(400, $statusCode);
+        $this->sendCreateUserRequest($client, $this->userGenerator->createJsonUserWithEmptyFields());
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
 
-        $responseContent = $client->getResponse()->getContent();
-        $response = json_decode($responseContent, true);
+        $response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('Empty request parameters', $response['result']);
     }
 
-    private function sendRequest(KernelBrowser $client, array $user): void
+    private function sendCreateUserRequest(KernelBrowser $client, array $user): void
     {
         $client->request(
             'POST',
