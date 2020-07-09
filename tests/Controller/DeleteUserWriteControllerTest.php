@@ -11,20 +11,22 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class DeleteUserWriteControllerTest extends WebTestCase
 {
     private UserGenerator $userGenerator;
+    private RequestSender $requestSender;
 
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
         $this->userGenerator = new UserGenerator();
+        $this->requestSender = new RequestSender();
     }
 
     public function testDeleteUser(): void
     {
         $client = static::createClient();
-        $this->sendCreateUserRequest($client, $this->userGenerator->createRandomJsonUser());
+        $this->requestSender->sendCreateUserRequest($client, $this->userGenerator->createUser());
 
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->sendDeleteUserRequest($client, $response['id']);
+        $this->requestSender->sendDeleteUserRequest($client, $response['id']);
 
         $statusCode = $client->getResponse()->getStatusCode();
         $this->assertEquals(200, $statusCode);
@@ -36,7 +38,7 @@ class DeleteUserWriteControllerTest extends WebTestCase
     public function testDeleteNotExistUser(): void
     {
         $client = static::createClient();
-        $this->sendDeleteUserRequest($client, "0da175e1-11fd-4bed-b3f1-40deaffb43c1");
+        $this->requestSender->sendDeleteUserRequest($client, "0da175e1-11fd-4bed-b3f1-40deaffb43c1");
 
         $statusCode = $client->getResponse()->getStatusCode();
         $this->assertEquals(400, $statusCode);
@@ -45,29 +47,9 @@ class DeleteUserWriteControllerTest extends WebTestCase
         $this->assertEquals('User is not exist', $response['result']);
     }
 
-    private function sendCreateUserRequest(KernelBrowser $client, array $user): void
+    public function testDeleteOrganizerMeetingUser(): void
     {
-        $client->request(
-            'POST',
-            '/user/create',
-            [],
-            [],
-            ['CONTENT_TYPE' => 'application/json'],
-            json_encode($user)
-        );
-    }
-
-    private function sendDeleteUserRequest(KernelBrowser $client, string $userId): void
-    {
-        $client->request(
-            'POST',
-            '/user/delete',
-            [],
-            [],
-            ['CONTENT_TYPE' => 'application/json'],
-            json_encode([
-                "userId" => $userId,
-            ])
-        );
+        //проверка удаления митинга
+        //проверка удаления записей на митинг
     }
 }

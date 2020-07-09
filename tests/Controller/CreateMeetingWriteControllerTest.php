@@ -4,12 +4,15 @@
 namespace App\Tests\Controller;
 
 
+use App\Kernel;
+use App\Tests\Controller\Generators\MeetingGenerator;
 use App\Tests\Controller\Generators\UserGenerator;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class CreateUserWriteControllerTest extends WebTestCase
+class CreateMeetingWriteControllerTest extends WebTestCase
 {
+    private MeetingGenerator $meetingGenerator;
     private UserGenerator $userGenerator;
     private RequestSender $requestSender;
 
@@ -17,41 +20,40 @@ class CreateUserWriteControllerTest extends WebTestCase
     {
         parent::__construct($name, $data, $dataName);
         $this->userGenerator = new UserGenerator();
+        $this->meetingGenerator = new MeetingGenerator();
         $this->requestSender = new RequestSender();
     }
 
-    public function testCreateUniqueUser(): void
+    public function testCreateMeeting(): void
     {
         $client = static::createClient();
-        $this->requestSender->sendCreateUserRequest($client, $this->userGenerator->createUser());
+        $userId = $this->getUserId($client);
+
+        $meeting = $this->meetingGenerator->createMeeting($userId);
+        $this->requestSender->sendCreateMeetingRequest($client, $meeting);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('User created', $response['result']);
+        $this->assertEquals('Meeting created', $response['result']);
         $this->assertArrayHasKey('id', $response);
     }
 
-    public function testCreateNotUniqueUser(): void
+    public function testCreateMeetingWithNotExistOrganizer(): void
     {
         $client = static::createClient();
-        $user = $this->userGenerator->createUser();
-        $this->requestSender->sendCreateUserRequest($client, $user);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $this->requestSender->sendCreateUserRequest($client, $user);
+        $meeting = $this->meetingGenerator->createMeeting("0da175e1-11fd-4bed-b3f1-40deaffb43c1");
+        $this->requestSender->sendCreateMeetingRequest($client, $meeting);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
 
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('User already exist', $response['result']);
+        $this->assertEquals('Meeting organizer is not exist', $response['result']);
     }
 
-    public function testCreateUserWithEmptyFields(): void
+    private function getUserId(KernelBrowser $client): string
     {
-        $client = static::createClient();
-        $this->requestSender->sendCreateUserRequest($client, $this->userGenerator->createUserWithEmptyFields());
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
-
+        $this->requestSender->sendCreateUserRequest($client, $this->userGenerator->createUser());
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('Empty request parameters', $response['result']);
+        return $response['id'];
     }
 }

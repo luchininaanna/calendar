@@ -6,34 +6,27 @@ namespace App\Tests\Controller\Generators;
 
 class UserGenerator
 {
-    public function createRandomJsonUser(): array
+    public function createUser(): array
     {
         $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz';
         $login = substr(str_shuffle($permitted_chars), 0, 10);
-        $name = substr(str_shuffle($permitted_chars), 0, 5);
-        $randomUser =
-            [
-                "login" => $login,
-                "name" => $name,
-                "surname" => "surname",
-                "patronymic" => "partonymic",
-            ];
-
-        return $randomUser;
+        return [
+            "login" => $login,
+            "name" => "name",
+            "surname" => "surname",
+            "patronymic" => "partonymic",
+        ];
     }
 
-    public function createJsonUserWithEmptyFields(): array
+    public function createUserWithEmptyFields(): array
     {
         $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz';
         $login = substr(str_shuffle($permitted_chars), 0, 10);
-        $randomUser =
-            [
-                "login" => $login,
-                "name" => "",
-                "surname" => "",
-                "patronymic" => "",
-            ];
-
-        return $randomUser;
+        return [
+            "login" => $login,
+            "name" => "",
+            "surname" => "",
+            "patronymic" => "",
+        ];
     }
 }

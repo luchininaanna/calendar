@@ -101,6 +101,10 @@ class MeetingService
         if ($this->meetingRepository->isUserIsMeetingOrganizer($meetingParticipant->getUserUuid(),
             $meetingParticipant->getMeetingUuid()))
         {
+            //удаление приглашений на митинг
+            $this->meetingParticipantRepository->deleteInvitationByMeetingId($meetingParticipant->getMeetingUuid());
+
+            //удаление митинга
             $this->meetingRepository->deleteMeetingById($meetingParticipant->getMeetingUuid());
         }
     }
