@@ -9,12 +9,12 @@ create_meeting:
     methods: POST
 
 invite_user_to_meeting:
-    path: /meeting/invite
+    path: /meeting/participant/invite
     controller: App\Controller\WriteController::inviteUserToMeeting
     methods: POST
 
 delete_user_from_meeting:
-    path: /user/deleteFromMeeting
+    path: /meeting/participant/delete
     controller: App\Controller\WriteController::deleteUserFromMeeting
     methods: POST
 

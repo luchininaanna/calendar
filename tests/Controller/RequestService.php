@@ -50,7 +50,7 @@ class RequestService
     {
         $client->request(
             'POST',
-            '/meeting/invite',
+            '/meeting/participant/invite',
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
@@ -62,7 +62,7 @@ class RequestService
     {
         $client->request(
             'POST',
-            '/user/deleteFromMeeting',
+            '/meeting/participant/delete',
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
