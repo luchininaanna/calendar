@@ -1,12 +1,12 @@
 <?php
 
 
-namespace App\Tests\Controller\Generators;
+namespace App\Tests\Controller\JsonBuilder;
 
 
-class MeetingGenerator
+class MeetingJsonBuilder
 {
-    public function createMeetingModel(string $userId): array
+    public function createMeetingJson(string $userId): array
     {
         return [
             "loggedUserId" => $userId,

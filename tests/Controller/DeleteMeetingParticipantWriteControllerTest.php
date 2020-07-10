@@ -9,7 +9,7 @@ use App\Tests\Controller\JsonBuilder\MeetingParticipantJsonBuilder;
 use App\Tests\Controller\JsonBuilder\UserJsonBuilder;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class DeleteMeetingWriteControllerTest  extends WebTestCase
+class DeleteMeetingParticipantWriteControllerTest extends WebTestCase
 {
     private EntityCreator $entityCreator;
     private RequestService $requestService;
@@ -39,15 +39,31 @@ class DeleteMeetingWriteControllerTest  extends WebTestCase
 
         $this->requestService->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
 
-        $this->assertEquals(true, $this->confirmExistence->isMeetingExist($client, $meetingId, $organizerId));
         $this->assertEquals(true, $this->confirmExistence->isMeetingParticipantExist($client, $meetingId, $organizerId, $userId));
 
-        $this->requestService->sendDeleteMeeting($client, $organizerId, $meetingId);
+        $this->requestService->sendDeleteMeetingParticipantRequest($client, $meetingParticipant);
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('Meeting deleted', $response['result']);
-        $this->assertEquals(false, $this->confirmExistence->isMeetingExist($client, $meetingId, $organizerId));
+        $this->assertEquals('User deleted from meeting', $response['result']);
+
         $this->assertEquals(false, $this->confirmExistence->isMeetingParticipantExist($client, $meetingId, $organizerId, $userId));
+    }
+
+    public function testDeleteOrganizerFromMeeting(): void
+    {
+        $client = static::createClient();
+        $organizerId = $this->entityCreator->getUserId($client);
+        $meetingId = $this->entityCreator->getMeetingId($client, $organizerId);
+        $meetingParticipant = $this->meetingParticipantJsonBuilder->createMeetingParticipantJson($organizerId, $meetingId, $organizerId);
+
+        $this->requestService->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
+        $this->requestService->sendDeleteMeetingParticipantRequest($client, $meetingParticipant);
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('User deleted from meeting', $response['result']);
+        $this->assertEquals(false, $this->confirmExistence->isMeetingExist($client, $meetingId, $organizerId));
+        $this->assertEquals(false, $this->confirmExistence->isMeetingHasParticipants($client, $meetingId, $organizerId));
     }
 }

@@ -20,34 +20,35 @@ class ConfirmExistence
         $meetingsJson = $this->requestService->getAllMeetingByOrganizer($client, $organizerId);
         $meetingsArray = json_decode($meetingsJson, true);
 
-        $isExist = false;
         foreach ($meetingsArray as $meeting)
         {
             if ($meeting['uuid'] === $meetingId)
             {
-                $isExist = true;
+                return true;
             }
         }
 
-        return $isExist;
+        return false;
     }
 
-    public function isMeetingParticipantExist(KernelBrowser $client, string $meetingId,
-                                               string $organizerId, string $userId): bool
-    {
+    public function isMeetingParticipantExist(
+        KernelBrowser $client,
+        string $meetingId,
+        string $organizerId,
+        string $userId
+    ): bool {
         $meetingParticipantJson = $this->requestService->getAllMeetingParticipantByOrganizer($client, $organizerId, $meetingId);
         $meetingParticipantArray = json_decode($meetingParticipantJson, true);
 
-        $isExist = false;
         foreach ($meetingParticipantArray as $meetingParticipant)
         {
             if ($meetingParticipant['uuid'] === $userId)
             {
-                $isExist = true;
+                return true;
             }
         }
 
-        return $isExist;
+        return false;
     }
 
     public function isMeetingHasParticipants(KernelBrowser $client, string $meetingId, string $organizerId): bool
@@ -63,15 +64,14 @@ class ConfirmExistence
         $userJson = $this->requestService->getAllUser($client);
         $userArray = json_decode($userJson, true);
 
-        $isExist = false;
         foreach ($userArray as $user)
         {
             if ($user['uuid'] === $userId)
             {
-                $isExist = true;
+                return true;
             }
         }
 
-        return $isExist;
+        return false;
     }
 }
