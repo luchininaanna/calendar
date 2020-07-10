@@ -7,4 +7,4 @@
 ![Database architecture](/docs/img/database.jpg)  
 
 ## Postman collection
-![Postman collection](/docs/Calendar.postman_collection.json)  
+[Postman collection](/docs/Calendar.postman_collection.json)  
