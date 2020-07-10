@@ -1,0 +1,293 @@
+{
+	"info": {
+		"_postman_id": "2d9b5d5b-6efa-4673-8bc6-527197c6ee7a",
+		"name": "Calendar",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8000/user/create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"login\": \"micciDisnayLand\",\n\t\"name\": \"Racc\",\n\t\"surname\": \"Oon\",\n\t\"patronymic\": \"RO\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/user/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"user",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/meeting/create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"organizerId\": \"11349d3e-40a2-483b-80aa-16c851ec4353\",\n\t\"name\": \"IvanAndAnna\",\n\t\"location\": \"Chapaeva\",\n\t\"startTime\": \"2019-08-06 18:30:30\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/meeting/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"meeting",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/meeting/participant/invite",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"organizerId\": \"3fe92666-20e0-4ef4-a7d5-8dede237e734\",\n\t\"meetingId\": \"9113fb05-f052-427c-a28a-13ca45c72dbe\",\n\t\"participantId\": \"186fcda1-e695-4db1-bfd6-b054cafeb8a0\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/meeting/invite",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"meeting",
+						"invite"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/user/deleteFromMeeting",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"organizerId\": \"3fe92666-20e0-4ef4-a7d5-8dede237e734\",\n\t\"meetingId\": \"9113fb05-f052-427c-a28a-13ca45c72dbe\",\n\t\"participantId\": \"186fcda1-e695-4db1-bfd6-b054cafeb8a0\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/user/deleteFromMeeting",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"user",
+						"deleteFromMeeting"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/meeting/delete",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"loggedUserId\": \"5de0256e-02c2-4a66-b56e-f318d944b494\",\n\t\"meetingId\": \"da86db71-416a-40a9-8d60-46eb298b9ef6\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/meeting/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"meeting",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/user/delete",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId\": \"11349d3e-40a2-483b-80aa-16c851ec4353\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/user/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"user",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/get/allUsers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/get/allUsers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"get",
+						"allUsers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/get/meetingsWithParticipant",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"loggedUserId\": \"100f47a5-0767-4d9b-9b5b-5a18a30d51b9\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/get/meetingsWithParticipant",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"get",
+						"meetingsWithParticipant"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/get/meetingsWithOrganizer",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"loggedUserId\": \"100f47a5-0767-4d9b-9b5b-5a18a30d51b9\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/get/meetingsWithOrganizer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"get",
+						"meetingsWithOrganizer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/get/participantsWithOrganizer",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"loggedUserId\": \"100f47a5-0767-4d9b-9b5b-5a18a30d51b9\",\n\t\"meetingId\": \"22b6da87-0386-49ed-a054-e987ef1c5e9a\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/get/participantsWithOrganizer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"get",
+						"participantsWithOrganizer"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
