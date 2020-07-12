@@ -6,14 +6,14 @@ namespace App\Calendar\Api\Input;
 
 class CreateInvitationInput
 {
-    private string $loggedUserId;
     private string $meetingId;
+    private string $loggedUserId;
     private string $participantId;
 
     public function __construct(string $loggedUserId, string $meetingId, string $participantId)
     {
-        $this->loggedUserId = $loggedUserId;
         $this->meetingId = $meetingId;
+        $this->loggedUserId = $loggedUserId;
         $this->participantId = $participantId;
     }
 
