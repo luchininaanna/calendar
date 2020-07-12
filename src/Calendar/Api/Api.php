@@ -13,13 +13,13 @@ use App\Calendar\Api\Input\GetParticipantInput;
 use App\Calendar\Api\Output\ParticipantOutput;
 use App\Calendar\Api\Output\MeetingOutput;
 use App\Calendar\Api\Output\UserOutput;
-use App\Calendar\App\Command\CreateInvitationCommand;
+use App\Calendar\App\Command\InviteMeetingParticipantCommand;
 use App\Calendar\App\Command\CreateMeetingCommand;
 use App\Calendar\App\Command\CreateUserCommand;
 use App\Calendar\App\Command\DeleteMeetingCommand;
 use App\Calendar\App\Command\DeleteUserCommand;
 use App\Calendar\App\Command\DeleteUserFromMeetingCommand;
-use App\Calendar\App\Command\Handler\CreateInvitationCommandHandler;
+use App\Calendar\App\Command\Handler\InviteMeetingParticipantCommandHandler;
 use App\Calendar\App\Command\Handler\CreateMeetingCommandHandler;
 use App\Calendar\App\Command\Handler\CreateUserCommandHandler;
 use App\Calendar\App\Command\Handler\DeleteMeetingCommandHandler;
@@ -39,7 +39,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
 {
     private CreateUserCommandHandler $createUserCommandHandler;
     private CreateMeetingCommandHandler $createMeetingCommandHandler;
-    private CreateInvitationCommandHandler $createInvitationCommandHandler;
+    private InviteMeetingParticipantCommandHandler $inviteMeetingParticipantHandler;
     private DeleteUserFromMeetingCommandHandler $deleteUserFromMeetingCommandHandler;
     private DeleteMeetingCommandHandler $deleteMeetingCommandHandler;
     private DeleteUserCommandHandler $deleteUserCommandHandler;
@@ -48,7 +48,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
     public function __construct(
         CreateUserCommandHandler $createUserCommandHandler,
         CreateMeetingCommandHandler $createMeetingCommandHandler,
-        CreateInvitationCommandHandler $createInvitationCommandHandler,
+        InviteMeetingParticipantCommandHandler $inviteMeetingParticipantHandler,
         DeleteUserFromMeetingCommandHandler $deleteUserFromMeetingCommandHandler,
         DeleteMeetingCommandHandler $deleteMeetingCommandHandler,
         DeleteUserCommandHandler $deleteUserCommandHandler,
@@ -56,7 +56,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
     ) {
         $this->createUserCommandHandler = $createUserCommandHandler;
         $this->createMeetingCommandHandler = $createMeetingCommandHandler;
-        $this->createInvitationCommandHandler = $createInvitationCommandHandler;
+        $this->inviteMeetingParticipantHandler = $inviteMeetingParticipantHandler;
         $this->deleteUserFromMeetingCommandHandler = $deleteUserFromMeetingCommandHandler;
         $this->deleteMeetingCommandHandler = $deleteMeetingCommandHandler;
         $this->deleteUserCommandHandler = $deleteUserCommandHandler;
@@ -101,9 +101,9 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         }
     }
 
-    public function createInvitation(CreateInvitationInput $input): void
+    public function inviteMeetingParticipant(CreateInvitationInput $input): void
     {
-        $command = new CreateInvitationCommand(
+        $command = new InviteMeetingParticipantCommand(
             $input->getLoggedUserId(),
             $input->getMeetingId(),
             $input->getParticipantId()
@@ -111,7 +111,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
 
         try
         {
-            $this->createInvitationCommandHandler->handle($command);
+            $this->inviteMeetingParticipantHandler->handle($command);
         }
         catch (MeetingParticipantAmountExceedsLimitException $e)
         {

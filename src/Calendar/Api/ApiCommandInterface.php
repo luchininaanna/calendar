@@ -42,7 +42,7 @@ interface ApiCommandInterface
      * @throws UserIsAlreadyMeetingParticipantException
      * @return void
      */
-    public function createInvitation(CreateInvitationInput $input): void;
+    public function inviteMeetingParticipant(CreateInvitationInput $input): void;
 
 
     /**

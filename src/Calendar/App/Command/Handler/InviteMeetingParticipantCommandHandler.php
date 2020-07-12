@@ -4,7 +4,7 @@
 namespace App\Calendar\App\Command\Handler;
 
 
-use App\Calendar\App\Command\CreateInvitationCommand;
+use App\Calendar\App\Command\InviteMeetingParticipantCommand;
 use App\Calendar\App\Synchronization\SynchronizationInterface;
 use App\Calendar\App\Uuid\UuidProviderInterface;
 use App\Calendar\Domain\Exception\MeetingParticipantAmountExceedsLimitException;
@@ -13,7 +13,7 @@ use App\Calendar\Domain\Exception\UserIsNotMeetingOrganizerException;
 use App\Calendar\Domain\Model\MeetingParticipant;
 use App\Calendar\Domain\Service\MeetingService;
 
-class CreateInvitationCommandHandler
+class InviteMeetingParticipantCommandHandler
 {
     private UuidProviderInterface $uuidProvider;
     private MeetingService $meetingService;
@@ -30,13 +30,13 @@ class CreateInvitationCommandHandler
     }
 
     /**
-     * @param CreateInvitationCommand $command
+     * @param InviteMeetingParticipantCommand $command
      * @return string
      * @throws MeetingParticipantAmountExceedsLimitException
      * @throws UserIsNotMeetingOrganizerException
      * @throws UserIsAlreadyMeetingParticipantException
      */
-    public function handle(CreateInvitationCommand $command): void
+    public function handle(InviteMeetingParticipantCommand $command): void
     {
         $this->synchronization->transaction(function() use ($command) {
             $meetingParticipant = new MeetingParticipant(

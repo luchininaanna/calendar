@@ -69,7 +69,7 @@ class WriteController extends AbstractController
         }
     }
 
-    public function inviteUserToMeeting(Request $request): Response
+    public function inviteMeetingParticipant(Request $request): Response
     {
         try
         {
@@ -79,7 +79,7 @@ class WriteController extends AbstractController
                 return $this->json(['result' => 'Empty request parameters'], 400);
             }
 
-            $this->api->createInvitation($inviteInput);
+            $this->api->inviteMeetingParticipant($inviteInput);
             return $this->json(['result' => 'Invitation created']);
         }
         catch (UserIsNotMeetingOrganizerException $e)
@@ -96,7 +96,7 @@ class WriteController extends AbstractController
         }
     }
 
-    public function deleteUserFromMeeting(Request $request): Response
+    public function meetingParticipantDelete(Request $request): Response
     {
         try
         {

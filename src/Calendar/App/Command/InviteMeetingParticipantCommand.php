@@ -4,7 +4,7 @@
 namespace App\Calendar\App\Command;
 
 
-class CreateInvitationCommand
+class InviteMeetingParticipantCommand
 {
     private string $loggedUserId;
     private string $meetingId;
