@@ -4,7 +4,7 @@
 namespace App\Calendar\App\Command\Handler;
 
 
-use App\Calendar\App\Command\DeleteUserFromMeetingCommand;
+use App\Calendar\App\Command\DeleteMeetingParticipantCommand;
 use App\Calendar\App\Synchronization\SynchronizationInterface;
 use App\Calendar\App\Uuid\UuidProviderInterface;
 use App\Calendar\Domain\Exception\UserIsNotMeetingParticipantException;
@@ -12,7 +12,7 @@ use App\Calendar\Domain\Exception\UserIsNotMeetingOrganizerException;
 use App\Calendar\Domain\Model\MeetingParticipant;
 use App\Calendar\Domain\Service\MeetingService;
 
-class DeleteUserFromMeetingCommandHandler
+class DeleteMeetingParticipantCommandHandler
 {
     private UuidProviderInterface $uuidProvider;
     private MeetingService $meetingService;
@@ -29,12 +29,12 @@ class DeleteUserFromMeetingCommandHandler
     }
 
     /**
-     * @param DeleteUserFromMeetingCommand $command
+     * @param DeleteMeetingParticipantCommand $command
      * @return void
      * @throws UserIsNotMeetingOrganizerException
      * @throws UserIsNotMeetingParticipantException
      */
-    public function handle(DeleteUserFromMeetingCommand $command): void
+    public function handle(DeleteMeetingParticipantCommand $command): void
     {
         $this->synchronization->transaction(function() use ($command) {
             $meetingParticipant = new MeetingParticipant(
@@ -42,7 +42,7 @@ class DeleteUserFromMeetingCommandHandler
                 $command->getParticipantId()
             );
 
-            $this->meetingService->deleteUserFromMeeting($command->getLoggedUserId(), $meetingParticipant);
+            $this->meetingService->deleteMeetingParticipant($command->getLoggedUserId(), $meetingParticipant);
         });
     }
 }

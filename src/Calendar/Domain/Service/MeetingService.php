@@ -81,7 +81,7 @@ class MeetingService
      * @throws UserIsNotMeetingOrganizerException
      * @throws UserIsNotMeetingParticipantException
      */
-    public function deleteUserFromMeeting(string $loggedUserUuid,
+    public function deleteMeetingParticipant(string $loggedUserUuid,
                                           MeetingParticipant $meetingParticipant):void
     {
         if (!$this->meetingRepository->isUserIsMeetingOrganizer($loggedUserUuid,

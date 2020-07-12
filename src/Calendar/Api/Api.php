@@ -7,7 +7,7 @@ use App\Calendar\Api\Input\CreateInvitationInput;
 use App\Calendar\Api\Input\CreateMeetingInput;
 use App\Calendar\Api\Input\CreateUserInput;
 use App\Calendar\Api\Input\DeleteMeetingInput;
-use App\Calendar\Api\Input\DeleteUserFromMeetingInput;
+use App\Calendar\Api\Input\DeleteMeetingParticipantInput;
 use App\Calendar\Api\Input\DeleteUserInput;
 use App\Calendar\Api\Input\GetParticipantInput;
 use App\Calendar\Api\Output\ParticipantOutput;
@@ -18,13 +18,13 @@ use App\Calendar\App\Command\CreateMeetingCommand;
 use App\Calendar\App\Command\CreateUserCommand;
 use App\Calendar\App\Command\DeleteMeetingCommand;
 use App\Calendar\App\Command\DeleteUserCommand;
-use App\Calendar\App\Command\DeleteUserFromMeetingCommand;
+use App\Calendar\App\Command\DeleteMeetingParticipantCommand;
 use App\Calendar\App\Command\Handler\InviteMeetingParticipantCommandHandler;
 use App\Calendar\App\Command\Handler\CreateMeetingCommandHandler;
 use App\Calendar\App\Command\Handler\CreateUserCommandHandler;
 use App\Calendar\App\Command\Handler\DeleteMeetingCommandHandler;
 use App\Calendar\App\Command\Handler\DeleteUserCommandHandler;
-use App\Calendar\App\Command\Handler\DeleteUserFromMeetingCommandHandler;
+use App\Calendar\App\Command\Handler\DeleteMeetingParticipantCommandHandler;
 use App\Calendar\App\Query\UserQueryServiceInterface;
 use App\Calendar\Domain\Exception\MeetingIsNotExistException;
 use App\Calendar\Domain\Exception\MeetingOrganizerIsNotExistException;
@@ -40,7 +40,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
     private CreateUserCommandHandler $createUserCommandHandler;
     private CreateMeetingCommandHandler $createMeetingCommandHandler;
     private InviteMeetingParticipantCommandHandler $inviteMeetingParticipantHandler;
-    private DeleteUserFromMeetingCommandHandler $deleteUserFromMeetingCommandHandler;
+    private DeleteMeetingParticipantCommandHandler $deleteMeetingParticipantCommandHandler;
     private DeleteMeetingCommandHandler $deleteMeetingCommandHandler;
     private DeleteUserCommandHandler $deleteUserCommandHandler;
     private UserQueryServiceInterface $userQueryService;
@@ -49,7 +49,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         CreateUserCommandHandler $createUserCommandHandler,
         CreateMeetingCommandHandler $createMeetingCommandHandler,
         InviteMeetingParticipantCommandHandler $inviteMeetingParticipantHandler,
-        DeleteUserFromMeetingCommandHandler $deleteUserFromMeetingCommandHandler,
+        DeleteMeetingParticipantCommandHandler $deleteMeetingParticipantCommandHandler,
         DeleteMeetingCommandHandler $deleteMeetingCommandHandler,
         DeleteUserCommandHandler $deleteUserCommandHandler,
         UserQueryServiceInterface $userQueryService
@@ -57,7 +57,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         $this->createUserCommandHandler = $createUserCommandHandler;
         $this->createMeetingCommandHandler = $createMeetingCommandHandler;
         $this->inviteMeetingParticipantHandler = $inviteMeetingParticipantHandler;
-        $this->deleteUserFromMeetingCommandHandler = $deleteUserFromMeetingCommandHandler;
+        $this->deleteMeetingParticipantCommandHandler = $deleteMeetingParticipantCommandHandler;
         $this->deleteMeetingCommandHandler = $deleteMeetingCommandHandler;
         $this->deleteUserCommandHandler = $deleteUserCommandHandler;
         $this->userQueryService = $userQueryService;
@@ -127,9 +127,9 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         }
     }
 
-    public function deleteUserFromMeeting(DeleteUserFromMeetingInput $input): void
+    public function deleteMeetingParticipant(DeleteMeetingParticipantInput $input): void
     {
-        $command = new DeleteUserFromMeetingCommand(
+        $command = new DeleteMeetingParticipantCommand(
             $input->getLoggedUserId(),
             $input->getMeetingId(),
             $input->getParticipantId()
@@ -137,7 +137,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
 
         try
         {
-            $this->deleteUserFromMeetingCommandHandler->handle($command);
+            $this->deleteMeetingParticipantCommandHandler->handle($command);
         }
         catch (UserIsNotMeetingOrganizerException $e)
         {

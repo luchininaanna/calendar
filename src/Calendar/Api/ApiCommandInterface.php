@@ -10,7 +10,7 @@ use App\Calendar\Api\Input\CreateInvitationInput;
 use App\Calendar\Api\Input\CreateMeetingInput;
 use App\Calendar\Api\Input\CreateUserInput;
 use App\Calendar\Api\Input\DeleteMeetingInput;
-use App\Calendar\Api\Input\DeleteUserFromMeetingInput;
+use App\Calendar\Api\Input\DeleteMeetingParticipantInput;
 use App\Calendar\Api\Exception\MeetingOrganizerIsNotExistException;
 use App\Calendar\Api\Exception\MeetingParticipantAmountExceedsLimitException;
 use App\Calendar\Api\Exception\UserIsAlreadyMeetingParticipantException;
@@ -46,10 +46,10 @@ interface ApiCommandInterface
 
 
     /**
-     * @param DeleteUserFromMeetingInput $input
+     * @param DeleteMeetingParticipantInput $input
      * @return void
      */
-    public function deleteUserFromMeeting(DeleteUserFromMeetingInput $input): void;
+    public function deleteMeetingParticipant(DeleteMeetingParticipantInput $input): void;
 
     /**
      * @param DeleteMeetingInput $input

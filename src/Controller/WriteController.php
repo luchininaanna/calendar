@@ -16,7 +16,7 @@ use App\Controller\Mapper\CreateInviteRequestMapper;
 use App\Controller\Mapper\CreateMeetingRequestMapper;
 use App\Controller\Mapper\CreateUserRequestMapper;
 use App\Controller\Mapper\DeleteMeetingRequestMapper;
-use App\Controller\Mapper\DeleteUserFromMeetingRequestMapper;
+use App\Controller\Mapper\DeleteMeetingParticipantRequestMapper;
 use App\Controller\Mapper\DeleteUserRequestMapper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -96,17 +96,17 @@ class WriteController extends AbstractController
         }
     }
 
-    public function meetingParticipantDelete(Request $request): Response
+    public function deleteMeetingParticipant(Request $request): Response
     {
         try
         {
-            $deleteFromMeetingInput = DeleteUserFromMeetingRequestMapper::buildInput($request->getContent());
-            if ($deleteFromMeetingInput === null)
+            $deleteMeetingParticipantInput = DeleteMeetingParticipantRequestMapper::buildInput($request->getContent());
+            if ($deleteMeetingParticipantInput === null)
             {
                 return $this->json(['result' => 'Empty request parameters'], 400);
             }
 
-            $this->api->deleteUserFromMeeting($deleteFromMeetingInput);
+            $this->api->deleteMeetingParticipant($deleteMeetingParticipantInput);
             return $this->json(['result' => 'User deleted from meeting']);
         }
         catch (UserIsNotMeetingOrganizerException $e)

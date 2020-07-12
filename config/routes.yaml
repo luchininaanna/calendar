@@ -15,7 +15,7 @@ invite_user_to_meeting:
 
 delete_user_from_meeting:
     path: /meeting/participant/delete
-    controller: App\Controller\WriteController::meetingParticipantDelete
+    controller: App\Controller\WriteController::deleteMeetingParticipant
     methods: POST
 
 delete_meeting:

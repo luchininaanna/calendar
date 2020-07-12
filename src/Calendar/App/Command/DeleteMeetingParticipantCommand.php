@@ -4,7 +4,7 @@
 namespace App\Calendar\App\Command;
 
 
-class DeleteUserFromMeetingCommand
+class DeleteMeetingParticipantCommand
 {
     private string $loggedUserId;
     private string $meetingId;

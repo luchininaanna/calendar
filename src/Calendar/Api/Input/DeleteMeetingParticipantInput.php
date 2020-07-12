@@ -4,7 +4,7 @@
 namespace App\Calendar\Api\Input;
 
 
-class DeleteUserFromMeetingInput
+class DeleteMeetingParticipantInput
 {
     private string $loggedUserId;
     private string $meetingId;
