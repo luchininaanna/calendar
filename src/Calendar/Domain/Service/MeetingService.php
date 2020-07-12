@@ -102,10 +102,7 @@ class MeetingService
         if ($this->meetingRepository->isUserIsMeetingOrganizer($meetingParticipant->getUserUuid(),
             $meetingParticipant->getMeetingUuid()))
         {
-            //удаление приглашений на митинг
             $this->meetingParticipantRepository->deleteInvitationByMeetingId($meetingParticipant->getMeetingUuid());
-
-            //удаление митинга
             $this->meetingRepository->deleteMeetingById($meetingParticipant->getMeetingUuid());
         }
     }
@@ -129,19 +126,13 @@ class MeetingService
             throw new UserIsNotMeetingOrganizerException();
         }
 
-        //удаление приглашений на митинг
         $this->meetingParticipantRepository->deleteInvitationByMeetingId($meetingUuid);
-
-        //удаление митинга
         $this->meetingRepository->deleteMeetingById($meetingUuid);
     }
 
     public function deleteUserFromMeetings(string $userUuid): void
     {
-        //удаление приглашений пользователя на митинги
         $this->meetingParticipantRepository->deleteUserFromMeetings($userUuid);
-
-        //удаление митингов с пользователем в роли организатора
         $this->meetingRepository->deleteMeetingsByUserAsOrganizer($userUuid);
     }
 }

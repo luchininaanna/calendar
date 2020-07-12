@@ -41,10 +41,10 @@ class UserService
     }
 
     /**
-     * @param String $userUuid
+     * @param string $userUuid
      * @throws UserIsNotExistException
      */
-    public function deleteUser(String $userUuid): void
+    public function deleteUser(string $userUuid): void
     {
         if (!$this->userRepository->isUserExistById($userUuid))
         {

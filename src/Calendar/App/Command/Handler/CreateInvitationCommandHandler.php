@@ -5,6 +5,7 @@ namespace App\Calendar\App\Command\Handler;
 
 
 use App\Calendar\App\Command\CreateInvitationCommand;
+use App\Calendar\App\Synchronization\SynchronizationInterface;
 use App\Calendar\App\Uuid\UuidProviderInterface;
 use App\Calendar\Domain\Exception\MeetingParticipantAmountExceedsLimitException;
 use App\Calendar\Domain\Exception\UserIsAlreadyMeetingParticipantException;
@@ -16,11 +17,16 @@ class CreateInvitationCommandHandler
 {
     private UuidProviderInterface $uuidProvider;
     private MeetingService $meetingService;
+    private SynchronizationInterface $synchronization;
 
-    public function __construct(UuidProviderInterface $uuidProvider, MeetingService $meetingService)
-    {
+    public function __construct(
+        UuidProviderInterface $uuidProvider,
+        MeetingService $meetingService,
+        SynchronizationInterface $synchronization
+    ) {
         $this->uuidProvider = $uuidProvider;
         $this->meetingService = $meetingService;
+        $this->synchronization = $synchronization;
     }
 
     /**
@@ -32,11 +38,13 @@ class CreateInvitationCommandHandler
      */
     public function handle(CreateInvitationCommand $command): void
     {
-        $meetingParticipant = new MeetingParticipant(
-            $command->getMeetingId(),
-            $command->getParticipantId()
-        );
+        $this->synchronization->transaction(function() use ($command) {
+            $meetingParticipant = new MeetingParticipant(
+                $command->getMeetingId(),
+                $command->getParticipantId()
+            );
 
-        $this->meetingService->createMeetingParticipant($command->getLoggedUserId(), $meetingParticipant);
+            $this->meetingService->createMeetingParticipant($command->getLoggedUserId(), $meetingParticipant);
+        });
     }
 }
