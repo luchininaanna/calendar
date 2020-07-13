@@ -15,6 +15,7 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
     private RequestService $requestService;
     private UserJsonBuilder $userJsonBuilder;
     private MeetingJsonBuilder $meetingJsonBuilder;
+    private ResponseDescription $responseDescription;
     private MeetingParticipantJsonBuilder $meetingParticipantJsonBuilder;
 
     public function __construct($name = null, array $data = [], $dataName = '')
@@ -24,6 +25,7 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
         $this->requestService = new RequestService();
         $this->userJsonBuilder = new UserJsonBuilder();
         $this->meetingJsonBuilder = new MeetingJsonBuilder();
+        $this->responseDescription = new ResponseDescription();
         $this->meetingParticipantJsonBuilder = new MeetingParticipantJsonBuilder();
     }
 
@@ -33,11 +35,12 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
         $organizerId = $this->entityCreator->getUserId($client);
         $meetingId = $this->entityCreator->getMeetingId($client, $organizerId);
 
-        $meetingParticipant = $this->meetingParticipantJsonBuilder->createMeetingParticipantJson($organizerId, $meetingId, $organizerId);
+        $meetingParticipant = $this->meetingParticipantJsonBuilder->
+        createMeetingParticipantJson($organizerId, $meetingId, $organizerId);
         $this->requestService->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('Invitation created', $response['result']);
+        $this->assertEquals($this->responseDescription::INVITATION_CREATED, $response['result']);
     }
 
     public function testCreateMeetingParticipantForUser(): void
@@ -47,11 +50,12 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
         $userId = $this->entityCreator->getUserId($client);
         $meetingId = $this->entityCreator->getMeetingId($client, $organizerId);
 
-        $meetingParticipant = $this->meetingParticipantJsonBuilder->createMeetingParticipantJson($organizerId, $meetingId, $userId);
+        $meetingParticipant = $this->meetingParticipantJsonBuilder->
+        createMeetingParticipantJson($organizerId, $meetingId, $userId);
         $this->requestService->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('Invitation created', $response['result']);
+        $this->assertEquals($this->responseDescription::INVITATION_CREATED, $response['result']);
     }
 
     public function testCreateMeetingWithOverLimitAmountUser(): void
@@ -62,13 +66,14 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
 
         for ($i = 0; $i < 11; $i++) {
             $userId = $this->entityCreator->getUserId($client);
-            $meetingParticipant = $this->meetingParticipantJsonBuilder->createMeetingParticipantJson($organizerId, $meetingId, $userId);
+            $meetingParticipant = $this->meetingParticipantJsonBuilder->
+            createMeetingParticipantJson($organizerId, $meetingId, $userId);
             $this->requestService->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
         }
 
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('Meeting participant amount exceeds limit', $response['result']);
+        $this->assertEquals($this->responseDescription::MEETING_PARTICIPANT_AMOUNT_EXCEEDS_LIMIT, $response['result']);
     }
 
     public function testCreateMeetingParticipantTwice(): void
@@ -77,14 +82,15 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
         $organizerId = $this->entityCreator->getUserId($client);
         $userId = $this->entityCreator->getUserId($client);
         $meetingId = $this->entityCreator->getMeetingId($client, $organizerId);
-        $meetingParticipant = $this->meetingParticipantJsonBuilder->createMeetingParticipantJson($organizerId, $meetingId, $userId);
+        $meetingParticipant = $this->meetingParticipantJsonBuilder->
+        createMeetingParticipantJson($organizerId, $meetingId, $userId);
 
         $this->requestService->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
         $this->requestService->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
 
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('User ia already meeting participant', $response['result']);
+        $this->assertEquals($this->responseDescription::USER_IS_ALREADY_MEETING_PARTICIPANT, $response['result']);
     }
 
     public function testCreateMeetingParticipantWithNotOrganizer(): void
@@ -93,12 +99,13 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
         $organizerId = $this->entityCreator->getUserId($client);
         $userId = $this->entityCreator->getUserId($client);
         $meetingId = $this->entityCreator->getMeetingId($client, $organizerId);
-        $meetingParticipant = $this->meetingParticipantJsonBuilder->createMeetingParticipantJson($userId, $meetingId, $userId);
+        $meetingParticipant = $this->meetingParticipantJsonBuilder->
+        createMeetingParticipantJson($userId, $meetingId, $userId);
 
         $this->requestService->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
 
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('User is not meeting organizer', $response['result']);
+        $this->assertEquals($this->responseDescription::USER_IS_NOT_MEETING_ORGANIZER, $response['result']);
     }
 }

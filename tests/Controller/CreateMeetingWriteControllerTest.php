@@ -14,6 +14,7 @@ class CreateMeetingWriteControllerTest extends WebTestCase
     private RequestService $requestService;
     private UserJsonBuilder $userJsonBuilder;
     private MeetingJsonBuilder $meetingJsonBuilder;
+    private ResponseDescription $responseDescription;
 
     public function __construct($name = null, array $data = [], $dataName = '')
     {
@@ -22,6 +23,7 @@ class CreateMeetingWriteControllerTest extends WebTestCase
         $this->requestService = new RequestService();
         $this->userJsonBuilder = new UserJsonBuilder();
         $this->meetingJsonBuilder = new MeetingJsonBuilder();
+        $this->responseDescription = new ResponseDescription();
     }
 
     public function testCreateMeeting(): void
@@ -34,7 +36,7 @@ class CreateMeetingWriteControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('Meeting created', $response['result']);
+        $this->assertEquals($this->responseDescription::MEETING_CREATED, $response['result']);
         $this->assertArrayHasKey('id', $response);
     }
 
@@ -47,6 +49,6 @@ class CreateMeetingWriteControllerTest extends WebTestCase
 
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('Meeting organizer is not exist', $response['result']);
+        $this->assertEquals($this->responseDescription::MEETING_ORGANISER_IS_NOT_EXIST, $response['result']);
     }
 }

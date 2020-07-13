@@ -16,6 +16,7 @@ class DeleteMeetingParticipantWriteControllerTest extends WebTestCase
     private UserJsonBuilder $userJsonBuilder;
     private ConfirmExistence $confirmExistence;
     private MeetingJsonBuilder $meetingJsonBuilder;
+    private ResponseDescription $responseDescription;
     private MeetingParticipantJsonBuilder $meetingParticipantJsonBuilder;
 
     public function __construct($name = null, array $data = [], $dataName = '')
@@ -26,6 +27,7 @@ class DeleteMeetingParticipantWriteControllerTest extends WebTestCase
         $this->userJsonBuilder = new UserJsonBuilder();
         $this->confirmExistence = new ConfirmExistence();
         $this->meetingJsonBuilder = new MeetingJsonBuilder();
+        $this->responseDescription = new ResponseDescription();
         $this->meetingParticipantJsonBuilder = new MeetingParticipantJsonBuilder();
     }
 
@@ -35,19 +37,22 @@ class DeleteMeetingParticipantWriteControllerTest extends WebTestCase
         $organizerId = $this->entityCreator->getUserId($client);
         $userId = $this->entityCreator->getUserId($client);
         $meetingId = $this->entityCreator->getMeetingId($client, $organizerId);
-        $meetingParticipant = $this->meetingParticipantJsonBuilder->createMeetingParticipantJson($organizerId, $meetingId, $userId);
+        $meetingParticipant = $this->meetingParticipantJsonBuilder->
+        createMeetingParticipantJson($organizerId, $meetingId, $userId);
 
         $this->requestService->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
 
-        $this->assertEquals(true, $this->confirmExistence->isMeetingParticipantExist($client, $meetingId, $organizerId, $userId));
+        $this->assertEquals(true, $this->confirmExistence->
+        isMeetingParticipantExist($client, $meetingId, $organizerId, $userId));
 
         $this->requestService->sendDeleteMeetingParticipantRequest($client, $meetingParticipant);
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('User deleted from meeting', $response['result']);
+        $this->assertEquals($this->responseDescription::USER_DELETED_FROM_MEETING, $response['result']);
 
-        $this->assertEquals(false, $this->confirmExistence->isMeetingParticipantExist($client, $meetingId, $organizerId, $userId));
+        $this->assertEquals(false, $this->confirmExistence->
+        isMeetingParticipantExist($client, $meetingId, $organizerId, $userId));
     }
 
     public function testDeleteOrganizerFromMeeting(): void
@@ -55,14 +60,15 @@ class DeleteMeetingParticipantWriteControllerTest extends WebTestCase
         $client = static::createClient();
         $organizerId = $this->entityCreator->getUserId($client);
         $meetingId = $this->entityCreator->getMeetingId($client, $organizerId);
-        $meetingParticipant = $this->meetingParticipantJsonBuilder->createMeetingParticipantJson($organizerId, $meetingId, $organizerId);
+        $meetingParticipant = $this->meetingParticipantJsonBuilder->
+        createMeetingParticipantJson($organizerId, $meetingId, $organizerId);
 
         $this->requestService->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
         $this->requestService->sendDeleteMeetingParticipantRequest($client, $meetingParticipant);
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('User deleted from meeting', $response['result']);
+        $this->assertEquals($this->responseDescription::USER_DELETED_FROM_MEETING, $response['result']);
         $this->assertEquals(false, $this->confirmExistence->isMeetingExist($client, $meetingId, $organizerId));
         $this->assertEquals(false, $this->confirmExistence->isMeetingHasParticipants($client, $meetingId, $organizerId));
     }

@@ -89,7 +89,7 @@ class RequestService
     {
         $client->request(
             'GET',
-            '/get/meetingsWithOrganizer',
+            '/get/organizer/meetings',
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
@@ -105,7 +105,7 @@ class RequestService
     {
         $client->request(
             'GET',
-            '/get/participantsWithOrganizer',
+            '/get/participants/as/organizer',
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
@@ -122,7 +122,7 @@ class RequestService
     {
         $client->request(
             'GET',
-            '/get/allUsers',
+            '/get/users',
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
