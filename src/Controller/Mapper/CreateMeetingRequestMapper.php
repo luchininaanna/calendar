@@ -16,6 +16,7 @@ class CreateMeetingRequestMapper
             return null;
         }
 
-        return new CreateMeetingInput($json['loggedUserId'], $json['name'], $json['location'], new \DateTime($json['startTime']));
+        return new CreateMeetingInput($json['loggedUserId'], $json['name'], $json['location'],
+            new \DateTime($json['startTime']));
     }
 }

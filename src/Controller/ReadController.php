@@ -22,13 +22,14 @@ class ReadController extends AbstractController
         $this->api = $api;
     }
 
-    public function getAllUsers(Request $request): Response
+    public function getAllUsers(): Response
     {
         $json = [];
         foreach ($this->api->getAllUsers() as $user)
         {
             $json[] = $user->asAssoc();
         }
+
         return $this->json($json);
     }
 

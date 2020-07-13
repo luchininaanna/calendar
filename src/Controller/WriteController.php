@@ -101,6 +101,7 @@ class WriteController extends AbstractController
         try
         {
             $deleteMeetingParticipantInput = DeleteMeetingParticipantRequestMapper::buildInput($request->getContent());
+
             if ($deleteMeetingParticipantInput === null)
             {
                 return $this->json(['result' => 'Empty request parameters'], 400);
@@ -124,6 +125,7 @@ class WriteController extends AbstractController
         try
         {
             $deleteMeetingInput = DeleteMeetingRequestMapper::buildInput($request->getContent());
+
             if ($deleteMeetingInput === null)
             {
                 return $this->json(['result' => 'Empty request parameters'], 400);
@@ -147,6 +149,7 @@ class WriteController extends AbstractController
         try
         {
             $deleteUserInput = DeleteUserRequestMapper::buildInput($request->getContent());
+
             if ($deleteUserInput === null)
             {
                 return $this->json(['result' => 'Empty request parameters'], 400);
