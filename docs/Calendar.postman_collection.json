@@ -19,7 +19,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"login\": \"micciDisnayLand\",\n\t\"name\": \"Racc\",\n\t\"surname\": \"Oon\",\n\t\"patronymic\": \"RO\"\n}"
+					"raw": "{\n\t\"login\": \"Luchinina\",\n\t\"name\": \"Racc\",\n\t\"surname\": \"Oon\",\n\t\"patronymic\": \"RO\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8000/user/create",
@@ -99,7 +99,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:8000/user/deleteFromMeeting",
+			"name": "http://localhost:8000/meeting/participant/delete",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -185,7 +185,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:8000/get/allUsers",
+			"name": "http://localhost:8000/get/users",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -194,7 +194,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8000/get/allUsers",
+					"raw": "http://localhost:8000/get/users",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -202,14 +202,14 @@
 					"port": "8000",
 					"path": [
 						"get",
-						"allUsers"
+						"users"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "http://localhost:8000/get/meetingsWithParticipant",
+			"name": "http://localhost:8000/get/participnat/meetings",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -221,7 +221,7 @@
 					"raw": "{\n\t\"loggedUserId\": \"100f47a5-0767-4d9b-9b5b-5a18a30d51b9\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8000/get/meetingsWithParticipant",
+					"raw": "http://localhost:8000/get/participnat/meetings",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -229,14 +229,15 @@
 					"port": "8000",
 					"path": [
 						"get",
-						"meetingsWithParticipant"
+						"participnat",
+						"meetings"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "http://localhost:8000/get/meetingsWithOrganizer",
+			"name": "http://localhost:8000/get/organizer/meetings",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -248,7 +249,7 @@
 					"raw": "{\n\t\"loggedUserId\": \"100f47a5-0767-4d9b-9b5b-5a18a30d51b9\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8000/get/meetingsWithOrganizer",
+					"raw": "http://localhost:8000/get/organizer/meetings",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -256,14 +257,15 @@
 					"port": "8000",
 					"path": [
 						"get",
-						"meetingsWithOrganizer"
+						"organizer",
+						"meetings"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "http://localhost:8000/get/participantsWithOrganizer",
+			"name": "http://localhost:8000/get/participants/as/organizer",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -275,7 +277,7 @@
 					"raw": "{\n\t\"loggedUserId\": \"100f47a5-0767-4d9b-9b5b-5a18a30d51b9\",\n\t\"meetingId\": \"22b6da87-0386-49ed-a054-e987ef1c5e9a\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8000/get/participantsWithOrganizer",
+					"raw": "http://localhost:8000/get/participants/as/organizer",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -283,7 +285,9 @@
 					"port": "8000",
 					"path": [
 						"get",
-						"participantsWithOrganizer"
+						"participants",
+						"as",
+						"organizer"
 					]
 				}
 			},

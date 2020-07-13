@@ -29,22 +29,22 @@ delete_user:
     methods: POST
 
 get_all_users:
-    path: /get/allUsers
+    path: /get/users
     controller: App\Controller\ReadController::getAllUsers
     methods: GET
 
 get_meetings_with_participant:
-    path: /get/meetingsWithParticipant
+    path: /get/participnat/meetings
     controller: App\Controller\ReadController::getMeetingsWithParticipant
     methods: GET
 
 get_meetings_with_organizer:
-    path: /get/meetingsWithOrganizer
+    path: /get/organizer/meetings
     controller: App\Controller\ReadController::getMeetingsWithOrganizer
     methods: GET
 
 get_participants_with_organizer:
-    path: /get/participantsWithOrganizer
+    path: /get/participants/as/organizer
     controller: App\Controller\ReadController::getParticipantsWithOrganizer
     methods: GET
 
