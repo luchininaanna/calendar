@@ -168,7 +168,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         {
             throw new Exception\UserIsNotMeetingOrganizerException($e->getMessage(), $e->getCode(), $e);
         }
-        catch (MeetingIsNotExistException$e)
+        catch (MeetingIsNotExistException $e)
         {
             throw new Exception\MeetingIsNotExistException($e->getMessage(), $e->getCode(), $e);
         }
@@ -201,10 +201,10 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         return $result;
     }
 
-    public function getMeetingsWithParticipant(string $loggedUserId): array
+    public function getMeetingsByParticipant(string $loggedUserId): array
     {
         $result = [];
-        foreach ($this->userQueryService->getMeetingsWithParticipant($loggedUserId) as $meetingData)
+        foreach ($this->userQueryService->getMeetingsByParticipant($loggedUserId) as $meetingData)
         {
             $result[] = new MeetingOutput($meetingData);
         }
@@ -212,10 +212,10 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         return $result;
     }
 
-    public function getMeetingsWithOrganizer(string $loggedUserId): array
+    public function getMeetingsByOrganizer(string $loggedUserId): array
     {
         $result = [];
-        foreach ($this->userQueryService->getMeetingsWithOrganizer($loggedUserId) as $meetingData)
+        foreach ($this->userQueryService->getMeetingsByOrganizer($loggedUserId) as $meetingData)
         {
             $result[] = new MeetingOutput($meetingData);
         }
@@ -223,10 +223,10 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         return $result;
     }
 
-    public function getParticipantsWithOrganizer(GetParticipantInput $input): array
+    public function getParticipantsAsOrganizer(GetParticipantInput $input): array
     {
         $result = [];
-        foreach ($this->userQueryService->getParticipantsWithOrganizer($input->getLoggedUserId(),
+        foreach ($this->userQueryService->getParticipantsAsOrganizer($input->getLoggedUserId(),
             $input->getMeetingId()) as $participant)
         {
             $result[] = new ParticipantOutput($participant);

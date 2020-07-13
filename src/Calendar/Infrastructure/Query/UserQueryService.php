@@ -47,7 +47,7 @@ class UserQueryService implements \App\Calendar\App\Query\UserQueryServiceInterf
     /**
      * @inheritDoc
      */
-    public function getMeetingsWithParticipant(string $loggedUserId): array
+    public function getMeetingsByParticipant(string $loggedUserId): array
     {
         $meetings = $this->connection->fetchAll("
             SELECT
@@ -76,7 +76,7 @@ class UserQueryService implements \App\Calendar\App\Query\UserQueryServiceInterf
     /**
      * @inheritDoc
      */
-    public function getMeetingsWithOrganizer(string $loggedUserId): array
+    public function getMeetingsByOrganizer(string $loggedUserId): array
     {
         $meetings = $this->connection->fetchAll("
             SELECT
@@ -101,7 +101,7 @@ class UserQueryService implements \App\Calendar\App\Query\UserQueryServiceInterf
         return $result;
     }
 
-    public function getParticipantsWithOrganizer(string $loggedUserId, string $meetingId): array
+    public function getParticipantsAsOrganizer(string $loggedUserId, string $meetingId): array
     {
         $participants = $this->connection->fetchAll("
             SELECT

@@ -19,18 +19,18 @@ interface UserQueryServiceInterface
      * @param string $loggedUserId
      * @return MeetingData[]
      */
-    public function getMeetingsWithParticipant(string $loggedUserId): array;
+    public function getMeetingsByParticipant(string $loggedUserId): array;
 
     /**
      * @param string $loggedUserId
      * @return MeetingData[]
      */
-    public function getMeetingsWithOrganizer(string $loggedUserId): array;
+    public function getMeetingsByOrganizer(string $loggedUserId): array;
 
     /**
      * @param string $loggedUserId
      * @param string $meetingId
      * @return array
      */
-    public function getParticipantsWithOrganizer(string $loggedUserId, string $meetingId): array;
+    public function getParticipantsAsOrganizer(string $loggedUserId, string $meetingId): array;
 }

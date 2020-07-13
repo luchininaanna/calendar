@@ -40,7 +40,7 @@ class ReadController extends AbstractController
         }
 
         $json = [];
-        foreach ($this->api->getMeetingsWithParticipant($loggedUserId) as $meeting)
+        foreach ($this->api->getMeetingsByParticipant($loggedUserId) as $meeting)
         {
             $json[] = $meeting->asAssoc();
         }
@@ -56,7 +56,7 @@ class ReadController extends AbstractController
         }
 
         $json = [];
-        foreach ($this->api->getMeetingsWithOrganizer($loggedUserId) as $meeting)
+        foreach ($this->api->getMeetingsByOrganizer($loggedUserId) as $meeting)
         {
             $json[] = $meeting->asAssoc();
         }
@@ -72,7 +72,7 @@ class ReadController extends AbstractController
         }
 
         $json = [];
-        foreach ($this->api->getParticipantsWithOrganizer($getParticipantInput) as $participant)
+        foreach ($this->api->getParticipantsAsOrganizer($getParticipantInput) as $participant)
         {
             $json[] = $participant->asAssoc();
         }

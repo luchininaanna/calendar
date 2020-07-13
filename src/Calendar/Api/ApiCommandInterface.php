@@ -4,8 +4,10 @@
 namespace App\Calendar\Api;
 
 
+use App\Calendar\Api\Exception\MeetingIsNotExistException;
 use App\Calendar\Api\Exception\UserAlreadyExistException;
 use App\Calendar\Api\Exception\UserIsNotExistException;
+use App\Calendar\Api\Exception\UserIsNotMeetingParticipantException;
 use App\Calendar\Api\Input\CreateMeetingParticipantInput;
 use App\Calendar\Api\Input\CreateMeetingInput;
 use App\Calendar\Api\Input\CreateUserInput;
@@ -36,28 +38,33 @@ interface ApiCommandInterface
     /**
      * @param CreateMeetingParticipantInput $input
      * @return void
+     * @throws UserIsNotExistException
      * @throws UserIsNotMeetingOrganizerException
      * @throws UserIsAlreadyMeetingParticipantException
      * @throws MeetingParticipantAmountExceedsLimitException
-     * @throws UserIsNotExistException
      */
     public function inviteMeetingParticipant(CreateMeetingParticipantInput $input): void;
 
     /**
      * @param DeleteMeetingParticipantInput $input
      * @return void
+     * @throws UserIsNotMeetingOrganizerException
+     * @throws UserIsNotMeetingParticipantException
      */
     public function deleteMeetingParticipant(DeleteMeetingParticipantInput $input): void;
 
     /**
      * @param DeleteMeetingInput $input
      * @return void
+     * @throws MeetingIsNotExistException
+     * @throws UserIsNotMeetingOrganizerException
      */
     public function deleteMeeting(DeleteMeetingInput $input): void;
 
     /**
      * @param DeleteUserInput $input
      * @return void
+     * @throws UserIsNotExistException
      */
     public function deleteUser(DeleteUserInput $input): void;
 }
