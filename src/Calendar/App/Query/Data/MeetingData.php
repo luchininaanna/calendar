@@ -9,14 +9,14 @@ class MeetingData
     private string $uuid;
     private string $name;
     private string $location;
-    private string $start_time;
+    private string $startTime;
 
-    public function __construct(string $uuid, string $name, string $location, string $start_time)
+    public function __construct(string $uuid, string $name, string $location, string $startTime)
     {
         $this->uuid = $uuid;
         $this->name = $name;
         $this->location = $location;
-        $this->start_time = $start_time;
+        $this->startTime = $startTime;
     }
 
     public function getUuid(): string
@@ -36,7 +36,7 @@ class MeetingData
 
     public function getStartTime(): string
     {
-        return $this->start_time;
+        return $this->startTime;
     }
 
 

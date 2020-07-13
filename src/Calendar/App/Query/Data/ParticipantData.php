@@ -11,7 +11,7 @@ class ParticipantData
     private string $login;
     private string $surname;
     private string $patronymic;
-    private string $start_time;
+    private string $startTime;
 
     public function __construct(
         string $uuid,
@@ -19,14 +19,14 @@ class ParticipantData
         string $name,
         string $surname,
         string $patronymic,
-        string $start_time
+        string $startTime
     ) {
         $this->uuid = $uuid;
         $this->name = $name;
         $this->login = $login;
         $this->surname = $surname;
         $this->patronymic = $patronymic;
-        $this->start_time = $start_time;
+        $this->startTime = $startTime;
     }
 
     public function getUuid(): string
@@ -56,6 +56,6 @@ class ParticipantData
 
     public function getStartTime(): string
     {
-        return $this->start_time;
+        return $this->startTime;
     }
 }

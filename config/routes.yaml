@@ -34,7 +34,7 @@ get_all_users:
     methods: GET
 
 get_meetings_with_participant:
-    path: /get/participnat/meetings
+    path: /get/participant/meetings
     controller: App\Controller\ReadController::getMeetingsWithParticipant
     methods: GET
 

@@ -209,7 +209,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:8000/get/participnat/meetings",
+			"name": "http://localhost:8000/get/participant/meetings",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -221,7 +221,7 @@
 					"raw": "{\n\t\"loggedUserId\": \"100f47a5-0767-4d9b-9b5b-5a18a30d51b9\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8000/get/participnat/meetings",
+					"raw": "http://localhost:8000/get/participant/meetings",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -229,7 +229,7 @@
 					"port": "8000",
 					"path": [
 						"get",
-						"participnat",
+						"participant",
 						"meetings"
 					]
 				}
