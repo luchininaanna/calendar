@@ -14,15 +14,12 @@ use App\Calendar\Domain\Model\UserRepositoryInterface;
 class UserService
 {
     private UserRepositoryInterface $userRepository;
-    private MeetingRepositoryInterface $meetingRepository;
     private MeetingParticipantRepositoryInterface $meetingParticipantRepository;
 
-    public function __construct(MeetingRepositoryInterface $meetingRepository,
-                                UserRepositoryInterface $userRepository,
+    public function __construct(UserRepositoryInterface $userRepository,
                                 MeetingParticipantRepositoryInterface $meetingParticipantRepository)
     {
         $this->userRepository = $userRepository;
-        $this->meetingRepository = $meetingRepository;
         $this->meetingParticipantRepository = $meetingParticipantRepository;
     }
 
