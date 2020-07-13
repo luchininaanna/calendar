@@ -6,16 +6,16 @@ namespace App\Calendar\App\Query\Data;
 class UserData
 {
     private string $uuid;
-    private string $login;
     private string $name;
+    private string $login;
     private string $surname;
     private string $patronymic;
 
     public function __construct(string $uuid, string $login, string $name, string $surname, string $patronymic)
     {
         $this->uuid = $uuid;
-        $this->login = $login;
         $this->name = $name;
+        $this->login = $login;
         $this->surname = $surname;
         $this->patronymic = $patronymic;
     }

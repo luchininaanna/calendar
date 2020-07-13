@@ -9,14 +9,12 @@ use App\Calendar\App\Synchronization\SynchronizationInterface;
 use App\Calendar\App\Uuid\UuidProviderInterface;
 use App\Calendar\Domain\Exception\MeetingIsNotExistException;
 use App\Calendar\Domain\Exception\UserIsNotMeetingOrganizerException;
-use App\Calendar\Domain\Model\Meeting;
 use App\Calendar\Domain\Service\MeetingService;
-use DateTime;
 
 class DeleteMeetingCommandHandler
 {
-    private UuidProviderInterface $uuidProvider;
     private MeetingService $meetingService;
+    private UuidProviderInterface $uuidProvider;
     private SynchronizationInterface $synchronization;
 
     public function __construct(

@@ -22,7 +22,6 @@ class ParticipantOutput
     private string $patronymic;
     private string $start_time;
 
-
     public function asAssoc(): array
     {
         return [

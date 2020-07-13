@@ -6,16 +6,16 @@ namespace App\Calendar\App\Command;
 
 class CreateUserCommand
 {
+    private string $name;
     private string $login;
     private string $surname;
-    private string $name;
     private string $patronymic;
 
     public function __construct(string $login, string $surname, string $name, string $patronymic)
     {
+        $this->name = $name;
         $this->login = $login;
         $this->surname = $surname;
-        $this->name = $name;
         $this->patronymic = $patronymic;
     }
 

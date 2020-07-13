@@ -9,13 +9,12 @@ use App\Calendar\App\Synchronization\SynchronizationInterface;
 use App\Calendar\App\Uuid\UuidProviderInterface;
 use App\Calendar\Domain\Exception\MeetingOrganizerIsNotExistException;
 use App\Calendar\Domain\Model\Meeting;
-use App\Calendar\Domain\Model\MeetingParticipant;
 use App\Calendar\Domain\Service\MeetingService;
 
 class CreateMeetingCommandHandler
 {
-    private UuidProviderInterface $uuidProvider;
     private MeetingService $meetingService;
+    private UuidProviderInterface $uuidProvider;
     private SynchronizationInterface $synchronization;
 
     public function __construct(

@@ -14,9 +14,9 @@ use Symfony\Component\HttpKernel\Log\Logger;
 
 class DeleteUserCommandHandler
 {
-    private UuidProviderInterface $uuidProvider;
     private UserService $userService;
     private MeetingService $meetingService;
+    private UuidProviderInterface $uuidProvider;
     private SynchronizationInterface $synchronization;
 
     public function __construct(
@@ -25,9 +25,9 @@ class DeleteUserCommandHandler
         UserService $userService,
         SynchronizationInterface $synchronization
     ) {
+        $this->userService = $userService;
         $this->uuidProvider = $uuidProvider;
         $this->meetingService = $meetingService;
-        $this->userService = $userService;
         $this->synchronization = $synchronization;
     }
 

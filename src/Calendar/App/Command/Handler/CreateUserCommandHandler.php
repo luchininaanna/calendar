@@ -13,9 +13,8 @@ use App\Calendar\Domain\Service\UserService;
 
 class CreateUserCommandHandler
 {
-
-    private UuidProviderInterface $uuidProvider;
     private UserService $userService;
+    private UuidProviderInterface $uuidProvider;
     private SynchronizationInterface $synchronization;
 
     public function __construct(
@@ -23,8 +22,8 @@ class CreateUserCommandHandler
         UserService $userService,
         SynchronizationInterface $synchronization
     ) {
-        $this->uuidProvider = $uuidProvider;
         $this->userService = $userService;
+        $this->uuidProvider = $uuidProvider;
         $this->synchronization = $synchronization;
     }
 

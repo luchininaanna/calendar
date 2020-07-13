@@ -6,13 +6,13 @@ namespace App\Calendar\App\Command;
 
 class DeleteMeetingCommand
 {
-    private string $loggedUserId;
     private string $meetingId;
+    private string $loggedUserId;
 
     public function __construct(string $loggedUserId, string $meetingId)
     {
-        $this->loggedUserId = $loggedUserId;
         $this->meetingId = $meetingId;
+        $this->loggedUserId = $loggedUserId;
     }
 
     public function getLoggedUserId(): string

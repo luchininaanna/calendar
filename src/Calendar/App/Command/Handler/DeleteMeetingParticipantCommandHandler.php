@@ -14,8 +14,8 @@ use App\Calendar\Domain\Service\MeetingService;
 
 class DeleteMeetingParticipantCommandHandler
 {
-    private UuidProviderInterface $uuidProvider;
     private MeetingService $meetingService;
+    private UuidProviderInterface $uuidProvider;
     private SynchronizationInterface $synchronization;
 
     public function __construct(
