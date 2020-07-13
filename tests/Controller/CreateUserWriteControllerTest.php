@@ -11,14 +11,12 @@ class CreateUserWriteControllerTest extends WebTestCase
 {
     private RequestService $requestService;
     private UserJsonBuilder $userJsonBuilder ;
-    private ResponseDescription $responseDescription;
 
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
         $this->requestService = new RequestService();
         $this->userJsonBuilder = new UserJsonBuilder();
-        $this->responseDescription = new ResponseDescription();
     }
 
     public function testCreateUniqueUser(): void
@@ -29,7 +27,7 @@ class CreateUserWriteControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals($this->responseDescription::USER_CREATED, $response['result']);
+        $this->assertEquals(ResponseDescription::USER_CREATED, $response['result']);
         $this->assertArrayHasKey('id', $response);
     }
 
@@ -44,7 +42,7 @@ class CreateUserWriteControllerTest extends WebTestCase
         $this->requestService->sendCreateUserRequest($client, $user);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals($this->responseDescription::USER_ALREADY_EXIST, $response['result']);
+        $this->assertEquals(ResponseDescription::USER_ALREADY_EXIST, $response['result']);
     }
 
     public function testCreateUserWithEmptyFields(): void
@@ -55,6 +53,6 @@ class CreateUserWriteControllerTest extends WebTestCase
 
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals($this->responseDescription::EMPTY_REQUEST_PARAMETERS, $response['result']);
+        $this->assertEquals(ResponseDescription::EMPTY_REQUEST_PARAMETERS, $response['result']);
     }
 }

@@ -31,7 +31,7 @@ class ReadController extends AbstractController
         return $this->json($json);
     }
 
-    public function getMeetingsWithParticipant(Request $request): Response
+    public function getMeetingsByParticipant(Request $request): Response
     {
         $loggedUserId = GetMeetingsRequestMapper::buildInput($request->getContent());
         if ($loggedUserId === null)
@@ -47,7 +47,7 @@ class ReadController extends AbstractController
         return $this->json($json);
     }
 
-    public function getMeetingsWithOrganizer(Request $request): Response
+    public function getMeetingsByOrganizer(Request $request): Response
     {
         $loggedUserId = GetMeetingsRequestMapper::buildInput($request->getContent());
         if ($loggedUserId === null)
@@ -63,7 +63,7 @@ class ReadController extends AbstractController
         return $this->json($json);
     }
 
-    public function getParticipantsWithOrganizer(Request $request): Response
+    public function getParticipantsAsOrganizer(Request $request): Response
     {
         $getParticipantInput = GetParticipantsRequestMapper::buildInput($request->getContent());
         if ($getParticipantInput === null)

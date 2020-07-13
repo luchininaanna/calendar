@@ -4,18 +4,13 @@
 namespace App\Tests\Controller;
 
 
-use App\Tests\Controller\JsonBuilder\MeetingJsonBuilder;
 use App\Tests\Controller\JsonBuilder\MeetingParticipantJsonBuilder;
-use App\Tests\Controller\JsonBuilder\UserJsonBuilder;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CreateMeetingParticipantWriteControllerTest extends WebTestCase
 {
     private EntityCreator $entityCreator;
     private RequestService $requestService;
-    private UserJsonBuilder $userJsonBuilder;
-    private MeetingJsonBuilder $meetingJsonBuilder;
-    private ResponseDescription $responseDescription;
     private MeetingParticipantJsonBuilder $meetingParticipantJsonBuilder;
 
     public function __construct($name = null, array $data = [], $dataName = '')
@@ -23,9 +18,6 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
         parent::__construct($name, $data, $dataName);
         $this->entityCreator = new EntityCreator();
         $this->requestService = new RequestService();
-        $this->userJsonBuilder = new UserJsonBuilder();
-        $this->meetingJsonBuilder = new MeetingJsonBuilder();
-        $this->responseDescription = new ResponseDescription();
         $this->meetingParticipantJsonBuilder = new MeetingParticipantJsonBuilder();
     }
 
@@ -40,7 +32,7 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
         $this->requestService->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals($this->responseDescription::INVITATION_CREATED, $response['result']);
+        $this->assertEquals(ResponseDescription::INVITATION_CREATED, $response['result']);
     }
 
     public function testCreateMeetingParticipantForUser(): void
@@ -55,7 +47,7 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
         $this->requestService->sendCreateMeetingParticipantRequest($client, $meetingParticipant);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals($this->responseDescription::INVITATION_CREATED, $response['result']);
+        $this->assertEquals(ResponseDescription::INVITATION_CREATED, $response['result']);
     }
 
     public function testCreateMeetingWithOverLimitAmountUser(): void
@@ -73,7 +65,7 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
 
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals($this->responseDescription::MEETING_PARTICIPANT_AMOUNT_EXCEEDS_LIMIT, $response['result']);
+        $this->assertEquals(ResponseDescription::MEETING_PARTICIPANT_AMOUNT_EXCEEDS_LIMIT, $response['result']);
     }
 
     public function testCreateMeetingParticipantTwice(): void
@@ -90,7 +82,7 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
 
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals($this->responseDescription::USER_IS_ALREADY_MEETING_PARTICIPANT, $response['result']);
+        $this->assertEquals(ResponseDescription::USER_IS_ALREADY_MEETING_PARTICIPANT, $response['result']);
     }
 
     public function testCreateMeetingParticipantWithNotOrganizer(): void
@@ -106,6 +98,6 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
 
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals($this->responseDescription::USER_IS_NOT_MEETING_ORGANIZER, $response['result']);
+        $this->assertEquals(ResponseDescription::USER_IS_NOT_MEETING_ORGANIZER, $response['result']);
     }
 }

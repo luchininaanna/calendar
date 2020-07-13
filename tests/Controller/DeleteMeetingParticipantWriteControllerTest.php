@@ -4,19 +4,14 @@
 namespace App\Tests\Controller;
 
 
-use App\Tests\Controller\JsonBuilder\MeetingJsonBuilder;
 use App\Tests\Controller\JsonBuilder\MeetingParticipantJsonBuilder;
-use App\Tests\Controller\JsonBuilder\UserJsonBuilder;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DeleteMeetingParticipantWriteControllerTest extends WebTestCase
 {
     private EntityCreator $entityCreator;
     private RequestService $requestService;
-    private UserJsonBuilder $userJsonBuilder;
     private ConfirmExistence $confirmExistence;
-    private MeetingJsonBuilder $meetingJsonBuilder;
-    private ResponseDescription $responseDescription;
     private MeetingParticipantJsonBuilder $meetingParticipantJsonBuilder;
 
     public function __construct($name = null, array $data = [], $dataName = '')
@@ -24,10 +19,7 @@ class DeleteMeetingParticipantWriteControllerTest extends WebTestCase
         parent::__construct($name, $data, $dataName);
         $this->entityCreator = new EntityCreator();
         $this->requestService = new RequestService();
-        $this->userJsonBuilder = new UserJsonBuilder();
         $this->confirmExistence = new ConfirmExistence();
-        $this->meetingJsonBuilder = new MeetingJsonBuilder();
-        $this->responseDescription = new ResponseDescription();
         $this->meetingParticipantJsonBuilder = new MeetingParticipantJsonBuilder();
     }
 
@@ -49,7 +41,7 @@ class DeleteMeetingParticipantWriteControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals($this->responseDescription::USER_DELETED_FROM_MEETING, $response['result']);
+        $this->assertEquals(ResponseDescription::USER_DELETED_FROM_MEETING, $response['result']);
 
         $this->assertEquals(false, $this->confirmExistence->
         isMeetingParticipantExist($client, $meetingId, $organizerId, $userId));
@@ -68,8 +60,9 @@ class DeleteMeetingParticipantWriteControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals($this->responseDescription::USER_DELETED_FROM_MEETING, $response['result']);
+        $this->assertEquals(ResponseDescription::USER_DELETED_FROM_MEETING, $response['result']);
         $this->assertEquals(false, $this->confirmExistence->isMeetingExist($client, $meetingId, $organizerId));
-        $this->assertEquals(false, $this->confirmExistence->isMeetingHasParticipants($client, $meetingId, $organizerId));
+        $this->assertEquals(false, $this->confirmExistence->
+        isMeetingHasParticipants($client, $meetingId, $organizerId));
     }
 }

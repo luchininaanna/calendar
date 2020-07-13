@@ -35,17 +35,17 @@ get_all_users:
 
 get_meetings_with_participant:
     path: /get/participant/meetings
-    controller: App\Controller\ReadController::getMeetingsWithParticipant
+    controller: App\Controller\ReadController::getMeetingsByParticipant
     methods: GET
 
 get_meetings_with_organizer:
     path: /get/organizer/meetings
-    controller: App\Controller\ReadController::getMeetingsWithOrganizer
+    controller: App\Controller\ReadController::getMeetingsByOrganizer
     methods: GET
 
 get_participants_with_organizer:
     path: /get/participants/as/organizer
-    controller: App\Controller\ReadController::getParticipantsWithOrganizer
+    controller: App\Controller\ReadController::getParticipantsAsOrganizer
     methods: GET
 
 
