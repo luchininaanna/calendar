@@ -18,10 +18,10 @@ class MeetingOutput
     public function asAssoc(): array
     {
         return [
-            'uuid' => $this->participantMeetingData->getUuid(),
-            'name' => $this->participantMeetingData->getName(),
-            'location' => $this->participantMeetingData->getLocation(),
-            'start_time' => $this->participantMeetingData->getStartTime(),
+            'uuid' => $this->meetingData->getUuid(),
+            'name' => $this->meetingData->getName(),
+            'location' => $this->meetingData->getLocation(),
+            'start_time' => $this->meetingData->getStartTime(),
         ];
     }
 }

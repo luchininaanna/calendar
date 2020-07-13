@@ -18,12 +18,12 @@ class ParticipantOutput
     public function asAssoc(): array
     {
         return [
-            'uuid' => $this->invitationData->getUuid(),
-            'login' => $this->invitationData->getLogin(),
-            'name' => $this->invitationData->getName(),
-            'surname' => $this->invitationData->getSurname(),
-            'patronymic' => $this->invitationData->getPatronymic(),
-            'start_time' => $this->invitationData->getStartTime(),
+            'uuid' => $this->participantData->getUuid(),
+            'login' => $this->participantData->getLogin(),
+            'name' => $this->participantData->getName(),
+            'surname' => $this->participantData->getSurname(),
+            'patronymic' => $this->participantData->getPatronymic(),
+            'start_time' => $this->participantData->getStartTime(),
         ];
     }
 }
