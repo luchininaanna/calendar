@@ -18,8 +18,8 @@ use App\Calendar\Domain\Model\UserRepositoryInterface;
 
 class MeetingService
 {
-    private MeetingRepositoryInterface $meetingRepository;
     private UserRepositoryInterface $userRepository;
+    private MeetingRepositoryInterface $meetingRepository;
     private MeetingParticipantRepositoryInterface $meetingParticipantRepository;
 
     public function __construct(
@@ -27,8 +27,8 @@ class MeetingService
         UserRepositoryInterface $userRepository,
         MeetingParticipantRepositoryInterface $meetingParticipantRepository
     ) {
-        $this->meetingRepository = $meetingRepository;
         $this->userRepository = $userRepository;
+        $this->meetingRepository = $meetingRepository;
         $this->meetingParticipantRepository = $meetingParticipantRepository;
     }
 
@@ -61,7 +61,8 @@ class MeetingService
             throw new UserIsNotMeetingOrganizerException();
         }
 
-        if ($this->meetingParticipantRepository->isMeetingHasNotAcceptableNumberOfParticipants($meetingParticipant->getMeetingUuid()))
+        if ($this->meetingParticipantRepository->
+        isMeetingHasNotAcceptableNumberOfParticipants($meetingParticipant->getMeetingUuid()))
         {
             throw new MeetingParticipantAmountExceedsLimitException();
         }
@@ -81,9 +82,10 @@ class MeetingService
      * @throws UserIsNotMeetingOrganizerException
      * @throws UserIsNotMeetingParticipantException
      */
-    public function deleteMeetingParticipant(string $loggedUserUuid,
-                                          MeetingParticipant $meetingParticipant):void
-    {
+    public function deleteMeetingParticipant(
+        string $loggedUserUuid,
+        MeetingParticipant $meetingParticipant
+    ):void {
         if (!$this->meetingRepository->isUserIsMeetingOrganizer($loggedUserUuid,
             $meetingParticipant->getMeetingUuid()))
         {

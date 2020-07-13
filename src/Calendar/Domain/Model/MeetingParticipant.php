@@ -6,13 +6,13 @@ namespace App\Calendar\Domain\Model;
 
 class MeetingParticipant
 {
-    private string $meetingUuid;
     private string $userUuid;
+    private string $meetingUuid;
 
     public function __construct(string $meetingUuid, string $userUuid)
     {
-        $this->meetingUuid = $meetingUuid;
         $this->userUuid = $userUuid;
+        $this->meetingUuid = $meetingUuid;
     }
 
     public function getMeetingUuid(): string
