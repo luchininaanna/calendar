@@ -12,13 +12,13 @@ class MeetingParticipantRepository implements MeetingParticipantRepositoryInterf
 {
     private const PARTICIPANT_LIMIT = 10;
 
-    private EntityManagerInterface $entityManager;
     private UuidProviderInterface $uuidProvider;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager, UuidProviderInterface $uuidProvider)
     {
-        $this->entityManager = $entityManager;
         $this->uuidProvider = $uuidProvider;
+        $this->entityManager = $entityManager;
     }
 
     public function createMeetingParticipant(MeetingParticipant $meetingParticipant): void

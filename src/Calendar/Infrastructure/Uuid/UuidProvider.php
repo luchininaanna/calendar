@@ -14,13 +14,13 @@ class UuidProvider implements UuidProviderInterface
         return $uuid = Uuid::uuid4()->toString();
     }
 
-    public function stringToBytes(string $string): string
-    {
-        return Uuid::fromString($string)->getBytes();
-    }
-
     public function bytesToString(string $bytes): string
     {
         return Uuid::fromBytes($bytes)->toString();
+    }
+
+    public function stringToBytes(string $string): string
+    {
+        return Uuid::fromString($string)->getBytes();
     }
 }

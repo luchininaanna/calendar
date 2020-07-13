@@ -10,23 +10,23 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class MeetingRepository implements MeetingRepositoryInterface
 {
-    private EntityManagerInterface $entityManager;
     private UuidProviderInterface $uuidProvider;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager, UuidProviderInterface $uuidProvider)
     {
-        $this->entityManager = $entityManager;
         $this->uuidProvider = $uuidProvider;
+        $this->entityManager = $entityManager;
     }
 
     public function createMeeting(Meeting $meeting): void
     {
         $dbMeeting = new \App\Entity\Meeting();
-        $dbMeeting->setOrganizerUuid($this->uuidProvider->stringToBytes($meeting->getLoggedUserId()));
         $dbMeeting->setName($meeting->getName());
         $dbMeeting->setLocation($meeting->getLocation());
         $dbMeeting->setStartTime($meeting->getStartTime());
         $dbMeeting->setUuid($this->uuidProvider->stringToBytes($meeting->getUuid()));
+        $dbMeeting->setOrganizerUuid($this->uuidProvider->stringToBytes($meeting->getLoggedUserId()));
 
         $this->entityManager->persist($dbMeeting);
         $this->entityManager->flush();
@@ -57,7 +57,6 @@ class MeetingRepository implements MeetingRepositoryInterface
     public function deleteMeetingsByUserAsOrganizer(string $organizerUuid): void
     {
         $repository = $this->entityManager->getRepository('\App\Entity\Meeting');
-
         $records = $repository->findBy(array('organizer_uuid' => $this->uuidProvider->stringToBytes($organizerUuid)));
 
         foreach ($records as $record)

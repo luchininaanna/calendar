@@ -11,22 +11,22 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class UserRepository implements UserRepositoryInterface
 {
-    private EntityManagerInterface $entityManager;
     private UuidProviderInterface $uuidProvider;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager, UuidProviderInterface $uuidProvider)
     {
-        $this->entityManager = $entityManager;
         $this->uuidProvider = $uuidProvider;
+        $this->entityManager = $entityManager;
     }
 
     public function createUser(User $user): void
     {
         $dbUser = new \App\Entity\User();
-        $dbUser->setLogin($user->getLogin());
         $dbUser->setName($user->getName());
-        $dbUser->setPatronymic($user->getPatronymic());
+        $dbUser->setLogin($user->getLogin());
         $dbUser->setSurname($user->getSurname());
+        $dbUser->setPatronymic($user->getPatronymic());
         $dbUser->setUuid($this->uuidProvider->stringToBytes($user->getUuid()));
 
         $this->entityManager->persist($dbUser);
