@@ -4,13 +4,13 @@
 namespace App\Calendar\Api\Output;
 
 
-use App\Calendar\App\Query\Data\ParticipantMeetingData;
+use App\Calendar\App\Query\Data\MeetingData;
 
 class MeetingOutput
 {
-    private ParticipantMeetingData $participantMeetingData;
+    private MeetingData $participantMeetingData;
 
-    public function __construct(ParticipantMeetingData $participantMeetingData)
+    public function __construct(MeetingData $participantMeetingData)
     {
         $this->participantMeetingData = $participantMeetingData;
     }

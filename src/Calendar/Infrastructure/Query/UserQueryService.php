@@ -5,7 +5,7 @@ namespace App\Calendar\Infrastructure\Query;
 
 
 use App\Calendar\App\Query\Data\ParticipantData;
-use App\Calendar\App\Query\Data\ParticipantMeetingData;
+use App\Calendar\App\Query\Data\MeetingData;
 use App\Calendar\App\Query\Data\UserData;
 use App\Calendar\App\Uuid\UuidProviderInterface;
 use App\Calendar\Domain\Model\User;
@@ -62,7 +62,7 @@ class UserQueryService implements \App\Calendar\App\Query\UserQueryServiceInterf
         $result = [];
         foreach ($meetings as $meeting)
         {
-            $result[] = new ParticipantMeetingData(
+            $result[] = new MeetingData(
                 $this->uuidProvider->bytesToString($meeting['uuid']),
                 $meeting['name'],
                 $meeting['location'],
@@ -90,7 +90,7 @@ class UserQueryService implements \App\Calendar\App\Query\UserQueryServiceInterf
         $result = [];
         foreach ($meetings as $meeting)
         {
-            $result[] = new ParticipantMeetingData(
+            $result[] = new MeetingData(
                 $this->uuidProvider->bytesToString($meeting['uuid']),
                 $meeting['name'],
                 $meeting['location'],

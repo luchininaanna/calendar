@@ -21,9 +21,11 @@ class Synchronization implements \App\Calendar\App\Synchronization\Synchronizati
         $connection->beginTransaction();
         try
         {
-            $job();
+            $val = $job();
             $this->entityManager->flush();
             $connection->commit();
+
+            return $val;
         }
         catch (\Throwable $exception)
         {

@@ -4,7 +4,7 @@
 namespace App\Calendar\Api\Input;
 
 
-class CreateInvitationInput
+class CreateMeetingParticipantInput
 {
     private string $meetingId;
     private string $loggedUserId;

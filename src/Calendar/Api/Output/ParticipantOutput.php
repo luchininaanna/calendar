@@ -15,13 +15,6 @@ class ParticipantOutput
         $this->invitationData = $invitationData;
     }
 
-    private string $uuid;
-    private string $login;
-    private string $name;
-    private string $surname;
-    private string $patronymic;
-    private string $start_time;
-
     public function asAssoc(): array
     {
         return [

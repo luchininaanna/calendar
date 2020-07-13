@@ -10,6 +10,7 @@ use App\Calendar\App\Uuid\UuidProviderInterface;
 use App\Calendar\Domain\Exception\UserAlreadyExistException;
 use App\Calendar\Domain\Model\User;
 use App\Calendar\Domain\Service\UserService;
+use Symfony\Component\HttpKernel\Log\Logger;
 
 class CreateUserCommandHandler
 {

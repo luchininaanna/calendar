@@ -6,7 +6,7 @@ namespace App\Controller\Mapper;
 
 class GetMeetingsRequestMapper
 {
-    public static function buildInput(string $request): ?String
+    public static function buildInput(string $request): ?string
     {
         $json = json_decode($request, true);
         if (empty($json['loggedUserId']))

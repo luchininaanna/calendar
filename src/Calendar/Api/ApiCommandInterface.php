@@ -5,7 +5,7 @@ namespace App\Calendar\Api;
 
 
 use App\Calendar\Api\Exception\UserAlreadyExistException;
-use App\Calendar\Api\Input\CreateInvitationInput;
+use App\Calendar\Api\Input\CreateMeetingParticipantInput;
 use App\Calendar\Api\Input\CreateMeetingInput;
 use App\Calendar\Api\Input\CreateUserInput;
 use App\Calendar\Api\Input\DeleteMeetingInput;
@@ -33,13 +33,13 @@ interface ApiCommandInterface
     public function createMeeting(CreateMeetingInput $input): string;
 
     /**
-     * @param CreateInvitationInput $input
-     * @throws MeetingParticipantAmountExceedsLimitException
-     * @throws UserIsNotMeetingOrganizerException
-     * @throws UserIsAlreadyMeetingParticipantException
+     * @param CreateMeetingParticipantInput $input
      * @return void
+     *@throws UserIsNotMeetingOrganizerException
+     * @throws UserIsAlreadyMeetingParticipantException
+     * @throws MeetingParticipantAmountExceedsLimitException
      */
-    public function inviteMeetingParticipant(CreateInvitationInput $input): void;
+    public function inviteMeetingParticipant(CreateMeetingParticipantInput $input): void;
 
     /**
      * @param DeleteMeetingParticipantInput $input

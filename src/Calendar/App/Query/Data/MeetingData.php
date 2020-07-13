@@ -4,7 +4,7 @@
 namespace App\Calendar\App\Query\Data;
 
 
-class ParticipantMeetingData
+class MeetingData
 {
     private string $uuid;
     private string $name;

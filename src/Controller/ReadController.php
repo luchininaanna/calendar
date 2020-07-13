@@ -7,8 +7,6 @@ namespace App\Controller;
 use App\Calendar\Api\ApiQueryInterface;
 use App\Controller\Mapper\GetParticipantsRequestMapper;
 use App\Controller\Mapper\GetMeetingsRequestMapper;
-use App\Controller\Mapper\GetMeetingsWithParticipantRequestMapper;
-use Symfony\Component\HttpFoundation\RequecreateUserst;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
