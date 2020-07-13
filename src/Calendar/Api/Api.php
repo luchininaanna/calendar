@@ -117,6 +117,10 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         {
             throw new Exception\MeetingParticipantAmountExceedsLimitException($e->getMessage(), $e->getCode(), $e);
         }
+        catch (UserIsNotExistException $e)
+        {
+            throw new Exception\UserIsNotExistException($e->getMessage(), $e->getCode(), $e);
+        }
         catch (UserIsNotMeetingOrganizerException $e)
         {
             throw new Exception\UserIsNotMeetingOrganizerException($e->getMessage(), $e->getCode(), $e);
@@ -164,7 +168,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         {
             throw new Exception\UserIsNotMeetingOrganizerException($e->getMessage(), $e->getCode(), $e);
         }
-        catch ( MeetingIsNotExistException$e)
+        catch (MeetingIsNotExistException$e)
         {
             throw new Exception\MeetingIsNotExistException($e->getMessage(), $e->getCode(), $e);
         }

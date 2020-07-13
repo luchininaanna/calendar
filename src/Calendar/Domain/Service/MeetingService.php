@@ -8,6 +8,7 @@ use App\Calendar\Domain\Exception\MeetingIsNotExistException;
 use App\Calendar\Domain\Exception\MeetingOrganizerIsNotExistException;
 use App\Calendar\Domain\Exception\MeetingParticipantAmountExceedsLimitException;
 use App\Calendar\Domain\Exception\UserIsAlreadyMeetingParticipantException;
+use App\Calendar\Domain\Exception\UserIsNotExistException;
 use App\Calendar\Domain\Exception\UserIsNotMeetingParticipantException;
 use App\Calendar\Domain\Exception\UserIsNotMeetingOrganizerException;
 use App\Calendar\Domain\Model\Meeting;
@@ -52,6 +53,7 @@ class MeetingService
      * @throws MeetingParticipantAmountExceedsLimitException
      * @throws UserIsAlreadyMeetingParticipantException
      * @throws UserIsNotMeetingOrganizerException
+     * @throws UserIsNotExistException
      */
     public function createMeetingParticipant(string $loggedUserUuid, MeetingParticipant $meetingParticipant): void
     {
@@ -65,6 +67,11 @@ class MeetingService
         isMeetingHasNotAcceptableNumberOfParticipants($meetingParticipant->getMeetingUuid()))
         {
             throw new MeetingParticipantAmountExceedsLimitException();
+        }
+
+        if (!$this->userRepository->isUserExistById($meetingParticipant->getUserUuid()))
+        {
+            throw new UserIsNotExistException();
         }
 
         if($this->meetingParticipantRepository->isUserIsMeetingParticipant($meetingParticipant->getUserUuid(),

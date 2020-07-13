@@ -90,6 +90,10 @@ class WriteController extends AbstractController
         {
             return $this->json(['result' => 'Meeting participant amount exceeds limit'], 400);
         }
+        catch (UserIsNotExistException $e)
+        {
+            return $this->json(['result' => 'User is not exist'], 400);
+        }
         catch (UserIsAlreadyMeetingParticipantException $e)
         {
             return $this->json(['result' => 'User ia already meeting participant'], 400);
