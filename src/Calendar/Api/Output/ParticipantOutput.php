@@ -8,11 +8,11 @@ use App\Calendar\App\Query\Data\ParticipantData;
 
 class ParticipantOutput
 {
-    private ParticipantData $invitationData;
+    private ParticipantData $participantData;
 
-    public function __construct(ParticipantData $invitationData)
+    public function __construct(ParticipantData $participantData)
     {
-        $this->invitationData = $invitationData;
+        $this->participantData = $participantData;
     }
 
     public function asAssoc(): array
