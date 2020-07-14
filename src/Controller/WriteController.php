@@ -12,12 +12,12 @@ use App\Calendar\Api\Exception\UserIsAlreadyMeetingParticipantException;
 use App\Calendar\Api\Exception\UserIsNotExistException;
 use App\Calendar\Api\Exception\UserIsNotMeetingOrganizerException;
 use App\Calendar\Api\Exception\UserIsNotMeetingParticipantException;
-use App\Controller\Mapper\CreateInviteRequestMapper;
-use App\Controller\Mapper\CreateMeetingRequestMapper;
-use App\Controller\Mapper\CreateUserRequestMapper;
-use App\Controller\Mapper\DeleteMeetingRequestMapper;
-use App\Controller\Mapper\DeleteMeetingParticipantRequestMapper;
-use App\Controller\Mapper\DeleteUserRequestMapper;
+use App\Controller\InputFactory\CreateInviteInputFactory;
+use App\Controller\InputFactory\CreateMeetingInputFactory;
+use App\Controller\InputFactory\CreateUserInputFactory;
+use App\Controller\InputFactory\DeleteMeetingInputFactory;
+use App\Controller\InputFactory\DeleteMeetingParticipantInputFactory;
+use App\Controller\InputFactory\DeleteUserInputFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,7 +35,7 @@ class WriteController extends AbstractController
     {
         try
         {
-            $userInput = CreateUserRequestMapper::buildInput($request->getContent());
+            $userInput = CreateUserInputFactory::buildInput($request->getContent());
             if ($userInput === null)
             {
                 return $this->json(['result' => 'Empty request parameters'], 400);
@@ -54,7 +54,7 @@ class WriteController extends AbstractController
     {
         try
         {
-            $meetingInput = CreateMeetingRequestMapper::buildInput($request->getContent());
+            $meetingInput = CreateMeetingInputFactory::buildInput($request->getContent());
             if ($meetingInput === null)
             {
                 return $this->json(['result' => 'Empty request parameters'], 400);
@@ -73,7 +73,7 @@ class WriteController extends AbstractController
     {
         try
         {
-            $inviteInput = CreateInviteRequestMapper::buildInput($request->getContent());
+            $inviteInput = CreateInviteInputFactory::buildInput($request->getContent());
             if ($inviteInput === null)
             {
                 return $this->json(['result' => 'Empty request parameters'], 400);
@@ -104,7 +104,7 @@ class WriteController extends AbstractController
     {
         try
         {
-            $deleteMeetingParticipantInput = DeleteMeetingParticipantRequestMapper::buildInput($request->getContent());
+            $deleteMeetingParticipantInput = DeleteMeetingParticipantInputFactory::buildInput($request->getContent());
 
             if ($deleteMeetingParticipantInput === null)
             {
@@ -128,7 +128,7 @@ class WriteController extends AbstractController
     {
         try
         {
-            $deleteMeetingInput = DeleteMeetingRequestMapper::buildInput($request->getContent());
+            $deleteMeetingInput = DeleteMeetingInputFactory::buildInput($request->getContent());
 
             if ($deleteMeetingInput === null)
             {
@@ -152,7 +152,7 @@ class WriteController extends AbstractController
     {
         try
         {
-            $deleteUserInput = DeleteUserRequestMapper::buildInput($request->getContent());
+            $deleteUserInput = DeleteUserInputFactory::buildInput($request->getContent());
 
             if ($deleteUserInput === null)
             {

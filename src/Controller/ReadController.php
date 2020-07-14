@@ -5,8 +5,8 @@ namespace App\Controller;
 
 
 use App\Calendar\Api\ApiQueryInterface;
-use App\Controller\Mapper\GetParticipantsRequestMapper;
-use App\Controller\Mapper\GetMeetingsRequestMapper;
+use App\Controller\InputFactory\GetParticipantsInputFactory;
+use App\Controller\InputFactory\GetMeetingsInputFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,7 +33,7 @@ class ReadController extends AbstractController
 
     public function getMeetingsByParticipant(Request $request): Response
     {
-        $loggedUserId = GetMeetingsRequestMapper::buildInput($request->getContent());
+        $loggedUserId = GetMeetingsInputFactory::buildInput($request->getContent());
         if ($loggedUserId === null)
         {
             return $this->json(['result' => 'Empty request parameters'], 400);
@@ -49,7 +49,7 @@ class ReadController extends AbstractController
 
     public function getMeetingsByOrganizer(Request $request): Response
     {
-        $loggedUserId = GetMeetingsRequestMapper::buildInput($request->getContent());
+        $loggedUserId = GetMeetingsInputFactory::buildInput($request->getContent());
         if ($loggedUserId === null)
         {
             return $this->json(['result' => 'Empty request parameters'], 400);
@@ -65,7 +65,7 @@ class ReadController extends AbstractController
 
     public function getParticipantsAsOrganizer(Request $request): Response
     {
-        $getParticipantInput = GetParticipantsRequestMapper::buildInput($request->getContent());
+        $getParticipantInput = GetParticipantsInputFactory::buildInput($request->getContent());
         if ($getParticipantInput === null)
         {
             return $this->json(['result' => 'Empty request parameters'], 400);

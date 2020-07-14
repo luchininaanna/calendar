@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Controller\Mapper;
+namespace App\Controller\InputFactory;
 
 
-class GetMeetingsRequestMapper
+class GetMeetingsInputFactory
 {
     public static function buildInput(string $request): ?string
     {

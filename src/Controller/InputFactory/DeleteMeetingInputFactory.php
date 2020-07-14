@@ -1,12 +1,12 @@
 <?php
 
 
-namespace App\Controller\Mapper;
+namespace App\Controller\InputFactory;
 
 
 use App\Calendar\Api\Input\DeleteMeetingInput;
 
-class DeleteMeetingRequestMapper
+class DeleteMeetingInputFactory
 {
     public static function buildInput(string $request): ?DeleteMeetingInput
     {

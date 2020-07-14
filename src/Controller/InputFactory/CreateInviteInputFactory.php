@@ -1,12 +1,12 @@
 <?php
 
 
-namespace App\Controller\Mapper;
+namespace App\Controller\InputFactory;
 
 
 use App\Calendar\Api\Input\CreateMeetingParticipantInput;
 
-class CreateInviteRequestMapper
+class CreateInviteInputFactory
 {
     public static function buildInput(string $request): ?CreateMeetingParticipantInput
     {

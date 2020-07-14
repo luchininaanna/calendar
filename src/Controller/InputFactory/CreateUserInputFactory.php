@@ -1,12 +1,12 @@
 <?php
 
 
-namespace App\Controller\Mapper;
+namespace App\Controller\InputFactory;
 
 
 use App\Calendar\Api\Input\CreateUserInput;
 
-class CreateUserRequestMapper
+class CreateUserInputFactory
 {
     public static function buildInput(string $request): ?CreateUserInput
     {

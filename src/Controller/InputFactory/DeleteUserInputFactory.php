@@ -1,12 +1,12 @@
 <?php
 
 
-namespace App\Controller\Mapper;
+namespace App\Controller\InputFactory;
 
 
 use App\Calendar\Api\Input\DeleteUserInput;
 
-class DeleteUserRequestMapper
+class DeleteUserInputFactory
 {
     public static function buildInput(string $request): ?DeleteUserInput
     {
