@@ -56,7 +56,8 @@ class CreateMeetingParticipantWriteControllerTest extends WebTestCase
         $organizerId = $this->entityCreator->getUserId($client);
         $meetingId = $this->entityCreator->getMeetingId($client, $organizerId);
 
-        for ($i = 0; $i < 11; $i++) {
+        for ($i = 0; $i < 11; $i++)
+        {
             $userId = $this->entityCreator->getUserId($client);
             $meetingParticipant = $this->meetingParticipantJsonBuilder->
             createMeetingParticipantJson($organizerId, $meetingId, $userId);

@@ -61,7 +61,8 @@ class MeetingParticipantRepository implements MeetingParticipantRepositoryInterf
         $repository = $this->entityManager->getRepository(MeetingParticipant::class);
         $records = $repository->findBy(array('user_uuid' => $this->uuidProvider->stringToBytes($userUuid)));
 
-        foreach ($records as $record) {
+        foreach ($records as $record)
+        {
             $this->entityManager->remove($record);
         }
 
@@ -74,7 +75,8 @@ class MeetingParticipantRepository implements MeetingParticipantRepositoryInterf
 
         $records = $repository->findBy(array('meeting_uuid' => $this->uuidProvider->stringToBytes($meetingUuid)));
 
-        foreach ($records as $record) {
+        foreach ($records as $record)
+        {
             $this->entityManager->remove($record);
         }
 

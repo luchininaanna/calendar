@@ -17,5 +17,4 @@ class DeleteUserInput
     {
         return $this->userId;
     }
-
 }

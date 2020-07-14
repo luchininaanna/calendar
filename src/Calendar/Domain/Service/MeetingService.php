@@ -92,7 +92,7 @@ class MeetingService
     public function deleteMeetingParticipant(
         string $loggedUserUuid,
         MeetingParticipant $meetingParticipant
-    ):void {
+    ): void {
         if (!$this->meetingRepository->isUserIsMeetingOrganizer($loggedUserUuid,
             $meetingParticipant->getMeetingUuid()))
         {

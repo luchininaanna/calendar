@@ -38,6 +38,4 @@ class MeetingData
     {
         return $this->startTime;
     }
-
-
 }
