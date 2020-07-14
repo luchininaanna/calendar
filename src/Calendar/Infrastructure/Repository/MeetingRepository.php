@@ -34,20 +34,20 @@ class MeetingRepository implements MeetingRepositoryInterface
 
     public function isUserIsMeetingOrganizer(string $organizerUuid, string $meetingUuid): bool
     {
-        $repository = $this->entityManager->getRepository('App\Entity\Meeting');
+        $repository = $this->entityManager->getRepository(Meeting::class);
         return $repository->findOneBy(array('uuid' => $this->uuidProvider->stringToBytes($meetingUuid),
                 'organizer_uuid' => $this->uuidProvider->stringToBytes($organizerUuid))) !== null;
     }
 
     public function isMeetingExist(string $meetingUuid): bool
     {
-        $repository = $this->entityManager->getRepository('App\Entity\Meeting');
+        $repository = $this->entityManager->getRepository(Meeting::class);
         return $repository->findOneBy(array('uuid' => $this->uuidProvider->stringToBytes($meetingUuid))) !== null;
     }
 
     public function deleteMeetingById(string $meetingUuid): void
     {
-        $repository = $this->entityManager->getRepository('\App\Entity\Meeting');
+        $repository = $this->entityManager->getRepository(Meeting::class);
         $record = $repository->findOneBy(array('uuid' => $this->uuidProvider->stringToBytes($meetingUuid)));
 
         $this->entityManager->remove($record);
@@ -56,7 +56,7 @@ class MeetingRepository implements MeetingRepositoryInterface
 
     public function deleteMeetingsByUserAsOrganizer(string $organizerUuid): void
     {
-        $repository = $this->entityManager->getRepository('\App\Entity\Meeting');
+        $repository = $this->entityManager->getRepository(Meeting::class);
         $records = $repository->findBy(array('organizer_uuid' => $this->uuidProvider->stringToBytes($organizerUuid)));
 
         foreach ($records as $record)

@@ -33,7 +33,7 @@ class MeetingParticipantRepository implements MeetingParticipantRepositoryInterf
 
     public function isMeetingHasNotAcceptableNumberOfParticipants(string $meetingUuid): bool
     {
-        $repository = $this->entityManager->getRepository('App\Entity\MeetingParticipant');
+        $repository = $this->entityManager->getRepository(MeetingParticipant::class);
         $participantList = $repository->findBy(array('meeting_uuid' => $this->uuidProvider->stringToBytes($meetingUuid)));
         $participantCount = count($participantList);
         return ($participantCount >= MeetingParticipantRepository::PARTICIPANT_LIMIT);
@@ -41,14 +41,14 @@ class MeetingParticipantRepository implements MeetingParticipantRepositoryInterf
 
     public function isUserIsMeetingParticipant(string $userUuid, string $meetingUuid): bool
     {
-        $repository = $this->entityManager->getRepository('App\Entity\MeetingParticipant');
+        $repository = $this->entityManager->getRepository(MeetingParticipant::class);
         return $repository->findOneBy(array('user_uuid' => $this->uuidProvider->stringToBytes($userUuid),
                 'meeting_uuid' => $this->uuidProvider->stringToBytes($meetingUuid))) !== null;
     }
 
     public function deleteUserFromMeeting(string $userUuid, string $meetingUuid): void
     {
-        $repository = $this->entityManager->getRepository('\App\Entity\MeetingParticipant');
+        $repository = $this->entityManager->getRepository(MeetingParticipant::class);
         $record = $repository->findOneBy(array('user_uuid' => $this->uuidProvider->stringToBytes($userUuid),
             'meeting_uuid' => $this->uuidProvider->stringToBytes($meetingUuid)));
 
@@ -58,7 +58,7 @@ class MeetingParticipantRepository implements MeetingParticipantRepositoryInterf
 
     public function deleteUserFromMeetings(string $userUuid): void
     {
-        $repository = $this->entityManager->getRepository('\App\Entity\MeetingParticipant');
+        $repository = $this->entityManager->getRepository(MeetingParticipant::class);
         $records = $repository->findBy(array('user_uuid' => $this->uuidProvider->stringToBytes($userUuid)));
 
         foreach ($records as $record) {
@@ -70,7 +70,7 @@ class MeetingParticipantRepository implements MeetingParticipantRepositoryInterf
 
     public function deleteInvitationByMeetingId(string $meetingUuid): void
     {
-        $repository = $this->entityManager->getRepository('\App\Entity\MeetingParticipant');
+        $repository = $this->entityManager->getRepository(MeetingParticipant::class);
 
         $records = $repository->findBy(array('meeting_uuid' => $this->uuidProvider->stringToBytes($meetingUuid)));
 
