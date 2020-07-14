@@ -65,7 +65,7 @@ class WriteController extends AbstractController
         }
         catch (MeetingOrganizerIsNotExistException $e)
         {
-            return $this->json(['result' => 'Meeting organizer is not exist'], 400);
+            return $this->json(['result' => 'Meeting organizer is not exist'], 404);
         }
     }
 
@@ -92,7 +92,7 @@ class WriteController extends AbstractController
         }
         catch (UserIsNotExistException $e)
         {
-            return $this->json(['result' => 'User is not exist'], 400);
+            return $this->json(['result' => 'User is not exist'], 404);
         }
         catch (UserIsAlreadyMeetingParticipantException $e)
         {
@@ -120,7 +120,7 @@ class WriteController extends AbstractController
         }
          catch (UserIsNotMeetingParticipantException $e)
         {
-            return $this->json(['result' => 'User ia not meeting participant'], 400);
+            return $this->json(['result' => 'User is not meeting participant'], 400);
         }
     }
 
@@ -140,7 +140,7 @@ class WriteController extends AbstractController
         }
         catch (MeetingIsNotExistException $e)
         {
-            return $this->json(['result' => 'Meeting is not exist'], 400);
+            return $this->json(['result' => 'Meeting is not exist'], 404);
         }
         catch (UserIsNotMeetingOrganizerException $e)
         {
@@ -164,7 +164,7 @@ class WriteController extends AbstractController
         }
         catch (UserIsNotExistException $e)
         {
-            return $this->json(['result' => 'User is not exist'], 400);
+            return $this->json(['result' => 'User is not exist'], 404);
         }
     }
 }

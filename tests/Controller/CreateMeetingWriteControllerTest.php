@@ -46,7 +46,7 @@ class CreateMeetingWriteControllerTest extends WebTestCase
 
         $this->requestService->sendCreateMeetingRequest($client, $meeting);
 
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(ResponseDescription::MEETING_ORGANISER_IS_NOT_EXIST, $response['result']);
     }

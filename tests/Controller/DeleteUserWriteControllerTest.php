@@ -81,7 +81,7 @@ class DeleteUserWriteControllerTest extends WebTestCase
 
         $this->requestService->sendDeleteUserRequest($client, $this->uuidProvider->generate());
 
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(ResponseDescription::USER_IS_NOT_EXIST, $response['result']);
     }
