@@ -15,8 +15,7 @@ class UserService
     private UserRepositoryInterface $userRepository;
 
     public function __construct(
-        UserRepositoryInterface $userRepository,
-        MeetingParticipantRepositoryInterface $meetingParticipantRepository
+        UserRepositoryInterface $userRepository
     ) {
         $this->userRepository = $userRepository;
     }
