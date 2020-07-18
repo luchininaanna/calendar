@@ -2,7 +2,7 @@
     "type": "project",
     "license": "proprietary",
     "require": {
-        "php": "^7.2.5",
+        "php": "^7.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ramsey/uuid": "^4.0",
@@ -12,7 +12,8 @@
         "symfony/framework-bundle": "5.1.*",
         "symfony/orm-pack": "^1.0",
         "symfony/yaml": "5.1.*",
-      "ext-json": "*"
+      "ext-json": "*",
+      "ext-cassandra": "*"
     },
     "require-dev": {
         "symfony/browser-kit": "5.1.*",

@@ -61,8 +61,5 @@ class DeleteMeetingParticipantWriteControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(ResponseDescription::USER_DELETED_FROM_MEETING, $response['result']);
-        $this->assertEquals(false, $this->confirmExistence->isMeetingExist($client, $meetingId, $organizerId));
-        $this->assertEquals(false, $this->confirmExistence->
-        isMeetingHasParticipants($client, $meetingId, $organizerId));
     }
 }

@@ -107,13 +107,6 @@ class MeetingService
 
         $this->meetingParticipantRepository->deleteUserFromMeeting($meetingParticipant->getUserUuid(),
             $meetingParticipant->getMeetingUuid());
-
-        if ($this->meetingRepository->isUserIsMeetingOrganizer($meetingParticipant->getUserUuid(),
-            $meetingParticipant->getMeetingUuid()))
-        {
-            $this->meetingParticipantRepository->deleteInvitationByMeetingId($meetingParticipant->getMeetingUuid());
-            $this->meetingRepository->deleteMeetingById($meetingParticipant->getMeetingUuid());
-        }
     }
 
     /**
@@ -142,6 +135,5 @@ class MeetingService
     public function deleteUserFromMeetings(string $userUuid): void
     {
         $this->meetingParticipantRepository->deleteUserFromMeetings($userUuid);
-        $this->meetingRepository->deleteMeetingsByUserAsOrganizer($userUuid);
     }
 }

@@ -35,19 +35,19 @@ class UserRepository implements UserRepositoryInterface
 
     public function isUserExistByLogin(string $login): bool
     {
-        $repository = $this->entityManager->getRepository(User::class);
+        $repository = $this->entityManager->getRepository(\App\Entity\User::class);
         return $repository->findOneBy(array('login' => $login)) !== null;
     }
 
     public function isUserExistById(string $uuid): bool
     {
-        $repository = $this->entityManager->getRepository(User::class);
+        $repository = $this->entityManager->getRepository(\App\Entity\User::class);
         return $repository->findOneBy(array('uuid' => $this->uuidProvider->stringToBytes($uuid))) !== null;
     }
 
     public function deleteUserById(string $uuid): void
     {
-        $repository = $this->entityManager->getRepository(User::class);
+        $repository = $this->entityManager->getRepository(\App\Entity\User::class);
         $record = $repository->findOneBy(array('uuid' => $this->uuidProvider->stringToBytes($uuid)));
 
         $this->entityManager->remove($record);
