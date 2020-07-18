@@ -7,8 +7,8 @@ namespace App\Calendar\App\Command\Handler;
 use App\Calendar\App\Command\DeleteMeetingParticipantCommand;
 use App\Calendar\App\Synchronization\SynchronizationInterface;
 use App\Calendar\App\Uuid\UuidProviderInterface;
-use App\Calendar\Domain\Exception\UserIsNotMeetingParticipantException;
-use App\Calendar\Domain\Exception\UserIsNotMeetingOrganizerException;
+use App\Calendar\Domain\Exception\MeetingParticipantIsNotCorrectException;
+use App\Calendar\Domain\Exception\MeetingOrganizerIsNotCorrectException;
 use App\Calendar\Domain\Model\MeetingParticipant;
 use App\Calendar\Domain\Service\MeetingService;
 
@@ -31,8 +31,8 @@ class DeleteMeetingParticipantCommandHandler
     /**
      * @param DeleteMeetingParticipantCommand $command
      * @return void
-     * @throws UserIsNotMeetingOrganizerException
-     * @throws UserIsNotMeetingParticipantException
+     * @throws MeetingOrganizerIsNotCorrectException
+     * @throws MeetingParticipantIsNotCorrectException
      */
     public function handle(DeleteMeetingParticipantCommand $command): void
     {

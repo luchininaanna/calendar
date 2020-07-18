@@ -8,10 +8,10 @@ use App\Calendar\Api\Exception\MeetingIsNotExistException;
 use App\Calendar\Api\Exception\UserAlreadyExistException;
 use App\Calendar\Api\Exception\MeetingOrganizerIsNotExistException;
 use App\Calendar\Api\Exception\MeetingParticipantAmountExceedsLimitException;
-use App\Calendar\Api\Exception\UserIsAlreadyMeetingParticipantException;
+use App\Calendar\Api\Exception\MeetingParticipantIsAlreadyExistException;
 use App\Calendar\Api\Exception\UserIsNotExistException;
-use App\Calendar\Api\Exception\UserIsNotMeetingOrganizerException;
-use App\Calendar\Api\Exception\UserIsNotMeetingParticipantException;
+use App\Calendar\Api\Exception\MeetingOrganizerIsNotCorrectException;
+use App\Calendar\Api\Exception\MeetingParticipantIsNotCorrectException;
 use App\Controller\InputFactory\CreateInviteInputFactory;
 use App\Controller\InputFactory\CreateMeetingInputFactory;
 use App\Controller\InputFactory\CreateUserInputFactory;
@@ -82,7 +82,7 @@ class WriteController extends AbstractController
             $this->api->inviteMeetingParticipant($inviteInput);
             return $this->json(['result' => 'Invitation created']);
         }
-        catch (UserIsNotMeetingOrganizerException $e)
+        catch (MeetingOrganizerIsNotCorrectException $e)
         {
             return $this->json(['result' => 'User is not meeting organizer'], 400);
         }
@@ -94,7 +94,7 @@ class WriteController extends AbstractController
         {
             return $this->json(['result' => 'User is not exist'], 404);
         }
-        catch (UserIsAlreadyMeetingParticipantException $e)
+        catch (MeetingParticipantIsAlreadyExistException $e)
         {
             return $this->json(['result' => 'User ia already meeting participant'], 400);
         }
@@ -114,11 +114,11 @@ class WriteController extends AbstractController
             $this->api->deleteMeetingParticipant($deleteMeetingParticipantInput);
             return $this->json(['result' => 'User deleted from meeting']);
         }
-        catch (UserIsNotMeetingOrganizerException $e)
+        catch (MeetingOrganizerIsNotCorrectException $e)
         {
             return $this->json(['result' => 'User is not meeting organizer'], 400);
         }
-         catch (UserIsNotMeetingParticipantException $e)
+         catch (MeetingParticipantIsNotCorrectException $e)
         {
             return $this->json(['result' => 'User is not meeting participant'], 400);
         }
@@ -142,7 +142,7 @@ class WriteController extends AbstractController
         {
             return $this->json(['result' => 'Meeting is not exist'], 404);
         }
-        catch (UserIsNotMeetingOrganizerException $e)
+        catch (MeetingOrganizerIsNotCorrectException $e)
         {
             return $this->json(['result' => 'User is not meeting organizer'], 400);
         }

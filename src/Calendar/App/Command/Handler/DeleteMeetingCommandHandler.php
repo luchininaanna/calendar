@@ -8,7 +8,7 @@ use App\Calendar\App\Command\DeleteMeetingCommand;
 use App\Calendar\App\Synchronization\SynchronizationInterface;
 use App\Calendar\App\Uuid\UuidProviderInterface;
 use App\Calendar\Domain\Exception\MeetingIsNotExistException;
-use App\Calendar\Domain\Exception\UserIsNotMeetingOrganizerException;
+use App\Calendar\Domain\Exception\MeetingOrganizerIsNotCorrectException;
 use App\Calendar\Domain\Service\MeetingService;
 
 class DeleteMeetingCommandHandler
@@ -31,7 +31,7 @@ class DeleteMeetingCommandHandler
      * @param DeleteMeetingCommand $command
      * @return void
      * @throws MeetingIsNotExistException
-     * @throws UserIsNotMeetingOrganizerException
+     * @throws MeetingOrganizerIsNotCorrectException
      */
     public function handle(DeleteMeetingCommand $command): void
     {

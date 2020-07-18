@@ -32,7 +32,7 @@ class MeetingRepository implements MeetingRepositoryInterface
         $this->entityManager->flush();
     }
 
-    public function isUserIsMeetingOrganizer(string $organizerUuid, string $meetingUuid): bool
+    public function isMeetingOrganizer(string $organizerUuid, string $meetingUuid): bool
     {
         $repository = $this->entityManager->getRepository(\App\Entity\Meeting::class);
         return $repository->findOneBy(array('uuid' => $this->uuidProvider->stringToBytes($meetingUuid),
@@ -54,7 +54,7 @@ class MeetingRepository implements MeetingRepositoryInterface
         $this->entityManager->flush();
     }
 
-    public function deleteMeetingsByUserAsOrganizer(string $organizerUuid): void
+    public function deleteMeetingsByOrganizer(string $organizerUuid): void
     {
         $repository = $this->entityManager->getRepository(\App\Entity\Meeting::class);
         $records = $repository->findBy(array('organizer_uuid' => $this->uuidProvider->stringToBytes($organizerUuid)));

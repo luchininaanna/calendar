@@ -10,7 +10,6 @@ use App\Calendar\App\Uuid\UuidProviderInterface;
 use App\Calendar\Domain\Exception\UserIsNotExistException;
 use App\Calendar\Domain\Service\MeetingService;
 use App\Calendar\Domain\Service\UserService;
-use Symfony\Component\HttpKernel\Log\Logger;
 
 class DeleteUserCommandHandler
 {
@@ -39,7 +38,7 @@ class DeleteUserCommandHandler
     public function handle(DeleteUserCommand $command): void
     {
         $this->synchronization->transaction(function() use ($command) {
-            $this->meetingService->deleteUserFromMeetings($command->getUserId());
+            $this->meetingService->deleteParticipantFromAllMeetings($command->getUserId());
             $this->userService->deleteUser($command->getUserId());
         });
     }

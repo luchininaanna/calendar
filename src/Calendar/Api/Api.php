@@ -30,10 +30,10 @@ use App\Calendar\Domain\Exception\MeetingIsNotExistException;
 use App\Calendar\Domain\Exception\MeetingOrganizerIsNotExistException;
 use App\Calendar\Domain\Exception\UserAlreadyExistException;
 use App\Calendar\Domain\Exception\MeetingParticipantAmountExceedsLimitException;
-use App\Calendar\Domain\Exception\UserIsAlreadyMeetingParticipantException;
+use App\Calendar\Domain\Exception\MeetingParticipantIsAlreadyExistException;
 use App\Calendar\Domain\Exception\UserIsNotExistException;
-use App\Calendar\Domain\Exception\UserIsNotMeetingOrganizerException;
-use App\Calendar\Domain\Exception\UserIsNotMeetingParticipantException;
+use App\Calendar\Domain\Exception\MeetingOrganizerIsNotCorrectException;
+use App\Calendar\Domain\Exception\MeetingParticipantIsNotCorrectException;
 
 class Api implements ApiCommandInterface, ApiQueryInterface
 {
@@ -121,13 +121,13 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         {
             throw new Exception\UserIsNotExistException($e->getMessage(), $e->getCode(), $e);
         }
-        catch (UserIsNotMeetingOrganizerException $e)
+        catch (MeetingOrganizerIsNotCorrectException $e)
         {
-            throw new Exception\UserIsNotMeetingOrganizerException($e->getMessage(), $e->getCode(), $e);
+            throw new Exception\MeetingOrganizerIsNotCorrectException($e->getMessage(), $e->getCode(), $e);
         }
-        catch (UserIsAlreadyMeetingParticipantException $e)
+        catch (MeetingParticipantIsAlreadyExistException $e)
         {
-            throw new Exception\UserIsAlreadyMeetingParticipantException($e->getMessage(), $e->getCode(), $e);
+            throw new Exception\MeetingParticipantIsAlreadyExistException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -143,13 +143,13 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         {
             $this->deleteMeetingParticipantCommandHandler->handle($command);
         }
-        catch (UserIsNotMeetingOrganizerException $e)
+        catch (MeetingOrganizerIsNotCorrectException $e)
         {
-            throw new Exception\UserIsNotMeetingOrganizerException($e->getMessage(), $e->getCode(), $e);
+            throw new Exception\MeetingOrganizerIsNotCorrectException($e->getMessage(), $e->getCode(), $e);
         }
-        catch (UserIsNotMeetingParticipantException $e)
+        catch (MeetingParticipantIsNotCorrectException $e)
         {
-            throw new Exception\UserIsNotMeetingParticipantException($e->getMessage(), $e->getCode(), $e);
+            throw new Exception\MeetingParticipantIsNotCorrectException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -164,9 +164,9 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         {
             $this->deleteMeetingCommandHandler->handle($command);
         }
-        catch (UserIsNotMeetingOrganizerException $e)
+        catch (MeetingOrganizerIsNotCorrectException $e)
         {
-            throw new Exception\UserIsNotMeetingOrganizerException($e->getMessage(), $e->getCode(), $e);
+            throw new Exception\MeetingOrganizerIsNotCorrectException($e->getMessage(), $e->getCode(), $e);
         }
         catch (MeetingIsNotExistException $e)
         {

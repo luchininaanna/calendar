@@ -8,9 +8,9 @@ use App\Calendar\App\Command\InviteMeetingParticipantCommand;
 use App\Calendar\App\Synchronization\SynchronizationInterface;
 use App\Calendar\App\Uuid\UuidProviderInterface;
 use App\Calendar\Domain\Exception\MeetingParticipantAmountExceedsLimitException;
-use App\Calendar\Domain\Exception\UserIsAlreadyMeetingParticipantException;
+use App\Calendar\Domain\Exception\MeetingParticipantIsAlreadyExistException;
 use App\Calendar\Domain\Exception\UserIsNotExistException;
-use App\Calendar\Domain\Exception\UserIsNotMeetingOrganizerException;
+use App\Calendar\Domain\Exception\MeetingOrganizerIsNotCorrectException;
 use App\Calendar\Domain\Model\MeetingParticipant;
 use App\Calendar\Domain\Service\MeetingService;
 
@@ -34,8 +34,8 @@ class InviteMeetingParticipantCommandHandler
      * @param InviteMeetingParticipantCommand $command
      * @return string
      * @throws MeetingParticipantAmountExceedsLimitException
-     * @throws UserIsNotMeetingOrganizerException
-     * @throws UserIsAlreadyMeetingParticipantException
+     * @throws MeetingOrganizerIsNotCorrectException
+     * @throws MeetingParticipantIsAlreadyExistException
      * @throws UserIsNotExistException
      */
     public function handle(InviteMeetingParticipantCommand $command): void

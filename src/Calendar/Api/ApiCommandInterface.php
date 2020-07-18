@@ -7,7 +7,7 @@ namespace App\Calendar\Api;
 use App\Calendar\Api\Exception\MeetingIsNotExistException;
 use App\Calendar\Api\Exception\UserAlreadyExistException;
 use App\Calendar\Api\Exception\UserIsNotExistException;
-use App\Calendar\Api\Exception\UserIsNotMeetingParticipantException;
+use App\Calendar\Api\Exception\MeetingParticipantIsNotCorrectException;
 use App\Calendar\Api\Input\CreateMeetingParticipantInput;
 use App\Calendar\Api\Input\CreateMeetingInput;
 use App\Calendar\Api\Input\CreateUserInput;
@@ -15,8 +15,8 @@ use App\Calendar\Api\Input\DeleteMeetingInput;
 use App\Calendar\Api\Input\DeleteMeetingParticipantInput;
 use App\Calendar\Api\Exception\MeetingOrganizerIsNotExistException;
 use App\Calendar\Api\Exception\MeetingParticipantAmountExceedsLimitException;
-use App\Calendar\Api\Exception\UserIsAlreadyMeetingParticipantException;
-use App\Calendar\Api\Exception\UserIsNotMeetingOrganizerException;
+use App\Calendar\Api\Exception\MeetingParticipantIsAlreadyExistException;
+use App\Calendar\Api\Exception\MeetingOrganizerIsNotCorrectException;
 use App\Calendar\Api\Input\DeleteUserInput;
 
 interface ApiCommandInterface
@@ -39,8 +39,8 @@ interface ApiCommandInterface
      * @param CreateMeetingParticipantInput $input
      * @return void
      * @throws UserIsNotExistException
-     * @throws UserIsNotMeetingOrganizerException
-     * @throws UserIsAlreadyMeetingParticipantException
+     * @throws MeetingOrganizerIsNotCorrectException
+     * @throws MeetingParticipantIsAlreadyExistException
      * @throws MeetingParticipantAmountExceedsLimitException
      */
     public function inviteMeetingParticipant(CreateMeetingParticipantInput $input): void;
@@ -48,8 +48,8 @@ interface ApiCommandInterface
     /**
      * @param DeleteMeetingParticipantInput $input
      * @return void
-     * @throws UserIsNotMeetingOrganizerException
-     * @throws UserIsNotMeetingParticipantException
+     * @throws MeetingOrganizerIsNotCorrectException
+     * @throws MeetingParticipantIsNotCorrectException
      */
     public function deleteMeetingParticipant(DeleteMeetingParticipantInput $input): void;
 
@@ -57,7 +57,7 @@ interface ApiCommandInterface
      * @param DeleteMeetingInput $input
      * @return void
      * @throws MeetingIsNotExistException
-     * @throws UserIsNotMeetingOrganizerException
+     * @throws MeetingOrganizerIsNotCorrectException
      */
     public function deleteMeeting(DeleteMeetingInput $input): void;
 
