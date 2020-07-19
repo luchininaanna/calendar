@@ -12,7 +12,7 @@ interface MeetingRepositoryInterface
 
     public function deleteMeetingById(string $meetingUuid): void;
 
-    public function deleteMeetingsByOrganizer(string $organizerUuid): void;
+    public function deleteMeetingsForOrganizer(string $organizerUuid): void;
 
     public function isMeetingOrganizer(string $organizerUuid, string $meetingUuid): bool;
 }

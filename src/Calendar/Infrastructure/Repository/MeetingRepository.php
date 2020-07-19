@@ -54,7 +54,7 @@ class MeetingRepository implements MeetingRepositoryInterface
         $this->entityManager->flush();
     }
 
-    public function deleteMeetingsByOrganizer(string $organizerId): void
+    public function deleteMeetingsForOrganizer(string $organizerId): void
     {
         $repository = $this->entityManager->getRepository(\App\Entity\Calendar\Meeting::class);
         $records = $repository->findBy(['organizer_uuid' => $this->uuidProvider->stringToBytes($organizerId)]);
