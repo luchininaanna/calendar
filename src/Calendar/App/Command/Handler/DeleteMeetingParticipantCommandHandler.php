@@ -37,12 +37,11 @@ class DeleteMeetingParticipantCommandHandler
     public function handle(DeleteMeetingParticipantCommand $command): void
     {
         $this->synchronization->transaction(function() use ($command) {
-            $meetingParticipant = new MeetingParticipant(
+            $this->meetingService->deleteMeetingParticipant(
+                $command->getInvokerId(),
                 $command->getMeetingId(),
                 $command->getParticipantId()
             );
-
-            $this->meetingService->deleteMeetingParticipant($command->getInvokerId(), $meetingParticipant);
         });
     }
 }

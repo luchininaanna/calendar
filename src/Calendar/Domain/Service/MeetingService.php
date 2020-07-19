@@ -85,28 +85,27 @@ class MeetingService
 
     /**
      * @param string $invokerId
-     * @param MeetingParticipant $meetingParticipant
+     * @param string $meetingId
+     * @param string $participantId
      * @throws MeetingOrganizerIsNotCorrectException
      * @throws MeetingParticipantIsNotCorrectException
      */
     public function deleteMeetingParticipant(
         string $invokerId,
-        MeetingParticipant $meetingParticipant
+        string $meetingId,
+        string $participantId
     ): void {
-        if (!$this->meetingRepository->isMeetingOrganizer($invokerId,
-            $meetingParticipant->getMeetingId()))
+        if (!$this->meetingRepository->isMeetingOrganizer($invokerId, $meetingId))
         {
             throw new MeetingOrganizerIsNotCorrectException();
         }
 
-        if(!$this->meetingParticipantRepository->isMeetingParticipant($meetingParticipant->getParticipantId(),
-            $meetingParticipant->getMeetingId()))
+        if(!$this->meetingParticipantRepository->isMeetingParticipant($participantId, $meetingId))
         {
             throw new MeetingParticipantIsNotCorrectException();
         }
 
-        $this->meetingParticipantRepository->deleteMeetingParticipant($meetingParticipant->getParticipantId(),
-            $meetingParticipant->getMeetingId());
+        $this->meetingParticipantRepository->deleteMeetingParticipant($participantId, $meetingId);
     }
 
     /**
