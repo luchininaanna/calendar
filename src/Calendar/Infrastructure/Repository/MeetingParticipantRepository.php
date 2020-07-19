@@ -10,8 +10,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class MeetingParticipantRepository implements MeetingParticipantRepositoryInterface
 {
-    private const PARTICIPANT_LIMIT = 10;
-
     private UuidProviderInterface $uuidProvider;
     private EntityManagerInterface $entityManager;
 
@@ -31,12 +29,11 @@ class MeetingParticipantRepository implements MeetingParticipantRepositoryInterf
         $this->entityManager->flush();
     }
 
-    public function isMeetingHasNotAcceptableNumberOfParticipants(string $meetingId): bool
+    public function getMeetingParticipantAmount(string $meetingId): int
     {
         $repository = $this->entityManager->getRepository(\App\Entity\MeetingParticipant::class);
         $participantList = $repository->findBy(array('meeting_uuid' => $this->uuidProvider->stringToBytes($meetingId)));
-        $participantCount = count($participantList);
-        return ($participantCount >= MeetingParticipantRepository::PARTICIPANT_LIMIT);
+        return count($participantList);
     }
 
     public function isMeetingParticipant(string $userId, string $meetingId): bool

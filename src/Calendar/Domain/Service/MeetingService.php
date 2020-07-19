@@ -19,6 +19,8 @@ use App\Calendar\Domain\Model\UserRepositoryInterface;
 
 class MeetingService
 {
+    private const PARTICIPANT_LIMIT = 10;
+
     private UserRepositoryInterface $userRepository;
     private MeetingRepositoryInterface $meetingRepository;
     private MeetingParticipantRepositoryInterface $meetingParticipantRepository;
@@ -63,8 +65,10 @@ class MeetingService
             throw new MeetingOrganizerIsNotCorrectException();
         }
 
-        if ($this->meetingParticipantRepository->
-        isMeetingHasNotAcceptableNumberOfParticipants($meetingParticipant->getMeetingId()))
+        $meetingParticipantAmount = $this->meetingParticipantRepository->
+        getMeetingParticipantAmount($meetingParticipant->getMeetingId());
+
+        if ($meetingParticipantAmount >= MeetingService::PARTICIPANT_LIMIT)
         {
             throw new MeetingParticipantAmountExceedsLimitException();
         }
