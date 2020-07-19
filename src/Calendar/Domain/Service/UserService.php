@@ -34,16 +34,16 @@ class UserService
     }
 
     /**
-     * @param string $userUuid
+     * @param string $userId
      * @throws UserIsNotExistException
      */
-    public function deleteUser(string $userUuid): void
+    public function deleteUser(string $userId): void
     {
-        if (!$this->userRepository->isUserExistById($userUuid))
+        if (!$this->userRepository->isUserExistById($userId))
         {
             throw new UserIsNotExistException();
         }
 
-        $this->userRepository->deleteUserById($userUuid);
+        $this->userRepository->deleteUserById($userId);
     }
 }

@@ -31,35 +31,35 @@ class MeetingParticipantRepository implements MeetingParticipantRepositoryInterf
         $this->entityManager->flush();
     }
 
-    public function isMeetingHasNotAcceptableNumberOfParticipants(string $meetingUuid): bool
+    public function isMeetingHasNotAcceptableNumberOfParticipants(string $meetingId): bool
     {
         $repository = $this->entityManager->getRepository(\App\Entity\MeetingParticipant::class);
-        $participantList = $repository->findBy(array('meeting_uuid' => $this->uuidProvider->stringToBytes($meetingUuid)));
+        $participantList = $repository->findBy(array('meeting_uuid' => $this->uuidProvider->stringToBytes($meetingId)));
         $participantCount = count($participantList);
         return ($participantCount >= MeetingParticipantRepository::PARTICIPANT_LIMIT);
     }
 
-    public function isMeetingParticipant(string $userUuid, string $meetingUuid): bool
+    public function isMeetingParticipant(string $userId, string $meetingId): bool
     {
         $repository = $this->entityManager->getRepository(\App\Entity\MeetingParticipant::class);
-        return $repository->findOneBy(array('user_uuid' => $this->uuidProvider->stringToBytes($userUuid),
-                'meeting_uuid' => $this->uuidProvider->stringToBytes($meetingUuid))) !== null;
+        return $repository->findOneBy(array('user_uuid' => $this->uuidProvider->stringToBytes($userId),
+                'meeting_uuid' => $this->uuidProvider->stringToBytes($meetingId))) !== null;
     }
 
-    public function deleteMeetingParticipant(string $userUuid, string $meetingUuid): void
+    public function deleteMeetingParticipant(string $userId, string $meetingId): void
     {
         $repository = $this->entityManager->getRepository(\App\Entity\MeetingParticipant::class);
-        $record = $repository->findOneBy(array('user_uuid' => $this->uuidProvider->stringToBytes($userUuid),
-            'meeting_uuid' => $this->uuidProvider->stringToBytes($meetingUuid)));
+        $record = $repository->findOneBy(array('user_uuid' => $this->uuidProvider->stringToBytes($userId),
+            'meeting_uuid' => $this->uuidProvider->stringToBytes($meetingId)));
 
         $this->entityManager->remove($record);
         $this->entityManager->flush();
     }
 
-    public function deleteParticipantFromAllMeetings(string $userUuid): void
+    public function deleteParticipantFromAllMeetings(string $userId): void
     {
         $repository = $this->entityManager->getRepository(\App\Entity\MeetingParticipant::class);
-        $records = $repository->findBy(array('user_uuid' => $this->uuidProvider->stringToBytes($userUuid)));
+        $records = $repository->findBy(array('user_uuid' => $this->uuidProvider->stringToBytes($userId)));
 
         foreach ($records as $record)
         {
@@ -69,11 +69,11 @@ class MeetingParticipantRepository implements MeetingParticipantRepositoryInterf
         $this->entityManager->flush();
     }
 
-    public function deleteAllMeetingParticipants(string $meetingUuid): void
+    public function deleteAllMeetingParticipants(string $meetingId): void
     {
         $repository = $this->entityManager->getRepository(\App\Entity\MeetingParticipant::class);
 
-        $records = $repository->findBy(array('meeting_uuid' => $this->uuidProvider->stringToBytes($meetingUuid)));
+        $records = $repository->findBy(array('meeting_uuid' => $this->uuidProvider->stringToBytes($meetingId)));
 
         foreach ($records as $record)
         {
