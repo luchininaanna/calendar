@@ -34,8 +34,8 @@ class DeleteUserCommandHandler
     public function handle(DeleteUserCommand $command): void
     {
         $this->synchronization->transaction(function() use ($command) {
-            //TODO: удалять все мероприятия где пользователь был организатором
             $this->meetingService->deleteParticipantFromAllMeetings($command->getUserId());
+            $this->meetingService->deleteAllMeetingsForOrganizer($command->getUserId());
             $this->userService->deleteUser($command->getUserId());
         });
     }

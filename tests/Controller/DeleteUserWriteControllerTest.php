@@ -70,6 +70,9 @@ class DeleteUserWriteControllerTest extends WebTestCase
         $response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(ResponseDescription::USER_DELETED, $response['result']);
         $this->assertEquals(false, $this->confirmExistence->isUserExist($client, $organizerId));
+        $this->assertEquals(false, $this->confirmExistence->
+        isMeetingHasParticipants($client, $meetingId, $organizerId));
+        $this->assertEquals(false, $this->confirmExistence->isMeetingExist($client, $meetingId, $organizerId));
     }
 
     public function testDeleteNotExistUser(): void

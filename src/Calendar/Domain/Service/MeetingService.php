@@ -139,4 +139,9 @@ class MeetingService
     {
         $this->meetingParticipantRepository->deleteParticipantFromAllMeetings($userUuid);
     }
+
+    public function deleteAllMeetingsForOrganizer(string $userUuid): void
+    {
+        $this->meetingRepository->deleteMeetingsByOrganizer($userUuid);
+    }
 }
