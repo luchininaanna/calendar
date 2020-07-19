@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Calendar;
 
-use App\Repository\MeetingRepository;
+use App\Repository\Calendar\MeetingRepository;
 use Cassandra\Date;
 use Doctrine\ORM\Mapping as ORM;
 

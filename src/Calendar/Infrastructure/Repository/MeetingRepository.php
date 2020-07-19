@@ -21,7 +21,7 @@ class MeetingRepository implements MeetingRepositoryInterface
 
     public function createMeeting(Meeting $meeting): void
     {
-        $dbMeeting = new \App\Entity\Meeting();
+        $dbMeeting = new \App\Entity\Calendar\Meeting();
         $dbMeeting->setName($meeting->getName());
         $dbMeeting->setLocation($meeting->getLocation());
         $dbMeeting->setStartTime($meeting->getStartTime());
@@ -34,20 +34,20 @@ class MeetingRepository implements MeetingRepositoryInterface
 
     public function isMeetingOrganizer(string $organizerId, string $meetingId): bool
     {
-        $repository = $this->entityManager->getRepository(\App\Entity\Meeting::class);
+        $repository = $this->entityManager->getRepository(\App\Entity\Calendar\Meeting::class);
         return $repository->findOneBy(['uuid' => $this->uuidProvider->stringToBytes($meetingId),
                 'organizer_uuid' => $this->uuidProvider->stringToBytes($organizerId)]) !== null;
     }
 
     public function isMeetingExist(string $meetingId): bool
     {
-        $repository = $this->entityManager->getRepository(\App\Entity\Meeting::class);
+        $repository = $this->entityManager->getRepository(\App\Entity\Calendar\Meeting::class);
         return $repository->findOneBy(['uuid' => $this->uuidProvider->stringToBytes($meetingId)]) !== null;
     }
 
     public function deleteMeetingById(string $meetingId): void
     {
-        $repository = $this->entityManager->getRepository(\App\Entity\Meeting::class);
+        $repository = $this->entityManager->getRepository(\App\Entity\Calendar\Meeting::class);
         $record = $repository->findOneBy(['uuid' => $this->uuidProvider->stringToBytes($meetingId)]);
 
         $this->entityManager->remove($record);
@@ -56,7 +56,7 @@ class MeetingRepository implements MeetingRepositoryInterface
 
     public function deleteMeetingsByOrganizer(string $organizerId): void
     {
-        $repository = $this->entityManager->getRepository(\App\Entity\Meeting::class);
+        $repository = $this->entityManager->getRepository(\App\Entity\Calendar\Meeting::class);
         $records = $repository->findBy(['organizer_uuid' => $this->uuidProvider->stringToBytes($organizerId)]);
 
         foreach ($records as $record)

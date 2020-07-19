@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Calendar;
 
-use App\Repository\MeetingParticipantRepository;
+use App\Repository\Calendar\MeetingParticipantRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
