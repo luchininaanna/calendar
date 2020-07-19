@@ -274,7 +274,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"loggedUserId\": \"100f47a5-0767-4d9b-9b5b-5a18a30d51b9\",\n\t\"meetingId\": \"22b6da87-0386-49ed-a054-e987ef1c5e9a\"\n}"
+					"raw": "{\n\t\"loggedUserId\": \"611332e1-9d44-4ee2-8919-65078a761485\",\n\t\"meetingId\": \"9e7d41a8-8ae9-4b84-8a72-e2a1dc197000\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8000/get/participants/as/organizer",
