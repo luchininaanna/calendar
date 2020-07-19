@@ -24,8 +24,8 @@ class MeetingParticipantRepository implements MeetingParticipantRepositoryInterf
     public function createMeetingParticipant(MeetingParticipant $meetingParticipant): void
     {
         $dbMeetingParticipant = new \App\Entity\MeetingParticipant();
-        $dbMeetingParticipant->setUserUuid($this->uuidProvider->stringToBytes($meetingParticipant->getUserUuid()));
-        $dbMeetingParticipant->setMeetingUuid($this->uuidProvider->stringToBytes($meetingParticipant->getMeetingUuid()));
+        $dbMeetingParticipant->setUserUuid($this->uuidProvider->stringToBytes($meetingParticipant->getParticipantId()));
+        $dbMeetingParticipant->setMeetingUuid($this->uuidProvider->stringToBytes($meetingParticipant->getMeetingId()));
 
         $this->entityManager->persist($dbMeetingParticipant);
         $this->entityManager->flush();

@@ -25,8 +25,8 @@ class MeetingRepository implements MeetingRepositoryInterface
         $dbMeeting->setName($meeting->getName());
         $dbMeeting->setLocation($meeting->getLocation());
         $dbMeeting->setStartTime($meeting->getStartTime());
-        $dbMeeting->setUuid($this->uuidProvider->stringToBytes($meeting->getUuid()));
-        $dbMeeting->setOrganizerUuid($this->uuidProvider->stringToBytes($meeting->getLoggedUserId()));
+        $dbMeeting->setUuid($this->uuidProvider->stringToBytes($meeting->getId()));
+        $dbMeeting->setOrganizerUuid($this->uuidProvider->stringToBytes($meeting->getOrganizerId()));
 
         $this->entityManager->persist($dbMeeting);
         $this->entityManager->flush();

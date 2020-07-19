@@ -45,7 +45,7 @@ class CreateMeetingCommandHandler
 
             $this->meetingService->createMeeting($meeting);
 
-            return $meeting->getUuid();
+            return $meeting->getId();
         });
     }
 }

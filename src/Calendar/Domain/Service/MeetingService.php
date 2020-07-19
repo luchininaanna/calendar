@@ -39,7 +39,7 @@ class MeetingService
      */
     public function createMeeting(Meeting $meeting): void
     {
-        if (!$this->userRepository->isUserExistById($meeting->getLoggedUserId()))
+        if (!$this->userRepository->isUserExistById($meeting->getOrganizerId()))
         {
             throw new MeetingOrganizerIsNotExistException();
         }
@@ -58,24 +58,24 @@ class MeetingService
     public function createMeetingParticipant(string $loggedUserUuid, MeetingParticipant $meetingParticipant): void
     {
         if (!$this->meetingRepository->isMeetingOrganizer($loggedUserUuid,
-            $meetingParticipant->getMeetingUuid()))
+            $meetingParticipant->getMeetingId()))
         {
             throw new MeetingOrganizerIsNotCorrectException();
         }
 
         if ($this->meetingParticipantRepository->
-        isMeetingHasNotAcceptableNumberOfParticipants($meetingParticipant->getMeetingUuid()))
+        isMeetingHasNotAcceptableNumberOfParticipants($meetingParticipant->getMeetingId()))
         {
             throw new MeetingParticipantAmountExceedsLimitException();
         }
 
-        if (!$this->userRepository->isUserExistById($meetingParticipant->getUserUuid()))
+        if (!$this->userRepository->isUserExistById($meetingParticipant->getParticipantId()))
         {
             throw new UserIsNotExistException();
         }
 
-        if($this->meetingParticipantRepository->isMeetingParticipant($meetingParticipant->getUserUuid(),
-            $meetingParticipant->getMeetingUuid()))
+        if($this->meetingParticipantRepository->isMeetingParticipant($meetingParticipant->getParticipantId(),
+            $meetingParticipant->getMeetingId()))
         {
             throw new MeetingParticipantIsAlreadyExistException();
         }
@@ -94,19 +94,19 @@ class MeetingService
         MeetingParticipant $meetingParticipant
     ): void {
         if (!$this->meetingRepository->isMeetingOrganizer($loggedUserUuid,
-            $meetingParticipant->getMeetingUuid()))
+            $meetingParticipant->getMeetingId()))
         {
             throw new MeetingOrganizerIsNotCorrectException();
         }
 
-        if(!$this->meetingParticipantRepository->isMeetingParticipant($meetingParticipant->getUserUuid(),
-            $meetingParticipant->getMeetingUuid()))
+        if(!$this->meetingParticipantRepository->isMeetingParticipant($meetingParticipant->getParticipantId(),
+            $meetingParticipant->getMeetingId()))
         {
             throw new MeetingParticipantIsNotCorrectException();
         }
 
-        $this->meetingParticipantRepository->deleteMeetingParticipant($meetingParticipant->getUserUuid(),
-            $meetingParticipant->getMeetingUuid());
+        $this->meetingParticipantRepository->deleteMeetingParticipant($meetingParticipant->getParticipantId(),
+            $meetingParticipant->getMeetingId());
     }
 
     /**

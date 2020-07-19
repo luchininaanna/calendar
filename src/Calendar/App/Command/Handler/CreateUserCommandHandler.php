@@ -45,7 +45,7 @@ class CreateUserCommandHandler
 
             $this->userService->createUser($user);
 
-            return $user->getUuid();
+            return $user->getId();
         });
     }
 }
