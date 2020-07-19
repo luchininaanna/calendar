@@ -17,16 +17,16 @@ interface ApiQueryInterface
     public function getAllUsers(): array;
 
     /**
-     * @param string $loggedUserId
+     * @param string $invokerId
      * @return MeetingOutput[]
      */
-    public function getMeetingsByParticipant(string $loggedUserId): array;
+    public function getMeetingsByParticipant(string $invokerId): array;
 
     /**
-     * @param string $loggedUserId
+     * @param string $invokerId
      * @return MeetingOutput[]
      */
-    public function getMeetingsByOrganizer(string $loggedUserId): array;
+    public function getMeetingsByOrganizer(string $invokerId): array;
 
     /**
      * @param GetParticipantInput $getParticipantInput

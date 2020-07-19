@@ -11,11 +11,11 @@ class DeleteMeetingParticipantInputFactory
     public static function buildInput(string $request): ?DeleteMeetingParticipantInput
     {
         $json = json_decode($request, true);
-        if (empty($json['loggedUserId']) || empty($json['meetingId']) || empty($json['participantId']))
+        if (empty($json['invokerId']) || empty($json['meetingId']) || empty($json['participantId']))
         {
             return null;
         }
 
-        return new DeleteMeetingParticipantInput($json['loggedUserId'], $json['meetingId'], $json['participantId']);
+        return new DeleteMeetingParticipantInput($json['invokerId'], $json['meetingId'], $json['participantId']);
     }
 }

@@ -9,11 +9,11 @@ class GetMeetingsInputFactory
     public static function buildInput(string $request): ?string
     {
         $json = json_decode($request, true);
-        if (empty($json['loggedUserId']))
+        if (empty($json['invokerId']))
         {
             return null;
         }
 
-        return $json['loggedUserId'];
+        return $json['invokerId'];
     }
 }

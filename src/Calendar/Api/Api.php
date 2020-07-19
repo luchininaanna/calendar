@@ -85,7 +85,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
     public function createMeeting(CreateMeetingInput $input): string
     {
         $command = new CreateMeetingCommand(
-            $input->getLoggedUserId(),
+            $input->getInvokerId(),
             $input->getName(),
             $input->getLocation(),
             $input->getStartTime()
@@ -104,7 +104,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
     public function inviteMeetingParticipant(CreateMeetingParticipantInput $input): void
     {
         $command = new InviteMeetingParticipantCommand(
-            $input->getLoggedUserId(),
+            $input->getInvokerId(),
             $input->getMeetingId(),
             $input->getParticipantId()
         );
@@ -134,7 +134,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
     public function deleteMeetingParticipant(DeleteMeetingParticipantInput $input): void
     {
         $command = new DeleteMeetingParticipantCommand(
-            $input->getLoggedUserId(),
+            $input->getInvokerId(),
             $input->getMeetingId(),
             $input->getParticipantId()
         );
@@ -156,7 +156,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
     public function deleteMeeting(DeleteMeetingInput $input): void
     {
         $command = new DeleteMeetingCommand(
-            $input->getLoggedUserId(),
+            $input->getInvokerId(),
             $input->getMeetingId()
         );
 
@@ -201,10 +201,10 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         return $result;
     }
 
-    public function getMeetingsByParticipant(string $loggedUserId): array
+    public function getMeetingsByParticipant(string $invokerId): array
     {
         $result = [];
-        foreach ($this->userQueryService->getMeetingsByParticipant($loggedUserId) as $meetingData)
+        foreach ($this->userQueryService->getMeetingsByParticipant($invokerId) as $meetingData)
         {
             $result[] = new MeetingOutput($meetingData);
         }
@@ -212,10 +212,10 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         return $result;
     }
 
-    public function getMeetingsByOrganizer(string $loggedUserId): array
+    public function getMeetingsByOrganizer(string $invokerId): array
     {
         $result = [];
-        foreach ($this->userQueryService->getMeetingsByOrganizer($loggedUserId) as $meetingData)
+        foreach ($this->userQueryService->getMeetingsByOrganizer($invokerId) as $meetingData)
         {
             $result[] = new MeetingOutput($meetingData);
         }
@@ -226,7 +226,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
     public function getParticipantsAsOrganizer(GetParticipantInput $input): array
     {
         $result = [];
-        foreach ($this->userQueryService->getParticipantsAsOrganizer($input->getLoggedUserId(),
+        foreach ($this->userQueryService->getParticipantsAsOrganizer($input->getInvokerId(),
             $input->getMeetingId()) as $participant)
         {
             $result[] = new ParticipantOutput($participant);

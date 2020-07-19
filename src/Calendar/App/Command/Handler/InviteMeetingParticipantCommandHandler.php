@@ -46,7 +46,7 @@ class InviteMeetingParticipantCommandHandler
                 $command->getParticipantId()
             );
 
-            $this->meetingService->createMeetingParticipant($command->getLoggedUserId(), $meetingParticipant);
+            $this->meetingService->createMeetingParticipant($command->getInvokerId(), $meetingParticipant);
         });
     }
 }

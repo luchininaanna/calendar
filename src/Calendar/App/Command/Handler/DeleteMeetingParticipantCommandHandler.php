@@ -42,7 +42,7 @@ class DeleteMeetingParticipantCommandHandler
                 $command->getParticipantId()
             );
 
-            $this->meetingService->deleteMeetingParticipant($command->getLoggedUserId(), $meetingParticipant);
+            $this->meetingService->deleteMeetingParticipant($command->getInvokerId(), $meetingParticipant);
         });
     }
 }

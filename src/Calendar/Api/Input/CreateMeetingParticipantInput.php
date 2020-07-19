@@ -7,19 +7,19 @@ namespace App\Calendar\Api\Input;
 class CreateMeetingParticipantInput
 {
     private string $meetingId;
-    private string $loggedUserId;
+    private string $invokerId;
     private string $participantId;
 
-    public function __construct(string $loggedUserId, string $meetingId, string $participantId)
+    public function __construct(string $invokerId, string $meetingId, string $participantId)
     {
         $this->meetingId = $meetingId;
-        $this->loggedUserId = $loggedUserId;
+        $this->invokerId = $invokerId;
         $this->participantId = $participantId;
     }
 
-    public function getLoggedUserId(): string
+    public function getInvokerId(): string
     {
-        return $this->loggedUserId;
+        return $this->invokerId;
     }
 
     public function getMeetingId(): string

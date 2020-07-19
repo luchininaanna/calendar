@@ -70,7 +70,7 @@ class RequestService
         );
     }
 
-    public function sendDeleteMeeting(KernelBrowser $client, string $loggedUserId, string $meetingId): void
+    public function sendDeleteMeeting(KernelBrowser $client, string $invokerId, string $meetingId): void
     {
         $client->request(
             'POST',
@@ -79,7 +79,7 @@ class RequestService
             [],
             ['CONTENT_TYPE' => 'application/json'],
             json_encode([
-                'loggedUserId' => $loggedUserId,
+                'invokerId' => $invokerId,
                 'meetingId' => $meetingId
             ])
         );
@@ -94,7 +94,7 @@ class RequestService
             [],
             ['CONTENT_TYPE' => 'application/json'],
             json_encode([
-                "loggedUserId" => $organizerId,
+                "invokerId" => $organizerId,
             ])
         );
 
@@ -110,7 +110,7 @@ class RequestService
             [],
             ['CONTENT_TYPE' => 'application/json'],
             json_encode([
-                "loggedUserId" => $organizerId,
+                "invokerId" => $organizerId,
 	            "meetingId" => $meetingId
             ])
         );

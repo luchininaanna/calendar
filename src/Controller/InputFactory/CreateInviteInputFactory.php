@@ -11,11 +11,11 @@ class CreateInviteInputFactory
     public static function buildInput(string $request): ?CreateMeetingParticipantInput
     {
         $json = json_decode($request, true);
-        if (empty($json['loggedUserId']) || empty($json['meetingId']) || empty($json['participantId']))
+        if (empty($json['invokerId']) || empty($json['meetingId']) || empty($json['participantId']))
         {
             return null;
         }
 
-        return new CreateMeetingParticipantInput($json['loggedUserId'], $json['meetingId'], $json['participantId']);
+        return new CreateMeetingParticipantInput($json['invokerId'], $json['meetingId'], $json['participantId']);
     }
 }

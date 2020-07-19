@@ -9,7 +9,7 @@ class MeetingJsonBuilder
     public function createMeetingJson(string $userId): array
     {
         return [
-            "loggedUserId" => $userId,
+            "invokerId" => $userId,
             "name" => "name",
             "location" => "location",
             "startTime" => "2020-08-06 18:30:30",

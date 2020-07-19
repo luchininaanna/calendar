@@ -9,7 +9,7 @@ class MeetingParticipantJsonBuilder
     public function createMeetingParticipantJson(string $organizerId, string $meetingId, string $userId): array
     {
         return [
-            "loggedUserId" => $organizerId,
+            "invokerId" => $organizerId,
 	        "meetingId" => $meetingId,
 	        "participantId" => $userId,
         ];

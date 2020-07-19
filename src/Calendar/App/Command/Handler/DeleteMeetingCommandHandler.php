@@ -36,7 +36,7 @@ class DeleteMeetingCommandHandler
     public function handle(DeleteMeetingCommand $command): void
     {
         $this->synchronization->transaction(function() use ($command) {
-            $this->meetingService->deleteMeeting($command->getMeetingId(), $command->getLoggedUserId());
+            $this->meetingService->deleteMeeting($command->getMeetingId(), $command->getInvokerId());
         });
     }
 }

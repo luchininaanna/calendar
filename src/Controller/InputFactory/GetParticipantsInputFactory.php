@@ -11,11 +11,11 @@ class GetParticipantsInputFactory
     public static function buildInput(string $request): ?GetParticipantInput
     {
         $json = json_decode($request, true);
-        if (empty($json['loggedUserId']) || empty($json['meetingId']))
+        if (empty($json['invokerId']) || empty($json['meetingId']))
         {
             return null;
         }
 
-        return new GetParticipantInput($json['loggedUserId'], $json['meetingId']);
+        return new GetParticipantInput($json['invokerId'], $json['meetingId']);
     }
 }

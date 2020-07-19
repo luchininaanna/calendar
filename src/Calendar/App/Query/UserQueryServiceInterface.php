@@ -16,21 +16,21 @@ interface UserQueryServiceInterface
     public function getAllUsers(): array;
 
     /**
-     * @param string $loggedUserId
+     * @param string $invokerId
      * @return MeetingData[]
      */
-    public function getMeetingsByParticipant(string $loggedUserId): array;
+    public function getMeetingsByParticipant(string $invokerId): array;
 
     /**
-     * @param string $loggedUserId
+     * @param string $invokerId
      * @return MeetingData[]
      */
-    public function getMeetingsByOrganizer(string $loggedUserId): array;
+    public function getMeetingsByOrganizer(string $invokerId): array;
 
     /**
-     * @param string $loggedUserId
+     * @param string $invokerId
      * @param string $meetingId
      * @return array
      */
-    public function getParticipantsAsOrganizer(string $loggedUserId, string $meetingId): array;
+    public function getParticipantsAsOrganizer(string $invokerId, string $meetingId): array;
 }

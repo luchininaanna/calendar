@@ -47,7 +47,7 @@ class UserQueryService implements \App\Calendar\App\Query\UserQueryServiceInterf
     /**
      * @inheritDoc
      */
-    public function getMeetingsByParticipant(string $loggedUserId): array
+    public function getMeetingsByParticipant(string $invokerId): array
     {
         $meetings = $this->connection->fetchAll("
             SELECT
@@ -57,7 +57,7 @@ class UserQueryService implements \App\Calendar\App\Query\UserQueryServiceInterf
                 INNER JOIN meeting_participant mp ON (m.uuid = mp.meeting_uuid)
             WHERE
                 mp.user_uuid = :user_id
-        ", ['user_id' => $this->uuidProvider->stringToBytes($loggedUserId)]);
+        ", ['user_id' => $this->uuidProvider->stringToBytes($invokerId)]);
 
         $result = [];
         foreach ($meetings as $meeting)
@@ -76,7 +76,7 @@ class UserQueryService implements \App\Calendar\App\Query\UserQueryServiceInterf
     /**
      * @inheritDoc
      */
-    public function getMeetingsByOrganizer(string $loggedUserId): array
+    public function getMeetingsByOrganizer(string $invokerId): array
     {
         $meetings = $this->connection->fetchAll("
             SELECT
@@ -85,7 +85,7 @@ class UserQueryService implements \App\Calendar\App\Query\UserQueryServiceInterf
                 meeting m
             WHERE
                 m.organizer_uuid = :user_id
-        ", ['user_id' => $this->uuidProvider->stringToBytes($loggedUserId)]);
+        ", ['user_id' => $this->uuidProvider->stringToBytes($invokerId)]);
 
         $result = [];
         foreach ($meetings as $meeting)
@@ -101,7 +101,7 @@ class UserQueryService implements \App\Calendar\App\Query\UserQueryServiceInterf
         return $result;
     }
 
-    public function getParticipantsAsOrganizer(string $loggedUserId, string $meetingId): array
+    public function getParticipantsAsOrganizer(string $invokerId, string $meetingId): array
     {
         $participants = $this->connection->fetchAll("
             SELECT
@@ -115,7 +115,7 @@ class UserQueryService implements \App\Calendar\App\Query\UserQueryServiceInterf
                 AND
                 m.uuid = :meeting_id
             ORDER BY m.start_time ASC
-        ", ['user_id' => $this->uuidProvider->stringToBytes($loggedUserId),
+        ", ['user_id' => $this->uuidProvider->stringToBytes($invokerId),
             'meeting_id' => $this->uuidProvider->stringToBytes($meetingId)]);
 
         $result = [];

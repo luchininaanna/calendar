@@ -33,14 +33,14 @@ class ReadController extends AbstractController
 
     public function getMeetingsByParticipant(Request $request): Response
     {
-        $loggedUserId = GetMeetingsInputFactory::buildInput($request->getContent());
-        if ($loggedUserId === null)
+        $invokerId = GetMeetingsInputFactory::buildInput($request->getContent());
+        if ($invokerId === null)
         {
             return $this->json(['result' => 'Empty request parameters'], 400);
         }
 
         $json = [];
-        foreach ($this->api->getMeetingsByParticipant($loggedUserId) as $meeting)
+        foreach ($this->api->getMeetingsByParticipant($invokerId) as $meeting)
         {
             $json[] = $meeting->asAssoc();
         }
@@ -49,14 +49,14 @@ class ReadController extends AbstractController
 
     public function getMeetingsByOrganizer(Request $request): Response
     {
-        $loggedUserId = GetMeetingsInputFactory::buildInput($request->getContent());
-        if ($loggedUserId === null)
+        $invokerId = GetMeetingsInputFactory::buildInput($request->getContent());
+        if ($invokerId === null)
         {
             return $this->json(['result' => 'Empty request parameters'], 400);
         }
 
         $json = [];
-        foreach ($this->api->getMeetingsByOrganizer($loggedUserId) as $meeting)
+        foreach ($this->api->getMeetingsByOrganizer($invokerId) as $meeting)
         {
             $json[] = $meeting->asAssoc();
         }

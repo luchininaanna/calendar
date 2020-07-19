@@ -37,7 +37,7 @@ class CreateMeetingCommandHandler
         return $this->synchronization->transaction(function() use ($command) {
             $meeting = new Meeting(
                 $this->uuidProvider->generate(),
-                $command->getLoggedUserId(),
+                $command->getInvokerId(),
                 $command->getName(),
                 $command->getLocation(),
                 $command->getStartTime()

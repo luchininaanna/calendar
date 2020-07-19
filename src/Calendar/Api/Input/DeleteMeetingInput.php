@@ -7,17 +7,17 @@ namespace App\Calendar\Api\Input;
 class DeleteMeetingInput
 {
     private string $meetingId;
-    private string $loggedUserId;
+    private string $invokerId;
 
-    public function __construct(string $loggedUserId, string $meetingId)
+    public function __construct(string $invokerId, string $meetingId)
     {
         $this->meetingId = $meetingId;
-        $this->loggedUserId = $loggedUserId;
+        $this->invokerId = $invokerId;
     }
 
-    public function getLoggedUserId(): string
+    public function getInvokerId(): string
     {
-        return $this->loggedUserId;
+        return $this->invokerId;
     }
 
     public function getMeetingId(): string

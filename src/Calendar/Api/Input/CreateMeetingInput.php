@@ -9,19 +9,19 @@ class CreateMeetingInput
     private string $name;
     private string $location;
     private \DateTime $startTime;
-    private string $loggedUserId;
+    private string $invokerId;
 
-    public function __construct(string $loggedUserId, string $name, string $location, \DateTime $startTime)
+    public function __construct(string $invokerId, string $name, string $location, \DateTime $startTime)
     {
         $this->name = $name;
         $this->location = $location;
         $this->startTime = $startTime;
-        $this->loggedUserId = $loggedUserId;
+        $this->invokerId = $invokerId;
     }
 
-    public function getLoggedUserId(): string
+    public function getInvokerId(): string
     {
-        return $this->loggedUserId;
+        return $this->invokerId;
     }
 
     public function getName(): string

@@ -48,16 +48,16 @@ class MeetingService
     }
 
     /**
-     * @param string $loggedUserUuid
+     * @param string $invokerId
      * @param MeetingParticipant $meetingParticipant
      * @throws MeetingParticipantAmountExceedsLimitException
      * @throws MeetingParticipantIsAlreadyExistException
      * @throws MeetingOrganizerIsNotCorrectException
      * @throws UserIsNotExistException
      */
-    public function createMeetingParticipant(string $loggedUserUuid, MeetingParticipant $meetingParticipant): void
+    public function createMeetingParticipant(string $invokerId, MeetingParticipant $meetingParticipant): void
     {
-        if (!$this->meetingRepository->isMeetingOrganizer($loggedUserUuid,
+        if (!$this->meetingRepository->isMeetingOrganizer($invokerId,
             $meetingParticipant->getMeetingId()))
         {
             throw new MeetingOrganizerIsNotCorrectException();
@@ -84,16 +84,16 @@ class MeetingService
     }
 
     /**
-     * @param string $loggedUserUuid
+     * @param string $invokerId
      * @param MeetingParticipant $meetingParticipant
      * @throws MeetingOrganizerIsNotCorrectException
      * @throws MeetingParticipantIsNotCorrectException
      */
     public function deleteMeetingParticipant(
-        string $loggedUserUuid,
+        string $invokerId,
         MeetingParticipant $meetingParticipant
     ): void {
-        if (!$this->meetingRepository->isMeetingOrganizer($loggedUserUuid,
+        if (!$this->meetingRepository->isMeetingOrganizer($invokerId,
             $meetingParticipant->getMeetingId()))
         {
             throw new MeetingOrganizerIsNotCorrectException();
@@ -111,18 +111,18 @@ class MeetingService
 
     /**
      * @param string $meetingUuid
-     * @param string $loggedUserUuid
+     * @param string $invokerId
      * @throws MeetingIsNotExistException
      * @throws MeetingOrganizerIsNotCorrectException
      */
-    public function deleteMeeting(string $meetingUuid, string $loggedUserUuid): void
+    public function deleteMeeting(string $meetingUuid, string $invokerId): void
     {
         if (!$this->meetingRepository->isMeetingExist($meetingUuid))
         {
             throw new MeetingIsNotExistException();
         }
 
-        if (!$this->meetingRepository->isMeetingOrganizer($loggedUserUuid,
+        if (!$this->meetingRepository->isMeetingOrganizer($invokerId,
             $meetingUuid))
         {
             throw new MeetingOrganizerIsNotCorrectException();
