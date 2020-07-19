@@ -8,7 +8,7 @@ use App\Calendar\Api\Exception\MeetingIsNotExistException;
 use App\Calendar\Api\Exception\UserAlreadyExistException;
 use App\Calendar\Api\Exception\UserIsNotExistException;
 use App\Calendar\Api\Exception\MeetingParticipantIsNotCorrectException;
-use App\Calendar\Api\Input\CreateMeetingParticipantInput;
+use App\Calendar\Api\Input\InviteMeetingParticipantInput;
 use App\Calendar\Api\Input\CreateMeetingInput;
 use App\Calendar\Api\Input\CreateUserInput;
 use App\Calendar\Api\Input\DeleteMeetingInput;
@@ -36,14 +36,14 @@ interface ApiCommandInterface
     public function createMeeting(CreateMeetingInput $input): string;
 
     /**
-     * @param CreateMeetingParticipantInput $input
+     * @param InviteMeetingParticipantInput $input
      * @return void
      * @throws UserIsNotExistException
      * @throws MeetingOrganizerIsNotCorrectException
      * @throws MeetingParticipantIsAlreadyExistException
      * @throws MeetingParticipantAmountExceedsLimitException
      */
-    public function inviteMeetingParticipant(CreateMeetingParticipantInput $input): void;
+    public function inviteMeetingParticipant(InviteMeetingParticipantInput $input): void;
 
     /**
      * @param DeleteMeetingParticipantInput $input

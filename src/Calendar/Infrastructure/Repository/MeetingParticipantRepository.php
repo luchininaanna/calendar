@@ -32,22 +32,24 @@ class MeetingParticipantRepository implements MeetingParticipantRepositoryInterf
     public function getMeetingParticipantAmount(string $meetingId): int
     {
         $repository = $this->entityManager->getRepository(\App\Entity\MeetingParticipant::class);
-        $participantList = $repository->findBy(array('meeting_uuid' => $this->uuidProvider->stringToBytes($meetingId)));
+        $participantList = $repository->findBy(['meeting_uuid' => $this->uuidProvider->stringToBytes($meetingId)]);
         return count($participantList);
     }
 
     public function isMeetingParticipant(string $userId, string $meetingId): bool
     {
         $repository = $this->entityManager->getRepository(\App\Entity\MeetingParticipant::class);
-        return $repository->findOneBy(array('user_uuid' => $this->uuidProvider->stringToBytes($userId),
-                'meeting_uuid' => $this->uuidProvider->stringToBytes($meetingId))) !== null;
+        return $repository->findOneBy(['user_uuid' => $this->uuidProvider->stringToBytes($userId),
+                'meeting_uuid' => $this->uuidProvider->stringToBytes($meetingId)]) !== null;
     }
 
     public function deleteMeetingParticipant(string $userId, string $meetingId): void
     {
         $repository = $this->entityManager->getRepository(\App\Entity\MeetingParticipant::class);
-        $record = $repository->findOneBy(array('user_uuid' => $this->uuidProvider->stringToBytes($userId),
-            'meeting_uuid' => $this->uuidProvider->stringToBytes($meetingId)));
+        $record = $repository->findOneBy([
+            'user_uuid' => $this->uuidProvider->stringToBytes($userId),
+            'meeting_uuid' => $this->uuidProvider->stringToBytes($meetingId),
+        ]);
 
         $this->entityManager->remove($record);
         $this->entityManager->flush();
@@ -56,7 +58,7 @@ class MeetingParticipantRepository implements MeetingParticipantRepositoryInterf
     public function deleteParticipantFromAllMeetings(string $userId): void
     {
         $repository = $this->entityManager->getRepository(\App\Entity\MeetingParticipant::class);
-        $records = $repository->findBy(array('user_uuid' => $this->uuidProvider->stringToBytes($userId)));
+        $records = $repository->findBy(['user_uuid' => $this->uuidProvider->stringToBytes($userId)]);
 
         foreach ($records as $record)
         {
@@ -70,7 +72,7 @@ class MeetingParticipantRepository implements MeetingParticipantRepositoryInterf
     {
         $repository = $this->entityManager->getRepository(\App\Entity\MeetingParticipant::class);
 
-        $records = $repository->findBy(array('meeting_uuid' => $this->uuidProvider->stringToBytes($meetingId)));
+        $records = $repository->findBy(['meeting_uuid' => $this->uuidProvider->stringToBytes($meetingId)]);
 
         foreach ($records as $record)
         {

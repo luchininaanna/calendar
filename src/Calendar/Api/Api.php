@@ -3,7 +3,7 @@
 
 namespace App\Calendar\Api;
 
-use App\Calendar\Api\Input\CreateMeetingParticipantInput;
+use App\Calendar\Api\Input\InviteMeetingParticipantInput;
 use App\Calendar\Api\Input\CreateMeetingInput;
 use App\Calendar\Api\Input\CreateUserInput;
 use App\Calendar\Api\Input\DeleteMeetingInput;
@@ -101,7 +101,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
         }
     }
 
-    public function inviteMeetingParticipant(CreateMeetingParticipantInput $input): void
+    public function inviteMeetingParticipant(InviteMeetingParticipantInput $input): void
     {
         $command = new InviteMeetingParticipantCommand(
             $input->getInvokerId(),
@@ -176,9 +176,7 @@ class Api implements ApiCommandInterface, ApiQueryInterface
 
     public function deleteUser(DeleteUserInput $input): void
     {
-        $command = new DeleteUserCommand(
-            $input->getUserId()
-        );
+        $command = new DeleteUserCommand($input->getUserId());
 
         try
         {

@@ -6,7 +6,7 @@ namespace App\Calendar\App\Query\Data;
 
 class ParticipantData
 {
-    private string $uuid;
+    private string $id;
     private string $name;
     private string $login;
     private string $surname;
@@ -14,14 +14,14 @@ class ParticipantData
     private string $startTime;
 
     public function __construct(
-        string $uuid,
+        string $id,
         string $login,
         string $name,
         string $surname,
         string $patronymic,
         string $startTime
     ) {
-        $this->uuid = $uuid;
+        $this->id = $id;
         $this->name = $name;
         $this->login = $login;
         $this->surname = $surname;
@@ -29,9 +29,9 @@ class ParticipantData
         $this->startTime = $startTime;
     }
 
-    public function getUuid(): string
+    public function getId(): string
     {
-        return $this->uuid;
+        return $this->id;
     }
 
     public function getLogin(): string

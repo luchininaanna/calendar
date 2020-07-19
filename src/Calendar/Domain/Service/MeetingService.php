@@ -66,7 +66,7 @@ class MeetingService
         }
 
         $meetingParticipantAmount = $this->meetingParticipantRepository->
-        getMeetingParticipantAmount($meetingParticipant->getMeetingId());
+            getMeetingParticipantAmount($meetingParticipant->getMeetingId());
 
         if ($meetingParticipantAmount >= MeetingService::PARTICIPANT_LIMIT)
         {
@@ -78,7 +78,7 @@ class MeetingService
             throw new UserIsNotExistException();
         }
 
-        if($this->meetingParticipantRepository->isMeetingParticipant($meetingParticipant->getParticipantId(),
+        if ($this->meetingParticipantRepository->isMeetingParticipant($meetingParticipant->getParticipantId(),
             $meetingParticipant->getMeetingId()))
         {
             throw new MeetingParticipantIsAlreadyExistException();
@@ -104,7 +104,7 @@ class MeetingService
             throw new MeetingOrganizerIsNotCorrectException();
         }
 
-        if(!$this->meetingParticipantRepository->isMeetingParticipant($participantId, $meetingId))
+        if (!$this->meetingParticipantRepository->isMeetingParticipant($participantId, $meetingId))
         {
             throw new MeetingParticipantIsNotCorrectException();
         }

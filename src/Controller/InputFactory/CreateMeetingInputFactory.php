@@ -16,7 +16,11 @@ class CreateMeetingInputFactory
             return null;
         }
 
-        return new CreateMeetingInput($json['invokerId'], $json['name'], $json['location'],
-            new \DateTime($json['startTime']));
+        return new CreateMeetingInput(
+            $json['invokerId'],
+            $json['name'],
+            $json['location'],
+            new \DateTime($json['startTime'])
+        );
     }
 }

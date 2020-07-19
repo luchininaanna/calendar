@@ -12,7 +12,7 @@ use App\Calendar\Api\Exception\MeetingParticipantIsAlreadyExistException;
 use App\Calendar\Api\Exception\UserIsNotExistException;
 use App\Calendar\Api\Exception\MeetingOrganizerIsNotCorrectException;
 use App\Calendar\Api\Exception\MeetingParticipantIsNotCorrectException;
-use App\Controller\InputFactory\CreateInviteInputFactory;
+use App\Controller\InputFactory\InviteMeetingParticipantInputFactory;
 use App\Controller\InputFactory\CreateMeetingInputFactory;
 use App\Controller\InputFactory\CreateUserInputFactory;
 use App\Controller\InputFactory\DeleteMeetingInputFactory;
@@ -73,7 +73,7 @@ class WriteController extends AbstractController
     {
         try
         {
-            $inviteInput = CreateInviteInputFactory::buildInput($request->getContent());
+            $inviteInput = InviteMeetingParticipantInputFactory::buildInput($request->getContent());
             if ($inviteInput === null)
             {
                 return $this->json(['result' => 'Empty request parameters'], 400);

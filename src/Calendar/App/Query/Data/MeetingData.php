@@ -6,22 +6,22 @@ namespace App\Calendar\App\Query\Data;
 
 class MeetingData
 {
-    private string $uuid;
+    private string $id;
     private string $name;
     private string $location;
     private string $startTime;
 
-    public function __construct(string $uuid, string $name, string $location, string $startTime)
+    public function __construct(string $id, string $name, string $location, string $startTime)
     {
-        $this->uuid = $uuid;
+        $this->id = $id;
         $this->name = $name;
         $this->location = $location;
         $this->startTime = $startTime;
     }
 
-    public function getUuid(): string
+    public function getId(): string
     {
-        return $this->uuid;
+        return $this->id;
     }
 
     public function getName(): string

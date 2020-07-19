@@ -35,20 +35,20 @@ class MeetingRepository implements MeetingRepositoryInterface
     public function isMeetingOrganizer(string $organizerId, string $meetingId): bool
     {
         $repository = $this->entityManager->getRepository(\App\Entity\Meeting::class);
-        return $repository->findOneBy(array('uuid' => $this->uuidProvider->stringToBytes($meetingId),
-                'organizer_uuid' => $this->uuidProvider->stringToBytes($organizerId))) !== null;
+        return $repository->findOneBy(['uuid' => $this->uuidProvider->stringToBytes($meetingId),
+                'organizer_uuid' => $this->uuidProvider->stringToBytes($organizerId)]) !== null;
     }
 
     public function isMeetingExist(string $meetingId): bool
     {
         $repository = $this->entityManager->getRepository(\App\Entity\Meeting::class);
-        return $repository->findOneBy(array('uuid' => $this->uuidProvider->stringToBytes($meetingId))) !== null;
+        return $repository->findOneBy(['uuid' => $this->uuidProvider->stringToBytes($meetingId)]) !== null;
     }
 
     public function deleteMeetingById(string $meetingId): void
     {
         $repository = $this->entityManager->getRepository(\App\Entity\Meeting::class);
-        $record = $repository->findOneBy(array('uuid' => $this->uuidProvider->stringToBytes($meetingId)));
+        $record = $repository->findOneBy(['uuid' => $this->uuidProvider->stringToBytes($meetingId)]);
 
         $this->entityManager->remove($record);
         $this->entityManager->flush();
@@ -57,7 +57,7 @@ class MeetingRepository implements MeetingRepositoryInterface
     public function deleteMeetingsByOrganizer(string $organizerId): void
     {
         $repository = $this->entityManager->getRepository(\App\Entity\Meeting::class);
-        $records = $repository->findBy(array('organizer_uuid' => $this->uuidProvider->stringToBytes($organizerId)));
+        $records = $repository->findBy(['organizer_uuid' => $this->uuidProvider->stringToBytes($organizerId)]);
 
         foreach ($records as $record)
         {

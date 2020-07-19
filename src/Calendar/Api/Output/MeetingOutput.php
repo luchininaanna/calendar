@@ -18,7 +18,7 @@ class MeetingOutput
     public function asAssoc(): array
     {
         return [
-            'uuid' => $this->meetingData->getUuid(),
+            'uuid' => $this->meetingData->getId(),
             'name' => $this->meetingData->getName(),
             'location' => $this->meetingData->getLocation(),
             'start_time' => $this->meetingData->getStartTime(),

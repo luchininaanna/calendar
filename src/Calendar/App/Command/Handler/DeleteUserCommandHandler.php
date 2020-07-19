@@ -6,7 +6,6 @@ namespace App\Calendar\App\Command\Handler;
 
 use App\Calendar\App\Command\DeleteUserCommand;
 use App\Calendar\App\Synchronization\SynchronizationInterface;
-use App\Calendar\App\Uuid\UuidProviderInterface;
 use App\Calendar\Domain\Exception\UserIsNotExistException;
 use App\Calendar\Domain\Service\MeetingService;
 use App\Calendar\Domain\Service\UserService;
@@ -15,17 +14,14 @@ class DeleteUserCommandHandler
 {
     private UserService $userService;
     private MeetingService $meetingService;
-    private UuidProviderInterface $uuidProvider;
     private SynchronizationInterface $synchronization;
 
     public function __construct(
-        UuidProviderInterface $uuidProvider,
         MeetingService $meetingService,
         UserService $userService,
         SynchronizationInterface $synchronization
     ) {
         $this->userService = $userService;
-        $this->uuidProvider = $uuidProvider;
         $this->meetingService = $meetingService;
         $this->synchronization = $synchronization;
     }
@@ -38,6 +34,7 @@ class DeleteUserCommandHandler
     public function handle(DeleteUserCommand $command): void
     {
         $this->synchronization->transaction(function() use ($command) {
+            //TODO: удалять все мероприятия где пользователь был организатором
             $this->meetingService->deleteParticipantFromAllMeetings($command->getUserId());
             $this->userService->deleteUser($command->getUserId());
         });

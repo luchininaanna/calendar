@@ -18,7 +18,7 @@ class UserOutput
     public function asAssoc(): array
     {
         return [
-            'uuid' => $this->userData->getUuid(),
+            'uuid' => $this->userData->getId(),
             'login' => $this->userData->getLogin(),
             'name' => $this->userData->getName(),
             'surname' => $this->userData->getSurname(),

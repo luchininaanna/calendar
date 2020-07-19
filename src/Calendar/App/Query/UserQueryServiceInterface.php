@@ -4,7 +4,6 @@
 namespace App\Calendar\App\Query;
 
 
-use App\Calendar\Api\Input\GetParticipantInput;
 use App\Calendar\App\Query\Data\MeetingData;
 use App\Calendar\App\Query\Data\UserData;
 

@@ -4,9 +4,10 @@
 namespace App\Calendar\Infrastructure\Synchronization;
 
 
+use App\Calendar\App\Synchronization\SynchronizationInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
-class Synchronization implements \App\Calendar\App\Synchronization\SynchronizationInterface
+class Synchronization implements SynchronizationInterface
 {
     private EntityManagerInterface $entityManager;
 
